@@ -75,7 +75,7 @@ const SuccessStories: React.FC = () => {
         </div>
 
         
-        <div className="flex flex-col md:flex-row md:justify-center md:items-center gap-6 mb-8 pb-4 md:min-h-[500px]">
+        <div className="flex flex-col md:flex-row md:justify-center md:items-center gap-6 md:gap-10 lg:gap-12 mb-8 pb-4 md:min-h-[500px]">
           {HOME_SUCCESS_STORIES.map((story, index) => {
             const isActive = index === activeIndex;
             
@@ -85,7 +85,9 @@ const SuccessStories: React.FC = () => {
                 className={cn(
                   "flex-shrink-0 transition-all duration-300 cursor-pointer w-full max-w-[390px]",
                   "md:w-[390px]",
-                  isActive ? "md:scale-110 md:z-10" : "md:scale-100 md:z-0"
+                  isActive
+                    ? "md:scale-110 md:z-10"
+                    : "md:scale-100 md:z-0 md:blur-[1px]"
                 )}
                 onClick={() => setActiveIndex(index)}
               >

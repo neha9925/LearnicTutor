@@ -1,31 +1,90 @@
 "use client";
 
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { Play, ArrowRight } from "lucide-react";
 import Button from "@/components/ui/Button";
 import ImageWithFallback from "@/components/ui/ImageWithFallback";
 import { HOME_HERO_SLIDES } from "@/data/home";
 import { colors, gradients, textEffects, typography } from "@/theme";
+import { cn } from "@/lib/utils";
 
 const HeroSection: React.FC = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
+  const [isFading, setIsFading] = useState(false);
+  const transitionTimeoutRef = useRef<number | null>(null);
+  const settleTimeoutRef = useRef<number | null>(null);
+
+  const sharedButtonStyle = useMemo(
+    () => ({
+      minWidth: "220px",
+      height: "56px",
+      padding: "16px 28px",
+    }),
+    []
+  );
 
   const activeSlide = useMemo(
     () => HOME_HERO_SLIDES[activeIndex],
     [activeIndex]
   );
 
+  const startTransition = useCallback(
+    (nextIndex: number) => {
+      if (nextIndex === activeIndex || isFading) {
+        return;
+      }
+
+      if (transitionTimeoutRef.current) {
+        window.clearTimeout(transitionTimeoutRef.current);
+      }
+      if (settleTimeoutRef.current) {
+        window.clearTimeout(settleTimeoutRef.current);
+      }
+
+      setIsFading(true);
+      transitionTimeoutRef.current = window.setTimeout(() => {
+        setActiveIndex(nextIndex);
+        settleTimeoutRef.current = window.setTimeout(() => {
+          setIsFading(false);
+        }, 150);
+      }, 150);
+    },
+    [activeIndex, isFading]
+  );
+
+  const goToNextSlide = useCallback(() => {
+    const nextIndex = (activeIndex + 1) % HOME_HERO_SLIDES.length;
+    startTransition(nextIndex);
+  }, [activeIndex, startTransition]);
+
   useEffect(() => {
     if (isHovered) return;
 
-    const timer = setInterval(() => {
-      setActiveIndex((prev) => (prev + 1) % HOME_HERO_SLIDES.length);
+    const timer = window.setInterval(() => {
+      goToNextSlide();
     }, 15000);
 
-    return () => clearInterval(timer);
-  }, [isHovered]);
+    return () => window.clearInterval(timer);
+  }, [isHovered, goToNextSlide]);
+
+  useEffect(
+    () => () => {
+      if (transitionTimeoutRef.current) {
+        window.clearTimeout(transitionTimeoutRef.current);
+      }
+      if (settleTimeoutRef.current) {
+        window.clearTimeout(settleTimeoutRef.current);
+      }
+    },
+    []
+  );
+
+  const transitionClass = cn(
+    "transition-opacity duration-500",
+    isFading ? "opacity-0" : "opacity-100"
+  );
 
   return (
     <section
@@ -34,7 +93,7 @@ const HeroSection: React.FC = () => {
       onMouseLeave={() => setIsHovered(false)}
     >
       <div className="container mx-auto px-4 sm:px-6 lg:px-12 xl:px-20">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+        <div className={cn("grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center", transitionClass)}>
           
           <div className="text-center lg:text-left">
             <h1 className="text-gray-900 mb-6" style={typography.hero.heading}>
@@ -58,9 +117,11 @@ const HeroSection: React.FC = () => {
               <Link href="/videos" className="w-full sm:w-auto">
                 <Button
                   type="button"
-                  className="w-full sm:w-auto flex items-center justify-center gap-2 px-7 py-4 rounded-full text-white shadow-lg"
+                  size="lg"
+                  className="w-full sm:w-auto flex items-center justify-center gap-2 rounded-full text-white shadow-lg"
                   style={{
                     ...typography.button.primary,
+                    ...sharedButtonStyle,
                     background: gradients.buttonPrimary,
                   }}
                 >
@@ -71,9 +132,11 @@ const HeroSection: React.FC = () => {
                 <Button
                   type="button"
                   variant="outline"
-                  className="w-full sm:w-auto flex items-center justify-center gap-2 px-7 py-4 rounded-full border-2"
+                  size="lg"
+                  className="w-full sm:w-auto flex items-center justify-center gap-2 rounded-full border-2"
                   style={{
                     ...typography.button.primary,
+                    ...sharedButtonStyle,
                     borderColor: colors.brand.secondaryDark,
                     color: colors.brand.secondaryDark,
                     textAlign: "center",
@@ -106,7 +169,7 @@ const HeroSection: React.FC = () => {
                   <button
                     key={slide.id}
                     type="button"
-                    onClick={() => setActiveIndex(index)}
+                    onClick={() => startTransition(index)}
                     className="h-3 rounded-full transition-all"
                     style={{
                       width: isActive ? "28px" : "12px",

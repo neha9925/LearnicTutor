@@ -95,8 +95,8 @@ const CourseSection: React.FC = () => {
           </p>
         </div>
 
-        <div className="flex justify-center mb-10">
-          <div className="flex flex-wrap items-center gap-3 bg-white rounded-2xl px-5 py-4" style={styles.filterPanel}>
+        <div className="flex justify-center mb-10 px-0 sm:px-4">
+          <div className="w-full max-w-[1300px] flex flex-wrap items-center gap-3 bg-white rounded-2xl px-5 py-4" style={styles.filterPanel}>
             <div className="flex items-center gap-2 text-gray-500 font-medium" style={styles.filterLabel}>
               <FilterIcon className="w-4 h-4" />
               Filter by:
@@ -157,8 +157,8 @@ const CourseSection: React.FC = () => {
         </div>
 
         <div
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8 justify-items-center"
-          style={styles.gridWrapper}
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8 justify-items-center px-0 sm:px-4"
+          style={{ ...styles.gridWrapper, paddingLeft: "0", paddingRight: "0" }}
         >
           {courses.map((course) => (
             <CourseCard

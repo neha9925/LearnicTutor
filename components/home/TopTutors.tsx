@@ -63,7 +63,7 @@ const TopTutors: React.FC = () => {
         </div>
 
         
-        <div className="flex flex-col items-center md:flex-row md:justify-center md:items-end gap-6 md:gap-8 mb-12 pb-4 md:min-h-[620px]">
+        <div className="flex flex-col items-center md:flex-row md:justify-center md:items-center gap-6 md:gap-8 mb-12 pb-4 md:min-h-[620px]">
           {HOME_TOP_TUTORS.map((tutor, index) => {
             const isActive = index === activeIndex;
             
@@ -72,8 +72,10 @@ const TopTutors: React.FC = () => {
                 key={tutor.id}
                 className={cn(
                   "flex-shrink-0 transition-all duration-300 cursor-pointer w-full max-w-[360px]",
-                  "md:w-[360px]",
-                  isActive ? "md:translate-y-0 md:z-10" : "md:translate-y-6 md:z-0"
+                  "md:w-[360px] md:origin-center",
+                  isActive
+                    ? "md:z-10 md:scale-110"
+                    : "md:z-0 md:scale-100"
                 )}
                 onClick={() => setActiveIndex(index)}
               >

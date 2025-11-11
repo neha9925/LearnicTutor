@@ -6,7 +6,7 @@ import ImageWithFallback from "@/components/ui/ImageWithFallback";
 const CtaBanner: React.FC = () => {
   return (
     <section className="py-16 md:py-20 bg-white">
-      <div className="container mx-auto px-6 sm:px-10 lg:px-16 xl:px-24">
+      <div className="container mx-auto px-4 sm:px-10 lg:px-16 xl:px-24">
         
         <div className="relative overflow-hidden rounded-3xl shadow-lg min-h-[420px] bg-[#6B47ED] p-6 sm:p-8 lg:p-12 flex flex-col justify-center">
           

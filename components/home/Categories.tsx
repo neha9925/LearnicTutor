@@ -63,18 +63,18 @@ const Categories: React.FC = () => {
         </div>
 
         <div 
-          className="flex flex-wrap justify-center gap-3 mb-8 p-4 rounded-lg"
+          className="flex gap-3 mb-8 p-4 rounded-lg max-w-[1260px] w-full overflow-x-auto flex-nowrap px-6 sm:mx-auto sm:px-4 md:flex-wrap md:justify-center md:overflow-visible"
           style={styles.filtersContainer}
         >
           {tabs.map((tab) => (
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
-              className={`px-4 py-2 rounded-lg font-medium transition-all ${
+              className={`px-4 py-2 rounded-lg font-medium transition-all flex-shrink-0 whitespace-nowrap ${
                 activeTab === tab
-                  ? "bg-gradient-to-r from-purple-500 to-purple-600 text-white shadow-md"
-                  : "bg-white text-gray-700 border border-gray-200 hover:border-gray-300"
-              }`}
+                ? "bg-gradient-to-r from-purple-500 to-purple-600 text-white shadow-md"
+                : "bg-white text-gray-700 border border-gray-200 hover:border-gray-300 hover:text-gray-900 hover:shadow-md"
+            }`}
             style={styles.tabButton}
             >
               {tab}
@@ -82,7 +82,7 @@ const Categories: React.FC = () => {
           ))}
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 justify-items-center mx-auto max-w-[1260px] w-full px-2 sm:px-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 justify-items-center mx-auto max-w-[1260px] w-full px-0 sm:px-4">
           {HOME_CATEGORIES.map((category, index) => {
             const Icon = category.icon;
             const chipStyle = {
@@ -93,7 +93,7 @@ const Categories: React.FC = () => {
             return (
               <div
                 key={index}
-                className="hover:shadow-lg transition-all cursor-pointer bg-white w-full max-w-[301.3px]"
+                className="transition-all cursor-pointer bg-white w-full md:max-w-[301.3px] hover:translate-y-[-4px] hover:shadow-xl"
                 style={styles.card}
               >
                 <div
