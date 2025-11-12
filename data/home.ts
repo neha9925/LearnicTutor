@@ -71,6 +71,7 @@ export const HOME_HERO_SLIDES: HomeHeroSlide[] = [
     id: "slide-three",
     title: "Upgrade with",
     highlight: "Personalised Learning",
+    suffix: "",
     description:
       "Tailored curriculum, adaptive assessments, and real-time analytics to track your progress.",
     stats: [
