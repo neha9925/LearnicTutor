@@ -34,6 +34,11 @@ const styles = {
       ...typography.button.secondary,
       backgroundColor,
       color,
+      height: "50px",
+      padding: "0 24px",
+      display: "inline-flex",
+      alignItems: "center",
+      justifyContent: "center",
     }) as const,
 } as const;
 
@@ -110,7 +115,7 @@ const LearningTools: React.FC = () => {
                   
                   
                   <button
-                    className="py-2 px-6 rounded-lg font-medium transition-colors mt-auto self-start"
+                    className="px-6 rounded-lg font-medium transition-colors mt-auto self-start"
                     style={styles.exploreButton(
                       tool.buttonBg,
                       tool.buttonTextColor ?? colors.text.light

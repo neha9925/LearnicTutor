@@ -11,7 +11,7 @@ import { colors, radii, typography } from "@/theme";
 const styles = {
   heading: {
     ...typography.section.headingLg,
-    color: colors.brand.primarySoft,
+    color: "#572EEE",
     lineHeight: "120%",
     textAlign: "left" as const,
   },
@@ -21,11 +21,14 @@ const styles = {
     textAlign: "left" as const,
   },
   card: {
-    borderRadius: radii.xl,
+    borderRadius: "24px",
     borderWidth: "1px",
     borderStyle: "solid",
     borderColor: "rgba(0, 0, 0, 0.1)",
     boxShadow: "0px 4px 11.9px 0px rgba(209, 209, 209, 0.25)",
+    width: "363px",
+    height: "491px",
+    opacity: 1,
   },
   cardTitle: {
     ...typography.card.titleMd,
@@ -78,7 +81,7 @@ const JoinSection: React.FC = () => {
           >
             
             <div
-              className="bg-white p-6 relative overflow-hidden flex flex-col w-full max-w-[363px] lg:h-[491px]"
+              className="bg-white p-6 relative overflow-hidden flex flex-col"
               style={styles.card}
             >
               
@@ -93,7 +96,7 @@ const JoinSection: React.FC = () => {
               
               
               <div
-                className="w-16 h-16 rounded-xl flex items-center justify-center mb-4 relative z-10"
+                className="w-16 h-16 rounded-xl flex items-center justify-center mb-7 relative z-10"
                 style={{ backgroundColor: colors.brand.secondary }}
               >
                 <User className="w-8 h-8 text-white" />
@@ -101,7 +104,7 @@ const JoinSection: React.FC = () => {
 
               
               <h3
-                className="font-bold mb-3 relative z-10"
+                className="font-bold mb-5 relative z-10"
                 style={styles.cardTitle}
               >
                 Become a Tutor
@@ -109,14 +112,14 @@ const JoinSection: React.FC = () => {
 
               
               <p
-                className="mb-4 relative z-10"
+                className="mb-7 relative z-10"
                 style={styles.cardBody}
               >
                 Teach millions, build your brand, and earn with flexible teaching hours on our global platform.
               </p>
 
               
-              <ul className="space-y-2 mb-6 relative z-10">
+              <ul className="space-y-4 mb-6 relative z-10">
                 {JOIN_SECTION_TUTOR_FEATURES.map((feature, index) => (
                   <li key={index} className="flex items-center gap-2">
                     <Check
@@ -134,7 +137,7 @@ const JoinSection: React.FC = () => {
 
               
               <button
-                className="w-full py-3 px-4 rounded-lg font-medium text-white relative z-10 mt-auto"
+                className="w-full py-4 px-4 rounded-lg font-medium text-white relative z-10 mt-auto"
                 style={styles.primaryButton(colors.brand.secondary)}
               >
                 Start Teaching
@@ -143,7 +146,7 @@ const JoinSection: React.FC = () => {
 
             
             <div
-              className="bg-white p-6 relative overflow-hidden flex flex-col w-full max-w-[363px] lg:h-[491px]"
+              className="bg-white p-6 relative overflow-hidden flex flex-col"
               style={styles.card}
             >
               
@@ -158,7 +161,7 @@ const JoinSection: React.FC = () => {
               
               
               <div
-                className="w-16 h-16 rounded-xl flex items-center justify-center mb-4 relative z-10"
+                className="w-16 h-16 rounded-xl flex items-center justify-center mb-7 relative z-10"
                 style={{ backgroundColor: colors.brand.purple }}
               >
                 <Handshake className="w-8 h-8 text-white" />
@@ -166,7 +169,7 @@ const JoinSection: React.FC = () => {
 
               
               <h3
-                className="font-bold mb-3 relative z-10"
+                className="font-bold mb-5 relative z-10"
                 style={styles.cardTitle}
               >
                 Become a Coordinator
@@ -174,14 +177,14 @@ const JoinSection: React.FC = () => {
 
               
               <p
-                className="mb-4 relative z-10"
+                className="mb-7 relative z-10"
                 style={styles.cardBody}
               >
                 Refer students to courses and earn commission — be the bridge between learners & tutors.
               </p>
 
               
-              <ul className="space-y-2 mb-6 relative z-10">
+              <ul className="space-y-4 mb-6 relative z-10">
                 {JOIN_SECTION_COORDINATOR_FEATURES.map((feature, index) => (
                   <li key={index} className="flex items-center gap-2">
                     <feature.icon
@@ -199,7 +202,7 @@ const JoinSection: React.FC = () => {
 
               
               <button
-                className="w-full py-3 px-4 rounded-lg font-medium text-white relative z-10 mt-auto"
+                className="w-full py-4 px-4 rounded-lg font-medium text-white relative z-10 mt-auto"
                 style={styles.primaryButton(colors.brand.purple)}
               >
                 Become a Coordinator

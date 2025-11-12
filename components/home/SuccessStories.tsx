@@ -49,7 +49,7 @@ const styles = {
     }) as const,
   indicator: (isActive: boolean) =>
     ({
-      backgroundColor: isActive ? colors.brand.purple : colors.neutral.gray300,
+      backgroundColor: isActive ? "#572EEE" : colors.neutral.gray300,
     }) as const,
 } as const;
 

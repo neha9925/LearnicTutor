@@ -1,11 +1,6 @@
-import { gradients } from "./gradients";
-
 export const textEffects = {
   gradientBrand: {
-    background: gradients.heroHighlight,
-    WebkitBackgroundClip: "text",
-    color: "transparent",
-    display: "inline-block",
+    color: "#572EEE",
   } as const,
 } as const;
 

@@ -70,12 +70,20 @@ const Categories: React.FC = () => {
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
-              className={`px-4 py-2 rounded-lg font-medium transition-all flex-shrink-0 whitespace-nowrap ${
+              className={`px-5 py-3 rounded-lg font-medium transition-all flex-shrink-0 whitespace-nowrap ${
                 activeTab === tab
-                ? "bg-gradient-to-r from-purple-500 to-purple-600 text-white shadow-md"
+                ? "text-white shadow-md"
                 : "bg-white text-gray-700 border border-gray-200 hover:border-gray-300 hover:text-gray-900 hover:shadow-md"
             }`}
-            style={styles.tabButton}
+            style={{
+              ...styles.tabButton,
+              ...(activeTab === tab
+                ? {
+                    background: "linear-gradient(90deg, #6366F1 0%, #8B5CF6 100%)",
+                    border: "none",
+                  }
+                : {}),
+            }}
             >
               {tab}
             </button>

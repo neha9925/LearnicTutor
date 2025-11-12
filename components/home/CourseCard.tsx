@@ -24,9 +24,11 @@ interface CourseCardProps {
   duration?: string;
   tag?: string;
   href?: string;
+  descriptionClamp?: 1 | 2 | 3 | 4 | 5;
+  footerPaddingTop?: string;
 }
 
-const CourseCard: React.FC<CourseCardProps> = React.memo(({
+const CourseCardComponent: React.FC<CourseCardProps> = ({
   id,
   title,
   description,
@@ -39,6 +41,8 @@ const CourseCard: React.FC<CourseCardProps> = React.memo(({
   duration = "1 hr",
   tag,
   href,
+  descriptionClamp = 2,
+  footerPaddingTop = "16px",
 }) => {
   const linkHref = href ?? `/courses/${id}`;
   const styles = {
@@ -132,7 +136,17 @@ const CourseCard: React.FC<CourseCardProps> = React.memo(({
           </h3>
           
           <p 
-            className="mb-4 line-clamp-2"
+            className={`mb-4 ${
+              descriptionClamp === 1
+                ? "line-clamp-1"
+                : descriptionClamp === 3
+                ? "line-clamp-3"
+                : descriptionClamp === 4
+                ? "line-clamp-4"
+                : descriptionClamp === 5
+                ? "line-clamp-5"
+                : "line-clamp-2"
+            }`}
             style={styles.description}
           >
             {description}
@@ -157,7 +171,10 @@ const CourseCard: React.FC<CourseCardProps> = React.memo(({
             </div>
           </div>
           
-          <div className="flex items-center justify-between mt-auto pt-4 border-t border-gray-100">
+          <div
+            className="flex items-center justify-between mt-auto border-t border-gray-100"
+            style={{ paddingTop: footerPaddingTop }}
+          >
             <div className="flex items-center gap-2">
               <ImageWithFallback
                 src={instructor.image || `/images/instructors/${instructor.name.toLowerCase().replace(/\s+/g, '-')}.jpg`}
@@ -202,9 +219,11 @@ const CourseCard: React.FC<CourseCardProps> = React.memo(({
       </div>
     </Link>
   );
-});
+};
 
-CourseCard.displayName = 'CourseCard';
+const CourseCard = React.memo(CourseCardComponent);
+
+CourseCard.displayName = "CourseCard";
 
 export default CourseCard;
 

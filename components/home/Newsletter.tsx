@@ -6,6 +6,10 @@ import { colors, typography } from "@/theme";
 
 const styles = {
   wrapper: {
+    backgroundImage: "url('/images/banners/mailBanner.png')",
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+    backgroundRepeat: "no-repeat",
     backgroundColor: colors.background.newsletter,
   },
   glow: (color: string) =>
@@ -41,26 +45,6 @@ const styles = {
 const Newsletter: React.FC = () => {
   return (
     <section className="py-16 md:py-20 relative overflow-hidden" style={styles.wrapper}>
-      <div 
-        className="absolute rounded-full"
-        style={{ ...styles.glow("rgba(220, 200, 240, 0.3)"), top: "-150px", left: "-150px" }}
-      />
-      
-      <div 
-        className="absolute rounded-full"
-        style={{ ...styles.glow("rgba(255, 220, 240, 0.3)"), width: "450px", height: "450px", top: "-100px", right: "-100px" }}
-      />
-      
-      <div 
-        className="absolute rounded-full"
-        style={{ ...styles.glow("rgba(255, 240, 200, 0.3)"), bottom: "-150px", left: "-150px" }}
-      />
-      
-      <div 
-        className="absolute rounded-full"
-        style={{ ...styles.glow("rgba(220, 200, 240, 0.3)"), width: "450px", height: "450px", bottom: "-100px", right: "-100px" }}
-      />
-
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="max-w-2xl mx-auto text-center">
           <div className="flex justify-center mb-6">

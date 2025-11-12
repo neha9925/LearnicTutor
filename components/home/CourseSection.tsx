@@ -33,7 +33,7 @@ const styles = {
   },
   exploreButton: {
     ...typography.button.primary,
-    backgroundColor: colors.brand.primarySoft,
+    backgroundColor: "#572EEE",
     color: colors.text.light,
     width: "198.265625px",
     height: "60px",
@@ -96,12 +96,12 @@ const CourseSection: React.FC = () => {
         </div>
 
         <div className="flex justify-center mb-10 px-0 sm:px-4">
-          <div className="w-full max-w-[1300px] flex flex-wrap items-center gap-3 bg-white rounded-2xl px-5 py-4" style={styles.filterPanel}>
-            <div className="flex items-center gap-2 text-gray-500 font-medium" style={styles.filterLabel}>
+          <div className="w-full max-w-[720px] flex flex-wrap items-center justify-center gap-3 bg-white rounded-2xl px-5 py-4 text-center" style={styles.filterPanel}>
+            <div className="flex items-center gap-2 text-gray-500 font-medium justify-center" style={styles.filterLabel}>
               <FilterIcon className="w-4 h-4" />
               Filter by:
             </div>
-            <FormControl size="small" sx={{ minWidth: 120 }}>
+            <FormControl size="small" sx={{ minWidth: 120, display: "flex", justifyContent: "center" }}>
               <Select
                 value={classValue}
                 onChange={handleClassChange}
@@ -165,6 +165,7 @@ const CourseSection: React.FC = () => {
               key={course.id}
               {...course}
               href={course.href ?? `/live-classes/${course.id}`}
+              footerPaddingTop="11px"
             />
           ))}
         </div>

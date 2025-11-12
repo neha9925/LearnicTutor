@@ -17,7 +17,7 @@ const styles = {
       boxShadow: isActive ? shadows.cardElevatedStrong : shadows.cardElevated,
       border: `1px solid rgba(147, 197, 253, 0.35)`,
       backgroundColor: colors.neutral.white,
-    }) as const,
+    } as const),
   tutorName: typography.card.titleMd,
   badge: {
     backgroundColor: "rgba(79, 70, 229, 0.9)",
@@ -48,34 +48,29 @@ const TopTutors: React.FC = () => {
     <section className="py-16 md:py-20 bg-white">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
-          <h2
-            className="text-gray-900 mb-4"
-            style={styles.sectionHeading}
-          >
+          <h2 className="text-gray-900 mb-4" style={styles.sectionHeading}>
             Meet Our Top Tutors
           </h2>
           <p
             className="text-gray-600 max-w-2xl mx-auto"
             style={styles.sectionDescription}
           >
-            Learn from industry experts and certified professionals who are passionate about sharing their knowledge and helping you succeed.
+            Learn from industry experts and certified professionals who are
+            passionate about sharing their knowledge and helping you succeed.
           </p>
         </div>
 
-        
         <div className="flex flex-col items-center md:flex-row md:justify-center md:items-center gap-6 md:gap-8 mb-12 pb-4 md:min-h-[620px]">
           {HOME_TOP_TUTORS.map((tutor, index) => {
             const isActive = index === activeIndex;
-            
+
             return (
               <div
                 key={tutor.id}
                 className={cn(
                   "flex-shrink-0 transition-all duration-300 cursor-pointer w-full max-w-[360px]",
                   "md:w-[360px] md:origin-center",
-                  isActive
-                    ? "md:z-10 md:scale-110"
-                    : "md:z-0 md:scale-100"
+                  isActive ? "md:z-10 md:scale-110" : "md:z-0 md:scale-100"
                 )}
                 onClick={() => setActiveIndex(index)}
               >
@@ -83,7 +78,6 @@ const TopTutors: React.FC = () => {
                   className="bg-white relative overflow-hidden flex flex-col h-full md:h-[570px]"
                   style={styles.card(isActive)}
                 >
-                  
                   <div className="relative w-full h-64 overflow-hidden flex-shrink-0">
                     <ImageWithFallback
                       src={tutor.image || `/images/tutors/${tutor.id}.jpg`}
@@ -93,11 +87,13 @@ const TopTutors: React.FC = () => {
                       className="w-full h-full object-cover"
                       fallback={
                         <div className="w-full h-full bg-gradient-to-br from-primary-400 to-secondary-400 flex items-center justify-center">
-                          <span className="text-white text-4xl font-bold">{tutor.name.charAt(0)}</span>
+                          <span className="text-white text-4xl font-bold">
+                            {tutor.name.charAt(0)}
+                          </span>
                         </div>
                       }
                     />
-                    
+
                     <div
                       className="absolute top-3 right-3 px-3 py-1 rounded-full text-white text-xs font-semibold"
                       style={styles.badge}
@@ -106,27 +102,35 @@ const TopTutors: React.FC = () => {
                     </div>
                   </div>
 
-                  
-                  <div className="p-6 flex flex-col flex-1" style={{ backgroundColor: colors.neutral.white }}>
-                    
-                    <h3
-                      className="font-bold mb-2"
-                      style={{ ...styles.tutorName, color: colors.text.primary }}
-                    >
-                      {tutor.name}
-                    </h3>
-
-                    
-                    <div className="flex items-center gap-1 mb-3">
+                  <div
+                    className="p-6 flex flex-col flex-1"
+                    style={{ backgroundColor: colors.neutral.white }}
+                  >
+                    <div className="flex items-center justify-between gap-4 mb-2">
+                      <h3
+                        className="font-bold"
+                        style={{
+                          ...styles.tutorName,
+                          color: colors.text.primary,
+                        }}
+                      >
+                        {tutor.name}
+                      </h3>
                       <StarRating rating={tutor.rating} size="sm" />
                     </div>
 
-                    
                     <div
                       className="inline-flex items-center px-4 py-2 rounded-full mb-4"
                       style={{
-                        backgroundColor: tutor.subjectColor,
-                        color: colors.text.light,
+                        backgroundColor:
+                          tutor.subject === "Mathematics"
+                            ? "#DBEAFE"
+                            : tutor.subject === "Computer Science"
+                            ? "#DCFCE7"
+                            : tutor.subject === "Physics"
+                            ? "#F3E8FF"
+                            : tutor.subjectColor,
+                        color: colors.text.primary,
                         ...styles.subjectChip,
                         maxWidth: "180px",
                       }}
@@ -134,35 +138,25 @@ const TopTutors: React.FC = () => {
                       {tutor.subject}
                     </div>
 
-                    
                     <div className="space-y-3 mb-6 flex-1">
-                    <div className="flex flex-col items-center md:flex-row md:items-center gap-2 text-center md:text-left">
-                      <GraduationCap className="w-5 h-5 md:mr-1 text-[#3B82F6]" />
-                      <span
-                        style={styles.detailText}
-                      >
-                        {tutor.degree}
-                      </span>
-                    </div>
-                    <div className="flex flex-col items-center md:flex-row md:items-center gap-2 text-center md:text-left">
-                      <Users className="w-5 h-5 md:mr-1 text-[#3B82F6]" />
-                      <span
-                        style={styles.detailText}
-                      >
-                        {tutor.students.toLocaleString()} Students
-                      </span>
-                    </div>
-                    <div className="flex flex-col items-center md:flex-row md:items-center gap-2 text-center md:text-left">
-                      <Clock className="w-5 h-5 md:mr-1 text-[#3B82F6]" />
-                      <span
-                        style={styles.detailText}
-                      >
-                        {tutor.experience}
-                      </span>
-                    </div>
+                      <div className="flex flex-col items-center md:flex-row md:items-center gap-2 text-center md:text-left">
+                        <GraduationCap className="w-5 h-5 md:mr-1 text-[#3B82F6]" />
+                        <span style={styles.detailText}>{tutor.degree}</span>
+                      </div>
+                      <div className="flex flex-col items-center md:flex-row md:items-center gap-2 text-center md:text-left">
+                        <Users className="w-5 h-5 md:mr-1 text-[#3B82F6]" />
+                        <span style={styles.detailText}>
+                          {tutor.students.toLocaleString()} Students
+                        </span>
+                      </div>
+                      <div className="flex flex-col items-center md:flex-row md:items-center gap-2 text-center md:text-left">
+                        <Clock className="w-5 h-5 md:mr-1 text-[#3B82F6]" />
+                        <span style={styles.detailText}>
+                          {tutor.experience}
+                        </span>
+                      </div>
                     </div>
 
-                    
                     <button
                       className="w-full py-3 px-4 rounded-lg font-medium text-white mt-auto"
                       style={styles.primaryButton}
@@ -176,7 +170,6 @@ const TopTutors: React.FC = () => {
           })}
         </div>
 
-        
         <div className="hidden md:flex justify-center gap-2">
           {HOME_TOP_TUTORS.map((_, index) => (
             <button
@@ -184,7 +177,7 @@ const TopTutors: React.FC = () => {
               onClick={() => setActiveIndex(index)}
               className="w-3 h-3 rounded-full transition-all"
               style={{
-                backgroundColor: index === activeIndex ? '#9333EA' : '#D1D5DB',
+                backgroundColor: index === activeIndex ? "#572EEE" : "#D1D5DB",
               }}
             />
           ))}

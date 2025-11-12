@@ -397,6 +397,7 @@ const LiveClassesContent: React.FC = () => {
               duration={course.duration}
               tag={course.tag}
               href={course.href ?? `/live-classes/${course.id}`}
+              descriptionClamp={1}
             />
           ))}
         </div>

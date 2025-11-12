@@ -21,6 +21,7 @@ const HeroSection: React.FC = () => {
       minWidth: "220px",
       height: "56px",
       padding: "16px 28px",
+      borderRadius: "10px"
     }),
     []
   );
@@ -88,7 +89,10 @@ const HeroSection: React.FC = () => {
 
   return (
     <section
-      className="bg-gradient-to-br from-[#F7F5FF] via-white to-[#FFF9F5] py-12 md:py-20 lg:py-24"
+      className="py-12 md:py-20 lg:py-24"
+      style={{
+        background: "linear-gradient(135deg, #F4F1FF 0%, #FFFFFF 35.36%, #FFF3E6 70.71%)",
+      }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -122,7 +126,7 @@ const HeroSection: React.FC = () => {
                   style={{
                     ...typography.button.primary,
                     ...sharedButtonStyle,
-                    background: gradients.buttonPrimary,
+                    backgroundColor: "#572EEE",
                   }}
                 >
                   <Play className="w-4 h-4" /> Start Learning
@@ -149,9 +153,19 @@ const HeroSection: React.FC = () => {
 
             
             <div className="grid grid-cols-3 gap-6 max-w-lg mx-auto lg:mx-0">
-              {activeSlide.stats.map((stat) => (
+              {activeSlide.stats.map((stat, index) => (
                 <div key={stat.label} className="text-center lg:text-left">
-                  <div className="mb-1" style={typography.hero.statValue}>
+                  <div
+                    className="mb-1"
+                    style={{
+                      ...typography.hero.statValue,
+                      ...(index === 0 || index === 2
+                        ? { color: "#572EEE" }
+                        : index === 1
+                        ? { color: "#FC921C" }
+                        : {}),
+                    }}
+                  >
                     {stat.value}
                   </div>
                   <div className="text-gray-600" style={typography.hero.statLabel}>
@@ -173,9 +187,7 @@ const HeroSection: React.FC = () => {
                     className="h-3 rounded-full transition-all"
                     style={{
                       width: isActive ? "28px" : "12px",
-                      background: isActive
-                        ? gradients.heroHighlight
-                        : colors.brand.primaryTintLight,
+                      background: isActive ? "#572EEE" : colors.brand.primaryTintLight,
                     }}
                     aria-label={`Go to ${slide.highlight}`}
                   />
