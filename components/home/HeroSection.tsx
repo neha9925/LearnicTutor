@@ -89,7 +89,7 @@ const HeroSection: React.FC = () => {
 
   return (
     <section
-      className="py-12 md:py-20 lg:py-24"
+      className="pt-16 pb-12 md:pt-8 md:pb-20 lg:pt-12 lg:pb-24"
       style={{
         background: "linear-gradient(135deg, #F4F1FF 0%, #FFFFFF 35.36%, #FFF3E6 70.71%)",
       }}
@@ -122,11 +122,10 @@ const HeroSection: React.FC = () => {
                 <Button
                   type="button"
                   size="lg"
-                  className="w-full sm:w-auto flex items-center justify-center gap-2 rounded-full text-white shadow-lg"
+                  className="w-full sm:w-auto flex items-center justify-center gap-2 rounded-full text-white shadow-lg bg-[#572EEE] hover:bg-[#3311B2] transition-colors"
                   style={{
                     ...typography.button.primary,
                     ...sharedButtonStyle,
-                    backgroundColor: "#572EEE",
                   }}
                 >
                   <Play className="w-4 h-4" /> Start Learning
@@ -137,12 +136,10 @@ const HeroSection: React.FC = () => {
                   type="button"
                   variant="outline"
                   size="lg"
-                  className="w-full sm:w-auto flex items-center justify-center gap-2 rounded-full border-2"
+                  className="w-full sm:w-auto flex items-center justify-center gap-2 rounded-full border-2 border-[#F48C06] text-[#F48C06] hover:bg-[#FDA647] hover:text-white hover:border-[#FDA647] transition-colors"
                   style={{
                     ...typography.button.primary,
                     ...sharedButtonStyle,
-                    borderColor: colors.brand.secondaryDark,
-                    color: colors.brand.secondaryDark,
                     textAlign: "center",
                   }}
                 >
@@ -152,7 +149,7 @@ const HeroSection: React.FC = () => {
             </div>
 
             
-            <div className="grid grid-cols-3 gap-6 max-w-lg mx-auto lg:mx-0">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 w-full">
               {activeSlide.stats.map((stat, index) => (
                 <div key={stat.label} className="text-center lg:text-left">
                   <div
@@ -197,7 +194,7 @@ const HeroSection: React.FC = () => {
           </div>
 
           
-          <div className="relative hidden lg:block">
+          <div className="relative hidden lg:block lg:-mr-12 xl:-mr-20">
             <div className="relative w-full h-[500px] rounded-2xl overflow-hidden">
               <ImageWithFallback
                 key={activeSlide.image}

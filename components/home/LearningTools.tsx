@@ -29,17 +29,14 @@ const styles = {
     ...typography.card.bodyMd,
     textAlign: "left" as const,
   },
-  exploreButton: (backgroundColor: string, color: string) =>
-    ({
-      ...typography.button.secondary,
-      backgroundColor,
-      color,
-      height: "50px",
-      padding: "0 24px",
-      display: "inline-flex",
-      alignItems: "center",
-      justifyContent: "center",
-    }) as const,
+  exploreButtonBase: {
+    ...typography.button.secondary,
+    height: "50px",
+    padding: "0 24px",
+    display: "inline-flex",
+    alignItems: "center",
+    justifyContent: "center",
+  } as const,
 } as const;
 
 const LearningTools: React.FC = () => {
@@ -115,11 +112,12 @@ const LearningTools: React.FC = () => {
                   
                   
                   <button
-                    className="px-6 rounded-lg font-medium transition-colors mt-auto self-start"
-                    style={styles.exploreButton(
-                      tool.buttonBg,
-                      tool.buttonTextColor ?? colors.text.light
-                    )}
+                    className={`px-6 rounded-lg font-medium transition-colors mt-auto self-start ${
+                      tool.title === "Recorded Videos"
+                        ? "bg-[#FC921C] hover:bg-[#D47914] text-white"
+                        : "bg-[#572EEE] hover:bg-[#3311B2] text-white"
+                    }`}
+                    style={styles.exploreButtonBase}
                   >
                     Explore
                   </button>

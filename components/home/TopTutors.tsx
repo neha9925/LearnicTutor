@@ -33,8 +33,6 @@ const styles = {
   },
   primaryButton: {
     ...typography.button.secondary,
-    backgroundColor: colors.brand.primarySoft,
-    color: colors.text.light,
   } as const,
   statHighlight: {
     color: colors.utility.infoMuted,
@@ -158,7 +156,7 @@ const TopTutors: React.FC = () => {
                     </div>
 
                     <button
-                      className="w-full py-3 px-4 rounded-lg font-medium text-white mt-auto"
+                      className="w-full py-4 px-4 rounded-lg font-medium text-white mt-auto bg-[#572EEE] hover:bg-[#3311B2] transition-colors"
                       style={styles.primaryButton}
                     >
                       View Profile

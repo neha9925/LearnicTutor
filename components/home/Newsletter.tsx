@@ -36,8 +36,6 @@ const styles = {
   },
   button: {
     ...typography.button.primary,
-    backgroundColor: colors.brand.primarySoft,
-    color: colors.text.light,
     gap: "12px",
   } as const,
 } as const;
@@ -71,7 +69,7 @@ const Newsletter: React.FC = () => {
           </p>
 
           <button
-            className="px-8 py-4 rounded-xl font-semibold inline-flex items-center gap-3 shadow-lg hover:shadow-xl transition-all"
+            className="px-8 py-4 rounded-xl font-semibold inline-flex items-center gap-3 shadow-lg hover:shadow-xl transition-all bg-[#572EEE] hover:bg-[#3311B2] text-white transition-colors"
             style={styles.button}
           >
             <MessageCircle className="w-5 h-5" />

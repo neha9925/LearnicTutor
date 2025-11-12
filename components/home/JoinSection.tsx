@@ -8,6 +8,9 @@ import {
 } from "@/data/home";
 import { colors, radii, typography } from "@/theme";
 
+const tutorAccentColor = "#FC921C";
+const coordinatorAccentColor = "#572EEE";
+
 const styles = {
   heading: {
     ...typography.section.headingLg,
@@ -42,7 +45,12 @@ const styles = {
     ...typography.card.bodySm,
     color: colors.text.secondary,
   },
-  primaryButton: (backgroundColor: string) =>
+  primaryButton: {
+    ...typography.button.primary,
+    color: colors.text.light,
+    textAlign: "center" as const,
+  } as const,
+  primaryButtonWithBg: (backgroundColor: string) =>
     ({
       ...typography.button.primary,
       backgroundColor,
@@ -86,18 +94,17 @@ const JoinSection: React.FC = () => {
             >
               
               <div
-                className="absolute top-0 right-0 w-24 h-24"
+                className="absolute top-0 right-0 w-20 h-20"
                 style={{
-                  backgroundColor: colors.brand.orangeSoft,
-                  borderRadius: '0 0 0 100%',
-                  clipPath: 'polygon(100% 0, 100% 100%, 0 0)',
+                  background: "linear-gradient(135deg, #FFEDD5 0%, #FED7AA 70.71%)",
+                  borderRadius: "0 0 0 100%",
                 }}
               />
               
               
               <div
                 className="w-16 h-16 rounded-xl flex items-center justify-center mb-7 relative z-10"
-                style={{ backgroundColor: colors.brand.secondary }}
+                style={{ backgroundColor: tutorAccentColor }}
               >
                 <User className="w-8 h-8 text-white" />
               </div>
@@ -124,7 +131,7 @@ const JoinSection: React.FC = () => {
                   <li key={index} className="flex items-center gap-2">
                     <Check
                       className="w-5 h-5 flex-shrink-0"
-                      style={{ color: colors.brand.secondary }}
+                      style={{ color: tutorAccentColor }}
                     />
                     <span
                       style={styles.featureText}
@@ -137,8 +144,8 @@ const JoinSection: React.FC = () => {
 
               
               <button
-                className="w-full py-4 px-4 rounded-lg font-medium text-white relative z-10 mt-auto"
-                style={styles.primaryButton(colors.brand.secondary)}
+                className="w-full py-4 px-4 rounded-lg font-medium text-white relative z-10 mt-auto bg-[#FC921C] hover:bg-[#D47914] transition-colors"
+                style={styles.primaryButton}
               >
                 Start Teaching
               </button>
@@ -151,18 +158,17 @@ const JoinSection: React.FC = () => {
             >
               
               <div
-                className="absolute top-0 right-0 w-24 h-24"
+                className="absolute top-0 right-0 w-20 h-20"
                 style={{
-                  backgroundColor: colors.brand.purpleSoft,
-                  borderRadius: '0 0 0 100%',
-                  clipPath: 'polygon(100% 0, 100% 100%, 0 0)',
+                  background: "linear-gradient(135deg, #EDE9FE 0%, #DDD6FE 70.71%)",
+                  borderRadius: "0 0 0 100%",
                 }}
               />
               
               
               <div
                 className="w-16 h-16 rounded-xl flex items-center justify-center mb-7 relative z-10"
-                style={{ backgroundColor: colors.brand.purple }}
+                style={{ backgroundColor: coordinatorAccentColor }}
               >
                 <Handshake className="w-8 h-8 text-white" />
               </div>
@@ -189,7 +195,7 @@ const JoinSection: React.FC = () => {
                   <li key={index} className="flex items-center gap-2">
                     <feature.icon
                       className="w-5 h-5 flex-shrink-0"
-                      style={{ color: colors.brand.purple }}
+                      style={{ color: coordinatorAccentColor }}
                     />
                     <span
                       style={styles.featureText}
@@ -202,8 +208,8 @@ const JoinSection: React.FC = () => {
 
               
               <button
-                className="w-full py-4 px-4 rounded-lg font-medium text-white relative z-10 mt-auto"
-                style={styles.primaryButton(colors.brand.purple)}
+                className="w-full py-4 px-4 rounded-lg font-medium text-white relative z-10 mt-auto bg-[#572EEE] hover:bg-[#3311B2] transition-colors"
+                style={styles.primaryButton}
               >
                 Become a Coordinator
               </button>

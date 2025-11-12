@@ -33,8 +33,6 @@ const styles = {
   },
   exploreButton: {
     ...typography.button.primary,
-    backgroundColor: "#572EEE",
-    color: colors.text.light,
     width: "198.265625px",
     height: "60px",
     borderRadius: radii.lg,
@@ -175,7 +173,7 @@ const CourseSection: React.FC = () => {
             <Button
               variant="primary"
               size="lg"
-              className="text-white"
+              className="text-white bg-[#572EEE] hover:bg-[#3311B2] transition-colors"
               style={styles.exploreButton}
             >
               Explore More
