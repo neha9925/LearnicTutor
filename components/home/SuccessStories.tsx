@@ -84,10 +84,15 @@ const SuccessStories: React.FC = () => {
 
       if (!activeCard) return;
 
-      activeCard.scrollIntoView({
+      const cardElement = activeCard as HTMLElement;
+      const targetScrollLeft =
+        cardElement.offsetLeft -
+        container.clientWidth / 2 +
+        cardElement.clientWidth / 2;
+
+      container.scrollTo({
+        left: Math.max(targetScrollLeft, 0),
         behavior,
-        inline: "center",
-        block: "nearest",
       });
     },
     [activeIndex]
@@ -186,7 +191,7 @@ const SuccessStories: React.FC = () => {
         
         <div
           ref={carouselRef}
-          className="flex gap-4 overflow-x-auto md:overflow-visible md:justify-center md:items-center md:gap-8 lg:gap-10 pb-4 md:min-h-[520px] snap-x snap-mandatory -mx-4 px-4 md:mx-0 md:px-0 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+          className="flex gap-4 overflow-x-auto md:overflow-visible md:justify-center md:items-center md:gap-8 lg:gap-10 pb-4 md:min-h-[520px] snap-x snap-mandatory -mx-4 px-6 sm:px-4 md:mx-0 md:px-0 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden mt-6 sm:mt-8"
           onScroll={handleScroll}
         >
           {displayedStories.map(({ story, originalIndex }) => {
@@ -197,7 +202,7 @@ const SuccessStories: React.FC = () => {
                 key={story.id}
                 data-original-index={originalIndex}
                 className={cn(
-                  "flex-shrink-0 transition-all duration-300 cursor-pointer w-full max-w-[390px] min-w-[85vw] sm:min-w-[340px] snap-center md:min-w-0",
+                  "flex-shrink-0 transition-all duration-300 cursor-pointer w-full max-w-[390px] min-w-[85vw] sm:min-w-[340px] snap-center md:min-w-0 px-2 sm:px-0",
                   isActive
                     ? "md:scale-[1.15] md:z-10"
                     : "md:scale-100 md:z-0 md:blur-[1px]"

@@ -149,7 +149,7 @@ const HeroSection: React.FC = () => {
               </Link>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-3 w-full max-w-[420px] mx-auto lg:mx-0">
+            <div className="grid grid-cols-1 sm:grid-cols-3 w-full max-w-[420px] mx-auto lg:mx-0 gap-y-4 sm:gap-y-0">
               {activeSlide.stats.map((stat, index) => (
                 <div key={stat.label} className="text-center lg:text-left">
                   <div

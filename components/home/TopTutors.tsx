@@ -1,6 +1,12 @@
 "use client";
 
-import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import StarRating from "@/components/ui/StarRating";
 import ImageWithFallback from "@/components/ui/ImageWithFallback";
 import { GraduationCap, Users, Clock } from "lucide-react";
@@ -70,10 +76,15 @@ const TopTutors: React.FC = () => {
 
       if (!activeCard) return;
 
-      activeCard.scrollIntoView({
+      const cardElement = activeCard as HTMLElement;
+      const targetScrollLeft =
+        cardElement.offsetLeft -
+        container.clientWidth / 2 +
+        cardElement.clientWidth / 2;
+
+      container.scrollTo({
+        left: Math.max(targetScrollLeft, 0),
         behavior,
-        inline: "center",
-        block: "nearest",
       });
     },
     [activeIndex]
@@ -88,6 +99,11 @@ const TopTutors: React.FC = () => {
     if (isDesktop) return;
     scrollToActive("smooth");
   }, [activeIndex, isDesktop, scrollToActive]);
+
+  useEffect(() => {
+    // Autoplay disabled per request
+    return undefined;
+  }, []);
 
   const handleScroll = useCallback(() => {
     if (isDesktop || !carouselRef.current) return;
