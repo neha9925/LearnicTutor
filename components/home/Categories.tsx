@@ -44,9 +44,21 @@ const Categories: React.FC = () => {
   const [activeTab, setActiveTab] = useState<CategoryTab>(HOME_CATEGORY_TABS[0]);
   const tabs = useMemo(() => HOME_CATEGORY_TABS, []);
 
+  const filteredCategories = useMemo(() => {
+    if (activeTab === "All") {
+      return HOME_CATEGORIES;
+    }
+
+    const matches = HOME_CATEGORIES.filter((category) =>
+      category.tabs.includes(activeTab)
+    );
+
+    return matches.length > 0 ? matches : HOME_CATEGORIES;
+  }, [activeTab]);
+
   return (
-    <section className="py-16 md:py-20 bg-white">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="pt-0 pb-12 md:pb-16 bg-white">
+      <div className="mx-auto w-full px-4 sm:px-6 lg:px-8 2xl:px-12">
         <div className="text-center mb-12">
           <h2 
             className="text-gray-900 mb-4"
@@ -63,7 +75,7 @@ const Categories: React.FC = () => {
         </div>
 
         <div 
-          className="flex gap-3 mb-8 p-4 rounded-lg max-w-[1260px] w-full overflow-x-auto flex-nowrap px-6 sm:mx-auto sm:px-4 md:flex-wrap md:justify-center md:overflow-visible"
+          className="flex gap-3 mb-8 p-4 rounded-2xl bg-white shadow-sm w-full overflow-x-auto flex-nowrap px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 md:flex-wrap md:justify-center md:overflow-visible"
           style={styles.filtersContainer}
         >
           {tabs.map((tab) => (
@@ -90,8 +102,8 @@ const Categories: React.FC = () => {
           ))}
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 justify-items-center mx-auto max-w-[1260px] w-full px-0 sm:px-4">
-          {HOME_CATEGORIES.map((category, index) => {
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 justify-items-center mx-auto w-full">
+          {filteredCategories.map((category) => {
             const Icon = category.icon;
             const chipStyle = {
               ...styles.cardChip,
@@ -100,8 +112,8 @@ const Categories: React.FC = () => {
             } as const;
             return (
               <div
-                key={index}
-                className="transition-all cursor-pointer bg-white w-full md:max-w-[301.3px] hover:translate-y-[-4px] hover:shadow-xl"
+                key={category.name}
+                className="transition-all cursor-pointer bg-white w-full hover:translate-y-[-4px] hover:shadow-xl"
                 style={styles.card}
               >
                 <div

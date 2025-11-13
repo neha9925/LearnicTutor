@@ -41,8 +41,8 @@ const styles = {
 
 const LearningTools: React.FC = () => {
   return (
-    <section className="py-16 md:py-20 bg-white">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="py-12 md:py-16 bg-white">
+      <div className="mx-auto w-full px-4 sm:px-6 lg:px-8 2xl:px-12">
         <div className="text-center mb-12">
           <h2 
             className="text-gray-900 mb-4"
@@ -58,15 +58,13 @@ const LearningTools: React.FC = () => {
           </p>
         </div>
 
-        <div
-          className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 justify-items-center max-w-[1320px] mx-auto w-full px-2 sm:px-4"
-        >
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6 lg:gap-8 justify-items-center mx-auto w-full px-2 sm:px-4">
           {HOME_LEARNING_TOOLS.map((tool, index) => {
             const Icon = tool.icon;
             return (
               <Card 
                 key={index} 
-                className="hover:shadow-xl transition-shadow w-full max-w-[404px]"
+                className="hover:shadow-xl transition-shadow w-full"
                 style={{
                   backgroundColor: tool.cardBg,
                   ...styles.card,

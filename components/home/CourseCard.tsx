@@ -47,7 +47,6 @@ const CourseCardComponent: React.FC<CourseCardProps> = ({
   const linkHref = href ?? `/courses/${id}`;
   const styles = {
     card: {
-      height: "423px",
       borderRadius: radii.lg,
       borderWidth: "1.05px",
       borderStyle: "solid",
@@ -63,8 +62,7 @@ const CourseCardComponent: React.FC<CourseCardProps> = ({
       lineHeight: "100%",
       letterSpacing: "0%",
       textAlign: "center" as const,
-      width: "101.57339477539062px",
-      height: "29.49595069885254px",
+      padding: "8px 16px",
       borderRadius: "10533.21px",
       display: "flex",
       alignItems: "center",
@@ -102,10 +100,13 @@ const CourseCardComponent: React.FC<CourseCardProps> = ({
   return (
     <Link href={linkHref}>
       <div 
-        className="overflow-hidden hover:shadow-xl transition-shadow cursor-pointer flex flex-col w-full max-w-[410px]"
+        className="overflow-hidden hover:shadow-xl transition-shadow cursor-pointer flex flex-col w-full"
         style={styles.card}
       >
-        <div className="relative w-full flex-shrink-0 overflow-hidden" style={{ backgroundColor: colors.brand.tealSoft, height: "200px" }}>
+        <div
+          className="relative w-full flex-shrink-0 overflow-hidden h-48 sm:h-52"
+          style={{ backgroundColor: colors.brand.tealSoft }}
+        >
           <ImageWithFallback
             src={image || `/images/courses/${id}.jpg`}
             alt={title}
@@ -205,13 +206,15 @@ const CourseCardComponent: React.FC<CourseCardProps> = ({
                 )}
               </div>
             </div>
-            <div className="flex items-center gap-1">
-              <StarRating rating={rating} size="sm" />
+            <div className="flex items-center gap-1 text-[#F59E0B]">
+              <svg viewBox="0 0 24 24" className="w-4 h-4 fill-current">
+                <path d="M12 2.25l2.666 7.507h7.601l-6.151 4.427 2.666 7.506L12 17.263l-6.782 4.427 2.666-7.506L1.733 9.757h7.601L12 2.25z" />
+              </svg>
               <span 
-                className="font-semibold"
+                className="font-semibold text-gray-700"
                 style={styles.rating}
               >
-                {rating}
+                {rating.toFixed(1)}
               </span>
             </div>
           </div>

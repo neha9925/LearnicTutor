@@ -39,11 +39,11 @@ const styles = {
     gap: "12px",
   } as const,
 } as const;
-
+// 
 const Newsletter: React.FC = () => {
   return (
-    <section className="py-16 md:py-20 relative overflow-hidden" style={styles.wrapper}>
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+    <section className="py-12 md:py-16 relative overflow-hidden" style={styles.wrapper}>
+      <div className="mx-auto w-full px-4 sm:px-6 lg:px-8 2xl:px-12 relative z-10">
         <div className="max-w-2xl mx-auto text-center">
           <div className="flex justify-center mb-6">
             <div 

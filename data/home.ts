@@ -1,10 +1,8 @@
 import type { LucideIcon } from "lucide-react";
 import {
-  Camera,
   DollarSign,
   Dumbbell,
   FileQuestion,
-  Guitar,
   Handshake,
   Utensils,
   Heart,
@@ -12,7 +10,6 @@ import {
   MessageCircle,
   Music2,
   Palette,
-  Piano,
   PlayCircle,
   Video,
 } from "lucide-react";
@@ -47,7 +44,7 @@ export const HOME_HERO_SLIDES: HomeHeroSlide[] = [
       { label: "Courses", value: "1K+" },
       { label: "Instructors", value: "500+" },
     ],
-    image: "/images/banners/Banner.png",
+    image: "/images/banners/Banner1.png",
     primaryLink: "/courses",
     secondaryLink: "/courses",
   },
@@ -60,10 +57,10 @@ export const HOME_HERO_SLIDES: HomeHeroSlide[] = [
       "Interactive learning paths designed with industry experts and daily doubt clearing sessions.",
     stats: [
       { label: "Learners", value: "65K+" },
-      { label: "Workshops", value: "250+" },
+      { label: "Workshop", value: "250+" },
       { label: "Mentors", value: "650+" },
     ],
-    image: "/images/banners/Banner.png",
+    image: "/images/banners/Banner1.png",
     primaryLink: "/live-classes",
     secondaryLink: "/videos",
   },
@@ -75,11 +72,11 @@ export const HOME_HERO_SLIDES: HomeHeroSlide[] = [
     description:
       "Tailored curriculum, adaptive assessments, and real-time analytics to track your progress.",
     stats: [
-      { label: "Active Classes", value: "120+" },
-      { label: "Practice Sets", value: "900+" },
-      { label: "Expert Tutors", value: "350+" },
+      { label: "Classes", value: "120+" },
+      { label: "Practice", value: "900+" },
+      { label: "Tutors", value: "350+" },
     ],
-    image: "/images/banners/Banner.png",
+    image: "/images/banners/Banner1.png",
     primaryLink: "/dashboard",
     secondaryLink: "/about",
   },
@@ -98,6 +95,7 @@ const getLightShade = (hex: string) => {
 };
 
 export const HOME_CATEGORY_TABS = [
+  "All",
   "Skills",
   "Banking Exams",
   "Learnic Kids",
@@ -110,6 +108,8 @@ export const HOME_CATEGORY_TABS = [
   "Teaching",
 ] as const;
 
+export type HomeCategoryTab = (typeof HOME_CATEGORY_TABS)[number];
+
 export interface HomeCategory {
   icon: LucideIcon;
   name: string;
@@ -118,72 +118,117 @@ export interface HomeCategory {
   borderColor: string;
   buttonBg: string;
   buttonText: string;
+  tabs: HomeCategoryTab[];
 }
 
 const homeCategoryBase: Array<Omit<HomeCategory, "buttonBg">> = [
   {
-    icon: Guitar,
-    name: "Guitar",
-    description: "Play your favorite songs",
-    courses: 24,
-    borderColor: "#14B8A6",
-    buttonText: "#546E7A",
+    icon: Video,
+    name: "Digital Marketing",
+    description: "Grow brands with data-driven",
+    courses: 32,
+    borderColor: "#6366F1",
+    buttonText: "#1F2937",
+    tabs: ["Skills", "General Studies", "Banking Exams"],
   },
   {
-    icon: Piano,
-    name: "Piano",
-    description: "Master melodies & chords",
-    courses: 20,
-    borderColor: "#3B82F6",
-    buttonText: "#546E7A",
-  },
-  {
-    icon: Music2,
-    name: "Dance",
-    description: "Move with rhythm & style",
-    courses: 15,
-    borderColor: "#EC4899",
-    buttonText: "#546E7A",
-  },
-  {
-    icon: Heart,
-    name: "Yoga",
-    description: "Find inner balance",
-    courses: 10,
-    borderColor: "#10B981",
-    buttonText: "#546E7A",
-  },
-  {
-    icon: Utensils,
-    name: "Cooking",
-    description: "Cook with confidence",
-    courses: 26,
-    borderColor: "#F97316",
-    buttonText: "#546E7A",
-  },
-  {
-    icon: Camera,
-    name: "Photography",
-    description: "Capture your creativity",
-    courses: 20,
-    borderColor: "#9333EA",
-    buttonText: "#546E7A",
-  },
-  {
-    icon: Dumbbell,
-    name: "Fitness",
-    description: "Get stronger every day",
-    courses: 52,
-    borderColor: "#EF4444",
-    buttonText: "#546E7A",
+    icon: PlayCircle,
+    name: "Full-Stack Development",
+    description: "Build modern web & mobile applications",
+    courses: 28,
+    borderColor: "#2563EB",
+    buttonText: "#1F2937",
+    tabs: ["Skills", "Academic", "Railways"],
   },
   {
     icon: Palette,
-    name: "Drawing",
-    description: "Sketch your imagination",
+    name: "Creative Arts Studio",
+    description: "Master UI/UX, illustration, and branding",
+    courses: 24,
+    borderColor: "#EC4899",
+    buttonText: "#1F2937",
+    tabs: ["Skills", "Learnic Kids", "Teaching"],
+  },
+  {
+    icon: DollarSign,
+    name: "Bank PO Mastery",
+    description: "Crack SBI & IBPS exams with structured",
+    courses: 18,
+    borderColor: "#0EA5E9",
+    buttonText: "#0B3C5D",
+    tabs: ["Banking Exams", "General Studies"],
+  },
+  {
+    icon: FileQuestion,
+    name: "UPSC GS Pro",
+    description: "Tackle GS papers with expert mentorship",
+    courses: 22,
+    borderColor: "#8B5CF6",
+    buttonText: "#1F2937",
+    tabs: ["General Studies", "Law", "Defense"],
+  },
+  {
+    icon: Heart,
+    name: "Medical NEET Prep",
+    description: "Concept clarity sessions by top doctors",
+    courses: 20,
+    borderColor: "#10B981",
+    buttonText: "#0B3C5D",
+    tabs: ["Medical", "Academic"],
+  },
+  {
+    icon: Link2,
+    name: "Railway JE Prep",
+    description: "Score high in technical & aptitude",
     courses: 16,
-    borderColor: "#A78BFA",
-    buttonText: "#546E7A",
+    borderColor: "#F97316",
+    buttonText: "#1F2937",
+    tabs: ["Railways", "Defense"],
+  },
+  {
+    icon: Handshake,
+    name: "Law Entrance Bootcamp",
+    description: "Ace CLAT & legal reasoning assessments",
+    courses: 14,
+    borderColor: "#F59E0B",
+    buttonText: "#1F2937",
+    tabs: ["Law", "General Studies"],
+  },
+  {
+    icon: Dumbbell,
+    name: "Defense Physical Training",
+    description: "Get battle-ready with guided drills",
+    courses: 26,
+    borderColor: "#EF4444",
+    buttonText: "#1F2937",
+    tabs: ["Defense", "Skills", "Railways"],
+  },
+  {
+    icon: Music2,
+    name: "Learnic Kids Explorer",
+    description: "STEM, arts, and language fun for kids",
+    courses: 30,
+    borderColor: "#9333EA",
+    buttonText: "#1F2937",
+    tabs: ["Learnic Kids", "Teaching"],
+  },
+  {
+    icon: MessageCircle,
+    name: "Teaching Aptitude",
+    description: "Crack CTET & hone classroom skills",
+    courses: 19,
+    borderColor: "#14B8A6",
+    buttonText: "#0B3C5D",
+    tabs: ["Teaching", "Academic", "Skills"],
+  },
+  {
+    icon: Utensils,
+    name: "Culinary Mastery",
+    description: "Professional cooking & baking journeys",
+    courses: 21,
+    borderColor: "#F87171",
+    buttonText: "#1F2937",
+    tabs: ["Skills", "Learnic Kids"],
   },
 ];
 

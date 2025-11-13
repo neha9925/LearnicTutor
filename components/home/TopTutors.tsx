@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import StarRating from "@/components/ui/StarRating";
 import ImageWithFallback from "@/components/ui/ImageWithFallback";
 import { GraduationCap, Users, Clock } from "lucide-react";
@@ -41,10 +41,119 @@ const styles = {
 
 const TopTutors: React.FC = () => {
   const [activeIndex, setActiveIndex] = useState(1); // Center card is active by default
+  const [isDesktop, setIsDesktop] = useState(false);
+  const carouselRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (typeof window === "undefined") {
+      return;
+    }
+
+    const mediaQuery = window.matchMedia("(min-width: 768px)");
+    const updateMatch = (matches: boolean) => setIsDesktop(matches);
+
+    updateMatch(mediaQuery.matches);
+    const listener = (event: MediaQueryListEvent) => updateMatch(event.matches);
+    mediaQuery.addEventListener("change", listener);
+
+    return () => mediaQuery.removeEventListener("change", listener);
+  }, []);
+
+  const scrollToActive = useCallback(
+    (behavior: ScrollBehavior = "smooth") => {
+      const container = carouselRef.current;
+      if (!container) return;
+
+      const activeCard = container.querySelector<HTMLDivElement>(
+        `[data-original-index="${activeIndex}"]`
+      );
+
+      if (!activeCard) return;
+
+      activeCard.scrollIntoView({
+        behavior,
+        inline: "center",
+        block: "nearest",
+      });
+    },
+    [activeIndex]
+  );
+
+  useEffect(() => {
+    if (isDesktop) return;
+    scrollToActive("auto");
+  }, [isDesktop, scrollToActive]);
+
+  useEffect(() => {
+    if (isDesktop) return;
+    scrollToActive("smooth");
+  }, [activeIndex, isDesktop, scrollToActive]);
+
+  const handleScroll = useCallback(() => {
+    if (isDesktop || !carouselRef.current) return;
+
+    const container = carouselRef.current;
+    const containerRect = container.getBoundingClientRect();
+    const containerCenter = containerRect.left + containerRect.width / 2;
+
+    let closestIndex = activeIndex;
+    let minDistance = Number.POSITIVE_INFINITY;
+
+    container
+      .querySelectorAll<HTMLDivElement>("[data-original-index]")
+      .forEach((card) => {
+        const rect = card.getBoundingClientRect();
+        const cardCenter = rect.left + rect.width / 2;
+        const distance = Math.abs(cardCenter - containerCenter);
+
+        if (distance < minDistance) {
+          minDistance = distance;
+          const value = card.getAttribute("data-original-index");
+          if (value !== null) {
+            closestIndex = Number(value);
+          }
+        }
+      });
+
+    if (closestIndex !== activeIndex) {
+      setActiveIndex(closestIndex);
+    }
+  }, [activeIndex, isDesktop]);
+
+  const tutorsWithIndex = useMemo(
+    () =>
+      HOME_TOP_TUTORS.map((tutor, index) => ({
+        tutor,
+        originalIndex: index,
+      })),
+    []
+  );
+
+  const arrangedTutors = useMemo(() => {
+    const activeTutor = tutorsWithIndex.find(
+      (entry) => entry.originalIndex === activeIndex
+    );
+
+    if (!activeTutor) {
+      return tutorsWithIndex;
+    }
+
+    const others = tutorsWithIndex.filter(
+      (entry) => entry.originalIndex !== activeIndex
+    );
+
+    const centerPosition = Math.floor(tutorsWithIndex.length / 2);
+    const ordered = [...others];
+    ordered.splice(Math.min(centerPosition, ordered.length), 0, activeTutor);
+
+    return ordered;
+  }, [activeIndex, tutorsWithIndex]);
+
+  const displayedTutors = isDesktop ? arrangedTutors : tutorsWithIndex;
 
   return (
-    <section className="py-16 md:py-20 bg-white">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="pt-0 pb-12 md:pb-16 bg-white">
+      <div className="mx-auto w-full px-4 sm:px-6 lg:px-8 2xl:px-12">
         <div className="text-center mb-12">
           <h2 className="text-gray-900 mb-4" style={styles.sectionHeading}>
             Meet Our Top Tutors
@@ -58,22 +167,27 @@ const TopTutors: React.FC = () => {
           </p>
         </div>
 
-        <div className="flex flex-col items-center md:flex-row md:justify-center md:items-center gap-6 md:gap-8 mb-12 pb-4 md:min-h-[620px]">
-          {HOME_TOP_TUTORS.map((tutor, index) => {
-            const isActive = index === activeIndex;
+        <div
+          ref={carouselRef}
+          className="flex gap-4 overflow-x-auto md:overflow-visible md:justify-center md:items-stretch md:gap-8 mb-12 pb-4 w-full snap-x snap-mandatory px-4 md:px-0 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+          onScroll={handleScroll}
+        >
+          {displayedTutors.map(({ tutor, originalIndex }) => {
+            const isActive = originalIndex === activeIndex;
 
             return (
               <div
                 key={tutor.id}
+                data-original-index={originalIndex}
                 className={cn(
-                  "flex-shrink-0 transition-all duration-300 cursor-pointer w-full max-w-[360px]",
-                  "md:w-[360px] md:origin-center",
+                  "flex-shrink-0 transition-all duration-300 cursor-pointer w-full max-w-none min-w-[calc(100vw-3rem)] mx-auto sm:mx-0 sm:w-auto sm:min-w-[360px] sm:max-w-md snap-center md:min-w-0",
+                  "md:w-auto md:origin-center",
                   isActive ? "md:z-10 md:scale-110" : "md:z-0 md:scale-100"
                 )}
-                onClick={() => setActiveIndex(index)}
+                onClick={() => setActiveIndex(originalIndex)}
               >
                 <div
-                  className="bg-white relative overflow-hidden flex flex-col h-full md:h-[570px]"
+                  className="bg-white relative overflow-hidden flex flex-col h-full"
                   style={styles.card(isActive)}
                 >
                   <div className="relative w-full h-64 overflow-hidden flex-shrink-0">
@@ -168,7 +282,7 @@ const TopTutors: React.FC = () => {
           })}
         </div>
 
-        <div className="hidden md:flex justify-center gap-2">
+        <div className="flex justify-center gap-2 mt-4 md:mt-0">
           {HOME_TOP_TUTORS.map((_, index) => (
             <button
               key={index}

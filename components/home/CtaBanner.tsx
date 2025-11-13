@@ -2,23 +2,22 @@
 
 import React from "react";
 import ImageWithFallback from "@/components/ui/ImageWithFallback";
+import { typography } from "@/theme";
 
 const CtaBanner: React.FC = () => {
   return (
-    <section className="py-16 md:py-20 bg-white">
-      <div className="container mx-auto px-4 sm:px-10 lg:px-16 xl:px-24">
+    <section className="pt-0 pb-12 md:pb-16 bg-white">
+      <div className="mx-auto w-full px-4 sm:px-10 lg:px-16 xl:px-24 2xl:px-28">
         
-        <div className="relative overflow-hidden rounded-3xl shadow-lg min-h-[420px] bg-[#6B47ED] p-6 sm:p-8 lg:p-12 flex flex-col justify-center">
+        <div className="relative overflow-hidden rounded-3xl shadow-lg min-h-[320px] md:min-h-[420px] bg-[#6B47ED] p-6 sm:p-8 lg:p-12 flex flex-col justify-center">
           
           <div className="w-full max-w-xl relative z-10 text-center md:text-left">
             <h2
               className="text-white mb-4"
               style={{
-                fontFamily: 'var(--font-poppins), sans-serif',
-                fontWeight: 700,
-                fontSize: '36px',
-                lineHeight: '40px',
-                letterSpacing: '0%',
+                ...typography.section.headingLg,
+                color: "#FFFFFF",
+                textAlign: "inherit",
               }}
             >
               Start Your Learning Journey Today!
@@ -26,24 +25,19 @@ const CtaBanner: React.FC = () => {
             <p
               className="text-white mb-8"
               style={{
-                fontFamily: 'var(--font-poppins), sans-serif',
-                fontWeight: 400,
-                fontSize: '20px',
-                lineHeight: '28px',
-                letterSpacing: '0%',
+                ...typography.section.descriptionLg,
+                color: "rgba(255,255,255,0.85)",
+                textAlign: "inherit",
               }}
             >
               Join thousands of learners mastering new skills and subjects every day.
             </p>
             <button
-              className="inline-flex bg-white text-[#6B47ED] shadow-md hover:shadow-lg transition-shadow w-full sm:w-[198.265625px] h-[60px] rounded-[12px] items-center justify-center mx-auto md:mx-0"
+              className="inline-flex bg-white text-[#6B47ED] shadow-md hover:shadow-lg transition-shadow w-full sm:w-auto rounded-[12px] items-center justify-center mx-auto md:mx-0 px-8 py-4 font-semibold text-base"
               style={{
-                fontFamily: 'var(--font-poppins), sans-serif',
-                fontWeight: 600,
-                fontSize: '16px',
-                lineHeight: '100%',
-                letterSpacing: '0%',
-                textAlign: 'center',
+                ...typography.button.primary,
+                color: "#6B47ED",
+                textAlign: "center",
               }}
             >
               Join Learnic Now

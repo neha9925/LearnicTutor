@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import StarRating from "@/components/ui/StarRating";
 import ImageWithFallback from "@/components/ui/ImageWithFallback";
 import { cn } from "@/lib/utils";
@@ -55,11 +55,120 @@ const styles = {
 
 const SuccessStories: React.FC = () => {
   const [activeIndex, setActiveIndex] = useState(1); // Center card is active by default
+  const [isDesktop, setIsDesktop] = useState(false);
+  const carouselRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (typeof window === "undefined") {
+      return;
+    }
+
+    const mediaQuery = window.matchMedia("(min-width: 768px)");
+    const updateMatch = (matches: boolean) => setIsDesktop(matches);
+
+    updateMatch(mediaQuery.matches);
+    const listener = (event: MediaQueryListEvent) => updateMatch(event.matches);
+    mediaQuery.addEventListener("change", listener);
+
+    return () => mediaQuery.removeEventListener("change", listener);
+  }, []);
+
+  const scrollToActive = useCallback(
+    (behavior: ScrollBehavior = "smooth") => {
+      const container = carouselRef.current;
+      if (!container) return;
+
+      const activeCard = container.querySelector<HTMLDivElement>(
+        `[data-original-index="${activeIndex}"]`
+      );
+
+      if (!activeCard) return;
+
+      activeCard.scrollIntoView({
+        behavior,
+        inline: "center",
+        block: "nearest",
+      });
+    },
+    [activeIndex]
+  );
+
+  useEffect(() => {
+    if (isDesktop) return;
+    scrollToActive("auto");
+  }, [isDesktop, scrollToActive]);
+
+  useEffect(() => {
+    if (isDesktop) return;
+    scrollToActive("smooth");
+  }, [activeIndex, isDesktop, scrollToActive]);
+
+  const handleScroll = useCallback(() => {
+    if (isDesktop || !carouselRef.current) return;
+
+    const container = carouselRef.current;
+    const containerRect = container.getBoundingClientRect();
+    const containerCenter = containerRect.left + containerRect.width / 2;
+
+    let closestIndex = activeIndex;
+    let minDistance = Number.POSITIVE_INFINITY;
+
+    container
+      .querySelectorAll<HTMLDivElement>("[data-original-index]")
+      .forEach((card) => {
+        const rect = card.getBoundingClientRect();
+        const cardCenter = rect.left + rect.width / 2;
+        const distance = Math.abs(cardCenter - containerCenter);
+
+        if (distance < minDistance) {
+          minDistance = distance;
+          const value = card.getAttribute("data-original-index");
+          if (value !== null) {
+            closestIndex = Number(value);
+          }
+        }
+      });
+
+    if (closestIndex !== activeIndex) {
+      setActiveIndex(closestIndex);
+    }
+  }, [activeIndex, isDesktop]);
+
+  const storiesWithIndex = useMemo(
+    () =>
+      HOME_SUCCESS_STORIES.map((story, index) => ({
+        story,
+        originalIndex: index,
+      })),
+    []
+  );
+
+  const arrangedStories = useMemo(() => {
+    const activeStory = storiesWithIndex.find(
+      (entry) => entry.originalIndex === activeIndex
+    );
+
+    if (!activeStory) {
+      return storiesWithIndex;
+    }
+
+    const others = storiesWithIndex.filter(
+      (entry) => entry.originalIndex !== activeIndex
+    );
+
+    const centerPosition = Math.floor(storiesWithIndex.length / 2);
+    const ordered = [...others];
+    ordered.splice(Math.min(centerPosition, ordered.length), 0, activeStory);
+
+    return ordered;
+  }, [activeIndex, storiesWithIndex]);
+
+  const displayedStories = isDesktop ? arrangedStories : storiesWithIndex;
 
   return (
-    <section className="py-16 md:py-20 bg-white">
+    <section className="pt-0 pb-12 md:pb-16 bg-white">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12">
+        <div className="text-center">
           <h2
             className="text-gray-900 mb-4"
             style={styles.sectionHeading}
@@ -75,21 +184,25 @@ const SuccessStories: React.FC = () => {
         </div>
 
         
-        <div className="flex flex-col md:flex-row md:justify-center md:items-center gap-6 md:gap-10 lg:gap-12 mb-8 pb-4 md:min-h-[500px]">
-          {HOME_SUCCESS_STORIES.map((story, index) => {
-            const isActive = index === activeIndex;
+        <div
+          ref={carouselRef}
+          className="flex gap-4 overflow-x-auto md:overflow-visible md:justify-center md:items-center md:gap-8 lg:gap-10 pb-4 md:min-h-[520px] snap-x snap-mandatory -mx-4 px-4 md:mx-0 md:px-0 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+          onScroll={handleScroll}
+        >
+          {displayedStories.map(({ story, originalIndex }) => {
+            const isActive = originalIndex === activeIndex;
             
             return (
               <div
                 key={story.id}
+                data-original-index={originalIndex}
                 className={cn(
-                  "flex-shrink-0 transition-all duration-300 cursor-pointer w-full max-w-[390px]",
-                  "md:w-[390px]",
+                  "flex-shrink-0 transition-all duration-300 cursor-pointer w-full max-w-[390px] min-w-[85vw] sm:min-w-[340px] snap-center md:min-w-0",
                   isActive
-                    ? "md:scale-110 md:z-10"
+                    ? "md:scale-[1.15] md:z-10"
                     : "md:scale-100 md:z-0 md:blur-[1px]"
                 )}
-                onClick={() => setActiveIndex(index)}
+                onClick={() => setActiveIndex(originalIndex)}
               >
                 <div
                   className={cn(
@@ -100,7 +213,7 @@ const SuccessStories: React.FC = () => {
                 >
                   
                   <div className="flex items-center justify-center gap-1 mb-6">
-                    <StarRating rating={story.rating} size="sm" />
+                    <StarRating rating={story.rating} size="md" />
                   </div>
 
                   
@@ -151,7 +264,7 @@ const SuccessStories: React.FC = () => {
         </div>
 
         
-        <div className="flex justify-center gap-2">
+        <div className="flex justify-center gap-1">
           {HOME_SUCCESS_STORIES.map((_, index) => (
             <button
               key={index}

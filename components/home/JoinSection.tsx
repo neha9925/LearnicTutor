@@ -16,12 +16,11 @@ const styles = {
     ...typography.section.headingLg,
     color: "#572EEE",
     lineHeight: "120%",
-    textAlign: "left" as const,
   },
   description: {
     ...typography.section.descriptionLg,
     color: colors.text.secondary,
-    textAlign: "left" as const,
+    textAlign: "inherit" as const,
   },
   card: {
     borderRadius: "24px",
@@ -29,8 +28,6 @@ const styles = {
     borderStyle: "solid",
     borderColor: "rgba(0, 0, 0, 0.1)",
     boxShadow: "0px 4px 11.9px 0px rgba(209, 209, 209, 0.25)",
-    width: "363px",
-    height: "491px",
     opacity: 1,
   },
   cardTitle: {
@@ -61,13 +58,11 @@ const styles = {
 
 const JoinSection: React.FC = () => {
   return (
-    <section className="py-16 md:py-20 bg-white">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-12 xl:px-20">
+    <section className="py-12 md:py-16 bg-white">
+      <div className="mx-auto w-full px-4 sm:px-6 lg:px-12 xl:px-20 2xl:px-24">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           
-          <div
-            className="flex flex-col gap-3 text-center lg:text-left mx-auto lg:mx-0 w-full max-w-[502px]"
-          >
+          <div className="flex flex-col gap-3 text-center lg:text-left mx-auto lg:mx-0 w-full max-w-2xl">
             <h2
               className="text-gray-900"
               style={styles.heading}
@@ -84,14 +79,9 @@ const JoinSection: React.FC = () => {
           </div>
 
           
-          <div
-            className="flex flex-col sm:flex-row gap-6 lg:gap-10 items-center justify-center lg:justify-end"
-          >
+          <div className="flex flex-col lg:flex-row gap-6 lg:gap-8 items-stretch justify-center lg:justify-end w-full">
             
-            <div
-              className="bg-white p-6 relative overflow-hidden flex flex-col"
-              style={styles.card}
-            >
+            <div className="bg-white p-6 sm:p-8 relative overflow-hidden flex flex-col w-full max-w-md mx-auto lg:mx-0 rounded-3xl" style={styles.card}>
               
               <div
                 className="absolute top-0 right-0 w-20 h-20"
@@ -152,10 +142,7 @@ const JoinSection: React.FC = () => {
             </div>
 
             
-            <div
-              className="bg-white p-6 relative overflow-hidden flex flex-col"
-              style={styles.card}
-            >
+            <div className="bg-white p-6 sm:p-8 relative overflow-hidden flex flex-col w-full max-w-md mx-auto lg:mx-0 rounded-3xl" style={styles.card}>
               
               <div
                 className="absolute top-0 right-0 w-20 h-20"

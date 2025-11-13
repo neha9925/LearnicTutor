@@ -1,18 +1,22 @@
 "use client";
 
-import React, { useState, useCallback, useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import Link from "next/link";
 import Button from "@/components/ui/Button";
 import CourseCard from "@/components/home/CourseCard";
 import { liveClassCards } from "@/data/liveClassesList";
-import {
-  FormControl,
-  MenuItem,
-  Select,
-  SelectChangeEvent,
-} from "@mui/material";
 import { Filter as FilterIcon } from "lucide-react";
-import { colors, gradients, radii, shadows, spacing, typography, baseSelectStyles } from "@/theme";
+import Select, {
+  type CSSObjectWithLabel,
+  type ControlProps,
+  type DropdownIndicatorProps,
+  type GroupBase,
+  type OptionProps,
+  type SingleValue,
+  type StylesConfig,
+  type ValueContainerProps,
+} from "react-select";
+import { colors, gradients, radii, shadows, spacing, typography } from "@/theme";
 
 const styles = {
   sectionHeading: typography.section.headingLg,
@@ -23,61 +27,126 @@ const styles = {
   filterLabel: {
     ...typography.labels.md,
     color: colors.text.tertiary,
-    textAlign: "left" as const,
-  },
-  gridWrapper: {
-    maxWidth: spacing.containerMax,
-    margin: "0 auto",
-    paddingLeft: "1rem",
-    paddingRight: "1rem",
-  },
-  exploreButton: {
-    ...typography.button.primary,
-    width: "198.265625px",
-    height: "60px",
-    borderRadius: radii.lg,
   },
 } as const;
 
-const selectStyles = {
-  ...baseSelectStyles,
-  "& .MuiOutlinedInput-notchedOutline": {
-    borderColor: colors.border.light,
-  },
-} as const;
+type Option = {
+  label: string;
+  value: string;
+};
+
+const classOptions: Option[] = [
+  { label: "Class 10", value: "Class 10" },
+  { label: "Class 11", value: "Class 11" },
+  { label: "Class 12", value: "Class 12" },
+];
+
+const stateOptions: Option[] = [
+  { label: "All States", value: "All States" },
+  { label: "Delhi", value: "Delhi" },
+  { label: "Maharashtra", value: "Maharashtra" },
+];
+
+const boardOptions: Option[] = [
+  { label: "All Boards", value: "All Boards" },
+  { label: "CBSE", value: "CBSE" },
+  { label: "ICSE", value: "ICSE" },
+];
+
+const subjectOptions: Option[] = [
+  { label: "All Subjects", value: "All Subjects" },
+  { label: "Maths", value: "Maths" },
+  { label: "Science", value: "Science" },
+];
+
+const selectStyles: StylesConfig<Option, false, GroupBase<Option>> = {
+  control: (
+    base: CSSObjectWithLabel,
+    state: ControlProps<Option, false, GroupBase<Option>>
+  ) => ({
+    ...base,
+    borderRadius: radii.md,
+    borderColor: state.isFocused ? colors.brand.primarySoft : colors.border.light,
+    boxShadow: state.isFocused ? `0 0 0 1px ${colors.brand.primarySoft}` : "none",
+    paddingLeft: 4,
+    paddingRight: 4,
+    minHeight: "42px",
+    fontFamily: "var(--font-poppins), sans-serif",
+    fontWeight: 500,
+    fontSize: "14px",
+    color: colors.text.secondary,
+    "&:hover": {
+      borderColor: colors.brand.primarySoft,
+    },
+  }),
+  valueContainer: (
+    base: CSSObjectWithLabel,
+    _props: ValueContainerProps<Option, false, GroupBase<Option>>
+  ) => ({
+    ...base,
+    paddingLeft: 0,
+  }),
+  placeholder: (base: CSSObjectWithLabel) => ({
+    ...base,
+    color: colors.text.tertiary,
+  }),
+  singleValue: (base: CSSObjectWithLabel) => ({
+    ...base,
+    color: colors.text.secondary,
+  }),
+  indicatorSeparator: () => ({
+    display: "none",
+  }),
+  dropdownIndicator: (
+    base: CSSObjectWithLabel,
+    state: DropdownIndicatorProps<Option, false, GroupBase<Option>>
+  ) => ({
+    ...base,
+    color: colors.brand.primarySoft,
+    transform: state.selectProps.menuIsOpen ? "rotate(180deg)" : "rotate(0deg)",
+    transition: "transform 0.2s ease",
+  }),
+  menu: (base: CSSObjectWithLabel) => ({
+    ...base,
+    borderRadius: radii.md,
+    boxShadow: shadows.cardSoft,
+    overflow: "hidden",
+    zIndex: 30,
+  }),
+  option: (
+    base: CSSObjectWithLabel,
+    state: OptionProps<Option, false, GroupBase<Option>>
+  ) => ({
+    ...base,
+    fontFamily: "var(--font-poppins), sans-serif",
+    fontSize: "14px",
+    fontWeight: 500,
+    color: state.isSelected ? "#fff" : colors.text.secondary,
+    backgroundColor: state.isSelected
+      ? colors.brand.primarySoft
+      : state.isFocused
+      ? `${colors.brand.primarySoft}1A`
+      : "#fff",
+    cursor: "pointer",
+  }),
+};
 
 const CourseSection: React.FC = () => {
-  const [classValue, setClassValue] = useState("Class 10");
-  const [stateValue, setStateValue] = useState("State");
-  const [boardValue, setBoardValue] = useState("All Boards");
-  const [subjectValue, setSubjectValue] = useState("All Subjects");
+  const [classValue, setClassValue] = useState<Option>(classOptions[0]);
+  const [stateValue, setStateValue] = useState<Option>(stateOptions[0]);
+  const [boardValue, setBoardValue] = useState<Option>(boardOptions[0]);
+  const [subjectValue, setSubjectValue] = useState<Option>(subjectOptions[0]);
 
   const courses = useMemo(() => liveClassCards.slice(0, 6), []);
 
-  const handleClassChange = useCallback((e: SelectChangeEvent) => {
-    setClassValue(e.target.value);
-  }, []);
-
-  const handleStateChange = useCallback((e: SelectChangeEvent) => {
-    setStateValue(e.target.value);
-  }, []);
-
-  const handleBoardChange = useCallback((e: SelectChangeEvent) => {
-    setBoardValue(e.target.value);
-  }, []);
-
-  const handleSubjectChange = useCallback((e: SelectChangeEvent) => {
-    setSubjectValue(e.target.value);
-  }, []);
-
   return (
     <section
-      className="py-16 md:py-20"
+      className="py-12 md:py-16"
       style={{
         background: gradients.courseSectionBackground,
       }}
     >
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto w-full px-4 sm:px-6 lg:px-8 2xl:px-12">
         <div className="text-center mb-12">
           <h2 
             className="text-gray-900 mb-4"
@@ -94,69 +163,63 @@ const CourseSection: React.FC = () => {
         </div>
 
         <div className="flex justify-center mb-10 px-0 sm:px-4">
-          <div className="w-full max-w-[720px] flex flex-wrap items-center justify-center gap-3 bg-white rounded-2xl px-5 py-4 text-center" style={styles.filterPanel}>
-            <div className="flex items-center gap-2 text-gray-500 font-medium justify-center" style={styles.filterLabel}>
+          <div
+            className="w-full max-w-4xl grid grid-cols-1 min-[420px]:grid-cols-2 gap-3 justify-items-stretch items-stretch sm:flex sm:flex-wrap sm:items-center justify-center bg-white rounded-2xl px-4 sm:px-6 py-5 text-center sm:text-left"
+            style={styles.filterPanel}
+          >
+            <div className="flex items-center gap-2 text-gray-500 font-medium justify-center sm:justify-start col-span-full" style={styles.filterLabel}>
               <FilterIcon className="w-4 h-4" />
               Filter by:
             </div>
-            <FormControl size="small" sx={{ minWidth: 120, display: "flex", justifyContent: "center" }}>
+            <div className="w-full sm:flex-1 md:w-auto md:min-w-[140px]">
               <Select
+                options={classOptions}
                 value={classValue}
-                onChange={handleClassChange}
-                displayEmpty
-                inputProps={{ "aria-label": "Class filter" }}
-                sx={selectStyles}
-              >
-                <MenuItem value="Class 10">Class 10</MenuItem>
-                <MenuItem value="Class 11">Class 11</MenuItem>
-                <MenuItem value="Class 12">Class 12</MenuItem>
-              </Select>
-            </FormControl>
-            <FormControl size="small" sx={{ minWidth: 120 }}>
+                onChange={(option: SingleValue<Option>) => option && setClassValue(option)}
+                isSearchable={false}
+                styles={selectStyles}
+                placeholder="Select class"
+                aria-label="Class filter"
+              />
+            </div>
+            <div className="w-full sm:flex-1 md:w-auto md:min-w-[140px]">
               <Select
+                options={stateOptions}
                 value={stateValue}
-                onChange={handleStateChange}
-                displayEmpty
-                inputProps={{ "aria-label": "State filter" }}
-                sx={selectStyles}
-              >
-                <MenuItem value="State">State</MenuItem>
-                <MenuItem value="Delhi">Delhi</MenuItem>
-                <MenuItem value="Maharashtra">Maharashtra</MenuItem>
-              </Select>
-            </FormControl>
-            <FormControl size="small" sx={{ minWidth: 140 }}>
+                onChange={(option: SingleValue<Option>) => option && setStateValue(option)}
+                isSearchable={false}
+                styles={selectStyles}
+                placeholder="Select state"
+                aria-label="State filter"
+              />
+            </div>
+            <div className="w-full sm:flex-1 md:w-auto md:min-w-[160px]">
               <Select
+                options={boardOptions}
                 value={boardValue}
-                onChange={handleBoardChange}
-                displayEmpty
-                inputProps={{ "aria-label": "Board filter" }}
-                sx={selectStyles}
-              >
-                <MenuItem value="All Boards">All Boards</MenuItem>
-                <MenuItem value="CBSE">CBSE</MenuItem>
-                <MenuItem value="ICSE">ICSE</MenuItem>
-              </Select>
-            </FormControl>
-            <FormControl size="small" sx={{ minWidth: 160 }}>
+                onChange={(option: SingleValue<Option>) => option && setBoardValue(option)}
+                isSearchable={false}
+                styles={selectStyles}
+                placeholder="Select board"
+                aria-label="Board filter"
+              />
+            </div>
+            <div className="w-full sm:flex-1 md:w-auto md:min-w-[180px]">
               <Select
+                options={subjectOptions}
                 value={subjectValue}
-                onChange={handleSubjectChange}
-                displayEmpty
-                inputProps={{ "aria-label": "Subject filter" }}
-                sx={selectStyles}
-              >
-                <MenuItem value="All Subjects">All Subjects</MenuItem>
-                <MenuItem value="Maths">Maths</MenuItem>
-                <MenuItem value="Science">Science</MenuItem>
-              </Select>
-            </FormControl>
+                onChange={(option: SingleValue<Option>) => option && setSubjectValue(option)}
+                isSearchable={false}
+                styles={selectStyles}
+                placeholder="Select subject"
+                aria-label="Subject filter"
+              />
+            </div>
           </div>
         </div>
 
         <div
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8 justify-items-center px-0 sm:px-4"
-          style={{ ...styles.gridWrapper, paddingLeft: "0", paddingRight: "0" }}
+          className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 mb-8 w-full max-w-[1400px] mx-auto items-stretch"
         >
           {courses.map((course) => (
             <CourseCard
@@ -173,8 +236,15 @@ const CourseSection: React.FC = () => {
             <Button
               variant="primary"
               size="lg"
-              className="text-white bg-[#572EEE] hover:bg-[#3311B2] transition-colors"
-              style={styles.exploreButton}
+              className="text-white bg-[#572EEE] hover:bg-[#3311B2] transition-colors w-full sm:w-auto px-8 py-5 rounded-xl font-semibold"
+              style={{
+                fontFamily: "var(--font-poppins), sans-serif",
+                fontWeight: 600,
+                fontSize: "16px",
+                lineHeight: "100%",
+                letterSpacing: "0%",
+                textAlign: "center" as const,
+              }}
             >
               Explore More
             </Button>

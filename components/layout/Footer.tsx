@@ -48,7 +48,7 @@ const styles = {
 const Footer: React.FC = React.memo(() => {
   return (
     <footer style={styles.footer}>
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div className="mx-auto w-full px-4 sm:px-6 lg:px-8 2xl:px-12 py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
           <div className="flex flex-col items-center md:items-start text-center md:text-left">
             <div className="mb-4">
@@ -172,7 +172,7 @@ const Footer: React.FC = React.memo(() => {
         className="border-t border-b"
         style={styles.borderHighlight}
       >
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="mx-auto w-full px-4 sm:px-6 lg:px-8 2xl:px-12 py-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {FOOTER_HIGHLIGHT_STATS.map((stat) => (
               <div key={stat.label} className="text-center">
@@ -197,7 +197,7 @@ const Footer: React.FC = React.memo(() => {
         className="border-t"
         style={styles.footerBottom}
       >
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <div className="mx-auto w-full px-4 sm:px-6 lg:px-8 2xl:px-12 py-6">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <div
               style={styles.legalText}
