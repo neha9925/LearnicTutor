@@ -101,8 +101,15 @@ const TopTutors: React.FC = () => {
   }, [activeIndex, isDesktop, scrollToActive]);
 
   useEffect(() => {
-    // Autoplay disabled per request
-    return undefined;
+    if (typeof window === "undefined") {
+      return;
+    }
+
+    const interval = window.setInterval(() => {
+      setActiveIndex((prev) => (prev + 1) % HOME_TOP_TUTORS.length);
+    }, 6000);
+
+    return () => window.clearInterval(interval);
   }, []);
 
   const handleScroll = useCallback(() => {

@@ -108,6 +108,18 @@ const SuccessStories: React.FC = () => {
     scrollToActive("smooth");
   }, [activeIndex, isDesktop, scrollToActive]);
 
+  useEffect(() => {
+    if (typeof window === "undefined") {
+      return;
+    }
+
+    const interval = window.setInterval(() => {
+      setActiveIndex((prev) => (prev + 1) % HOME_SUCCESS_STORIES.length);
+    }, 6000);
+
+    return () => window.clearInterval(interval);
+  }, []);
+
   const handleScroll = useCallback(() => {
     if (isDesktop || !carouselRef.current) return;
 
