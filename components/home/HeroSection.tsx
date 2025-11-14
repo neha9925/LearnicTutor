@@ -124,7 +124,7 @@ const HeroSection: React.FC = () => {
                 <Button
                   type="button"
                   size="lg"
-                  className="w-full sm:w-auto flex items-center justify-center gap-2 rounded-xl text-white shadow-lg bg-[#572EEE] hover:bg-[#3311B2] transition-colors px-8 py-5"
+                  className="w-full sm:w-auto sm:min-w-[230px] min-h-[64px] flex items-center justify-center gap-2 rounded-xl text-white shadow-lg bg-[#572EEE] hover:bg-[#3311B2] transition-colors px-8 py-5"
                   style={{
                     ...typography.button.primary,
                   }}
@@ -137,7 +137,7 @@ const HeroSection: React.FC = () => {
                   type="button"
                   variant="outline"
                   size="lg"
-                  className="w-full sm:w-auto flex items-center justify-center gap-2 rounded-xl border-2 border-[#F48C06] text-[#F48C06] hover:bg-[#FDA647] hover:text-white hover:border-[#FDA647] transition-colors px-8 py-5"
+                  className="w-full sm:w-auto sm:min-w-[230px] min-h-[64px] flex items-center justify-center gap-2 rounded-xl border-2 border-[#F48C06] text-[#F48C06] hover:bg-[#FDA647] hover:text-white hover:border-[#FDA647] transition-colors px-8 py-5"
                   style={{
                     ...typography.button.primary,
                     textAlign: "center",

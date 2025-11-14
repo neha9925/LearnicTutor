@@ -3,16 +3,20 @@
 import React, {
   useCallback,
   useEffect,
+  useLayoutEffect,
   useMemo,
   useRef,
   useState,
 } from "react";
 import StarRating from "@/components/ui/StarRating";
 import ImageWithFallback from "@/components/ui/ImageWithFallback";
-import { GraduationCap, Users, Clock } from "lucide-react";
+import { GraduationCap, Users, Clock, ChevronLeft, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { HOME_TOP_TUTORS } from "@/data/home";
 import { colors, shadows, typography } from "@/theme";
+
+const useIsomorphicLayoutEffect =
+  typeof window !== "undefined" ? useLayoutEffect : useEffect;
 
 const styles = {
   sectionHeading: typography.section.headingLg,
@@ -26,8 +30,7 @@ const styles = {
     } as const),
   tutorName: typography.card.titleMd,
   badge: {
-    backgroundColor: "rgba(79, 70, 229, 0.9)",
-    color: colors.text.light,
+    color: colors.neutral.white,
   } as const,
   subjectChip: {
     ...typography.labels.md,
@@ -40,17 +43,17 @@ const styles = {
   primaryButton: {
     ...typography.button.secondary,
   } as const,
-  statHighlight: {
-    color: colors.utility.infoMuted,
-  } as const,
 } as const;
 
 const TopTutors: React.FC = () => {
   const [activeIndex, setActiveIndex] = useState(1); // Center card is active by default
   const [isDesktop, setIsDesktop] = useState(false);
+  const [hasHydrated, setHasHydrated] = useState(false);
+  const [isCarouselHovered, setIsCarouselHovered] = useState(false);
   const carouselRef = useRef<HTMLDivElement | null>(null);
+  const scrollRafRef = useRef<number | null>(null);
 
-  useEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     if (typeof window === "undefined") {
       return;
     }
@@ -63,6 +66,10 @@ const TopTutors: React.FC = () => {
     mediaQuery.addEventListener("change", listener);
 
     return () => mediaQuery.removeEventListener("change", listener);
+  }, []);
+
+  useIsomorphicLayoutEffect(() => {
+    setHasHydrated(true);
   }, []);
 
   const scrollToActive = useCallback(
@@ -90,58 +97,70 @@ const TopTutors: React.FC = () => {
     [activeIndex]
   );
 
-  useEffect(() => {
-    if (isDesktop) return;
-    scrollToActive("auto");
-  }, [isDesktop, scrollToActive]);
-
-  useEffect(() => {
-    if (isDesktop) return;
-    scrollToActive("smooth");
-  }, [activeIndex, isDesktop, scrollToActive]);
-
-  useEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     if (typeof window === "undefined") {
       return;
     }
 
-    const interval = window.setInterval(() => {
-      setActiveIndex((prev) => (prev + 1) % HOME_TOP_TUTORS.length);
-    }, 6000);
+    const handleScrollToActive = () => {
+      const isLargeScreen = window.matchMedia("(min-width: 768px)").matches;
+      scrollToActive(isLargeScreen ? "auto" : "smooth");
+    };
 
-    return () => window.clearInterval(interval);
-  }, []);
+    handleScrollToActive();
+
+    window.addEventListener("resize", handleScrollToActive);
+    return () => window.removeEventListener("resize", handleScrollToActive);
+  }, [scrollToActive]);
 
   const handleScroll = useCallback(() => {
     if (isDesktop || !carouselRef.current) return;
 
-    const container = carouselRef.current;
-    const containerRect = container.getBoundingClientRect();
-    const containerCenter = containerRect.left + containerRect.width / 2;
-
-    let closestIndex = activeIndex;
-    let minDistance = Number.POSITIVE_INFINITY;
-
-    container
-      .querySelectorAll<HTMLDivElement>("[data-original-index]")
-      .forEach((card) => {
-        const rect = card.getBoundingClientRect();
-        const cardCenter = rect.left + rect.width / 2;
-        const distance = Math.abs(cardCenter - containerCenter);
-
-        if (distance < minDistance) {
-          minDistance = distance;
-          const value = card.getAttribute("data-original-index");
-          if (value !== null) {
-            closestIndex = Number(value);
-          }
-        }
-      });
-
-    if (closestIndex !== activeIndex) {
-      setActiveIndex(closestIndex);
+    if (scrollRafRef.current) {
+      cancelAnimationFrame(scrollRafRef.current);
     }
+
+    scrollRafRef.current = window.requestAnimationFrame(() => {
+      const container = carouselRef.current;
+      if (!container) {
+        return;
+      }
+
+      const containerRect = container.getBoundingClientRect();
+      const containerCenter = containerRect.left + containerRect.width / 2;
+
+      let closestIndex = activeIndex;
+      let minDistance = Number.POSITIVE_INFINITY;
+
+      container
+        .querySelectorAll<HTMLDivElement>("[data-original-index]")
+        .forEach((card) => {
+          const rect = card.getBoundingClientRect();
+          const cardCenter = rect.left + rect.width / 2;
+          const distance = Math.abs(cardCenter - containerCenter);
+
+          if (distance < minDistance) {
+            minDistance = distance;
+            const value = card.getAttribute("data-original-index");
+            if (value !== null) {
+              closestIndex = Number(value);
+            }
+          }
+        });
+
+      if (closestIndex !== activeIndex) {
+        setActiveIndex(closestIndex);
+      }
+    });
   }, [activeIndex, isDesktop]);
+
+  useEffect(() => {
+    return () => {
+      if (scrollRafRef.current) {
+        cancelAnimationFrame(scrollRafRef.current);
+      }
+    };
+  }, []);
 
   const tutorsWithIndex = useMemo(
     () =>
@@ -152,27 +171,43 @@ const TopTutors: React.FC = () => {
     []
   );
 
-  const arrangedTutors = useMemo(() => {
-    const activeTutor = tutorsWithIndex.find(
-      (entry) => entry.originalIndex === activeIndex
-    );
+  const totalTutors = tutorsWithIndex.length;
+  const prevIndex = (activeIndex - 1 + totalTutors) % totalTutors;
+  const nextIndex = (activeIndex + 1) % totalTutors;
 
-    if (!activeTutor) {
+  const useDesktopLayout = hasHydrated && isDesktop && totalTutors > 2;
+  const shouldHideDesktopCarousel = isDesktop && !hasHydrated;
+
+  const displayedTutors = useMemo(() => {
+    if (!useDesktopLayout) {
       return tutorsWithIndex;
     }
 
-    const others = tutorsWithIndex.filter(
-      (entry) => entry.originalIndex !== activeIndex
+    return [
+      tutorsWithIndex[prevIndex],
+      tutorsWithIndex[activeIndex],
+      tutorsWithIndex[nextIndex],
+    ];
+  }, [useDesktopLayout, tutorsWithIndex, prevIndex, activeIndex, nextIndex]);
+
+  if (!hasHydrated) {
+    return (
+      <section className="pt-0 pb-12 md:pb-16 bg-white">
+        <div className="mx-auto w-full px-4 sm:px-6 lg:px-8 2xl:px-12">
+          <div className="flex justify-center">
+            <div className="w-full max-w-5xl h-[520px] rounded-[40px] border border-gray-200 bg-white shadow-[0_20px_60px_rgba(79,70,229,0.08)] flex items-center justify-center">
+              <div className="flex flex-col items-center gap-4 text-center">
+                <div className="h-12 w-12 border-4 border-[#D1D5DB] border-t-[#572EEE] rounded-full animate-spin" />
+                <p className="text-gray-600 font-medium">
+                  Loading...
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
     );
-
-    const centerPosition = Math.floor(tutorsWithIndex.length / 2);
-    const ordered = [...others];
-    ordered.splice(Math.min(centerPosition, ordered.length), 0, activeTutor);
-
-    return ordered;
-  }, [activeIndex, tutorsWithIndex]);
-
-  const displayedTutors = isDesktop ? arrangedTutors : tutorsWithIndex;
+  }
 
   return (
     <section className="pt-0 pb-12 md:pb-16 bg-white">
@@ -191,119 +226,189 @@ const TopTutors: React.FC = () => {
         </div>
 
         <div
-          ref={carouselRef}
-          className="flex gap-4 overflow-x-auto md:overflow-visible md:justify-center md:items-stretch md:gap-8 mb-12 pb-4 w-full snap-x snap-mandatory px-4 md:px-0 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
-          onScroll={handleScroll}
+          className={cn(
+            "relative md:flex md:justify-center transition-opacity duration-300",
+            shouldHideDesktopCarousel ? "md:opacity-0 md:pointer-events-none" : "md:opacity-100"
+          )}
+          onMouseEnter={() => isDesktop && setIsCarouselHovered(true)}
+          onMouseLeave={() => isDesktop && setIsCarouselHovered(false)}
         >
-          {displayedTutors.map(({ tutor, originalIndex }) => {
-            const isActive = originalIndex === activeIndex;
+          <button
+            type="button"
+            aria-label="View previous tutor"
+            onClick={() =>
+              setActiveIndex(
+                (prev) => (prev - 1 + HOME_TOP_TUTORS.length) % HOME_TOP_TUTORS.length
+              )
+            }
+            className={cn(
+              "hidden md:flex absolute left-10 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white shadow-lg border border-gray-100 items-center justify-center text-gray-600 hover:text-gray-900 transition-all duration-300 z-20",
+              isCarouselHovered ? "md:opacity-100 md:pointer-events-auto" : "md:opacity-0 md:pointer-events-none"
+            )}
+          >
+            <ChevronLeft className="w-5 h-5" />
+          </button>
 
-            return (
-              <div
-                key={tutor.id}
-                data-original-index={originalIndex}
-                className={cn(
-                  "flex-shrink-0 transition-all duration-300 cursor-pointer w-full max-w-none min-w-[calc(100vw-3rem)] mx-auto sm:mx-0 sm:w-auto sm:min-w-[360px] sm:max-w-md snap-center md:min-w-0",
-                  "md:w-auto md:origin-center",
-                  isActive ? "md:z-10 md:scale-110" : "md:z-0 md:scale-100"
-                )}
-                onClick={() => setActiveIndex(originalIndex)}
-              >
+          <div className="relative w-full md:px-24 overflow-visible">
+            <div
+              ref={carouselRef}
+              className="flex gap-4 overflow-x-auto md:overflow-visible md:justify-center md:items-stretch md:gap-8 mb-12 pb-4 w-full scroll-smooth px-4 md:px-6 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden md:snap-x md:snap-mandatory"
+              onScroll={handleScroll}
+            >
+              {displayedTutors.map(({ tutor, originalIndex }, sliderIndex) => {
+                const isActive = originalIndex === activeIndex;
+                const offset = useDesktopLayout ? sliderIndex - 1 : 0;
+              const distance = Math.abs(offset);
+              const desktopScale = useDesktopLayout
+                ? offset === 0
+                  ? 1.08
+                  : 0.92
+                : 1;
+              const desktopTranslateY = useDesktopLayout
+                ? offset === 0
+                  ? 20
+                  : 30
+                : 0;
+              const desktopOpacity = useDesktopLayout ? 1 : 1;
+              const desktopZ =
+                useDesktopLayout && offset === 0 ? 20 : useDesktopLayout && distance === 1 ? 10 : 0;
+
+              return (
                 <div
-                  className="bg-white relative overflow-hidden flex flex-col h-full"
-                  style={styles.card(isActive)}
+                  key={tutor.id}
+                  data-original-index={originalIndex}
+                  className={cn(
+                    "flex-shrink-0 transition-all duration-300 cursor-pointer w-full max-w-none min-w-[calc(100vw-3rem)] mx-auto sm:mx-0 sm:w-auto sm:min-w-[360px] sm:max-w-md md:snap-center md:min-w-[320px]",
+                    "md:w-auto md:origin-center"
+                  )}
+                  style={
+                    useDesktopLayout
+                      ? {
+                          transform: `translateY(${desktopTranslateY}px) scale(${desktopScale})`,
+                          opacity: desktopOpacity,
+                          zIndex: desktopZ,
+                          transition: "transform 0.45s ease, opacity 0.45s ease",
+                        }
+                      : undefined
+                  }
+                  onClick={() => setActiveIndex(originalIndex)}
                 >
-                  <div className="relative w-full h-64 overflow-hidden flex-shrink-0">
-                    <ImageWithFallback
-                      src={tutor.image || `/images/tutors/${tutor.id}.jpg`}
-                      alt={tutor.name}
-                      width={349}
-                      height={256}
-                      className="w-full h-full object-cover"
-                      fallback={
-                        <div className="w-full h-full bg-gradient-to-br from-primary-400 to-secondary-400 flex items-center justify-center">
-                          <span className="text-white text-4xl font-bold">
-                            {tutor.name.charAt(0)}
-                          </span>
-                        </div>
-                      }
-                    />
+                  <div
+                    className={cn(
+                      "bg-white relative overflow-hidden flex flex-col h-full transition-all duration-300",
+                      useDesktopLayout
+                        ? "md:rounded-[36px] md:shadow-[0_20px_60px_rgba(79,70,229,0.08)]"
+                        : ""
+                    )}
+                    style={styles.card(isActive)}
+                  >
+                    <div className="relative w-full h-64 overflow-hidden flex-shrink-0 rounded-t-[28px]">
+                      <ImageWithFallback
+                        src={tutor.image || `/images/tutors/${tutor.id}.jpg`}
+                        alt={tutor.name}
+                        width={349}
+                        height={256}
+                        className="absolute inset-0 w-[103%] h-full object-cover transition-all duration-300"
+                        fallback={
+                          <div className="w-full h-full bg-gradient-to-br from-primary-400 to-secondary-400 flex items-center justify-center">
+                            <span className="text-white text-4xl font-bold">
+                              {tutor.name.charAt(0)}
+                            </span>
+                          </div>
+                        }
+                      />
+
+                      <span
+                        className="absolute top-4 right-4 text-sm font-semibold drop-shadow-lg"
+                        style={styles.badge}
+                      >
+                        {tutor.badge}
+                      </span>
+                    </div>
 
                     <div
-                      className="absolute top-3 right-3 px-3 py-1 rounded-full text-white text-xs font-semibold"
-                      style={styles.badge}
+                      className="p-6 flex flex-col flex-1"
+                      style={{ backgroundColor: colors.neutral.white }}
                     >
-                      {tutor.badge}
-                    </div>
-                  </div>
+                      <div className="flex items-center justify-between gap-4 mb-2">
+                        <h3
+                          className="font-bold"
+                          style={{
+                            ...styles.tutorName,
+                            color: colors.text.primary,
+                          }}
+                        >
+                          {tutor.name}
+                        </h3>
+                        <StarRating rating={tutor.rating} size="md" />
+                      </div>
 
-                  <div
-                    className="p-6 flex flex-col flex-1"
-                    style={{ backgroundColor: colors.neutral.white }}
-                  >
-                    <div className="flex items-center justify-between gap-4 mb-2">
-                      <h3
-                        className="font-bold"
+                      <div
+                        className="inline-flex items-center px-4 py-2 rounded-full mb-4"
                         style={{
-                          ...styles.tutorName,
+                          backgroundColor:
+                            tutor.subject === "Mathematics"
+                              ? "#DBEAFE"
+                              : tutor.subject === "Computer Science"
+                              ? "#DCFCE7"
+                              : tutor.subject === "Physics"
+                              ? "#F3E8FF"
+                              : tutor.subjectColor,
                           color: colors.text.primary,
+                          ...styles.subjectChip,
+                          maxWidth: "180px",
                         }}
                       >
-                        {tutor.name}
-                      </h3>
-                      <StarRating rating={tutor.rating} size="sm" />
-                    </div>
-
-                    <div
-                      className="inline-flex items-center px-4 py-2 rounded-full mb-4"
-                      style={{
-                        backgroundColor:
-                          tutor.subject === "Mathematics"
-                            ? "#DBEAFE"
-                            : tutor.subject === "Computer Science"
-                            ? "#DCFCE7"
-                            : tutor.subject === "Physics"
-                            ? "#F3E8FF"
-                            : tutor.subjectColor,
-                        color: colors.text.primary,
-                        ...styles.subjectChip,
-                        maxWidth: "180px",
-                      }}
-                    >
-                      {tutor.subject}
-                    </div>
-
-                    <div className="space-y-3 mb-6 flex-1">
-                      <div className="flex flex-col items-center md:flex-row md:items-center gap-2 text-center md:text-left">
-                        <GraduationCap className="w-5 h-5 md:mr-1 text-[#3B82F6]" />
-                        <span style={styles.detailText}>{tutor.degree}</span>
+                        {tutor.subject}
                       </div>
-                      <div className="flex flex-col items-center md:flex-row md:items-center gap-2 text-center md:text-left">
-                        <Users className="w-5 h-5 md:mr-1 text-[#3B82F6]" />
-                        <span style={styles.detailText}>
-                          {tutor.students.toLocaleString()} Students
-                        </span>
-                      </div>
-                      <div className="flex flex-col items-center md:flex-row md:items-center gap-2 text-center md:text-left">
-                        <Clock className="w-5 h-5 md:mr-1 text-[#3B82F6]" />
-                        <span style={styles.detailText}>
-                          {tutor.experience}
-                        </span>
-                      </div>
-                    </div>
 
-                    <button
-                      className="w-full py-4 px-4 rounded-lg font-medium text-white mt-auto bg-[#572EEE] hover:bg-[#3311B2] transition-colors"
-                      style={styles.primaryButton}
-                    >
-                      View Profile
-                    </button>
+                      <div className="space-y-3 mb-6 flex-1">
+                        <div className="flex flex-col items-center md:flex-row md:items-center gap-2 text-center md:text-left">
+                          <GraduationCap className="w-5 h-5 md:mr-1 text-[#3B82F6]" />
+                          <span style={styles.detailText}>{tutor.degree}</span>
+                        </div>
+                        <div className="flex flex-col items-center md:flex-row md:items-center gap-2 text-center md:text-left">
+                          <Users className="w-5 h-5 md:mr-1 text-[#3B82F6]" />
+                          <span style={styles.detailText}>
+                            {tutor.students.toLocaleString()} Students
+                          </span>
+                        </div>
+                        <div className="flex flex-col items-center md:flex-row md:items-center gap-2 text-center md:text-left">
+                          <Clock className="w-5 h-5 md:mr-1 text-[#3B82F6]" />
+                          <span style={styles.detailText}>
+                            {tutor.experience}
+                          </span>
+                        </div>
+                      </div>
+
+                      <button
+                        className="w-full py-4 px-4 rounded-lg font-medium text-white mt-auto bg-[#572EEE] hover:bg-[#3311B2] transition-colors"
+                        style={styles.primaryButton}
+                      >
+                        View Profile
+                      </button>
+                    </div>
                   </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
+
+          <button
+            type="button"
+            aria-label="View next tutor"
+            onClick={() =>
+              setActiveIndex((prev) => (prev + 1) % HOME_TOP_TUTORS.length)
+            }
+            className={cn(
+              "hidden md:flex absolute right-10 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white shadow-lg border border-gray-100 items-center justify-center text-gray-600 hover:text-gray-900 transition-all duration-300 z-20",
+              isCarouselHovered ? "md:opacity-100 md:pointer-events-auto" : "md:opacity-0 md:pointer-events-none"
+            )}
+          >
+            <ChevronRight className="w-5 h-5" />
+          </button>
         </div>
+      </div>
 
         <div className="flex justify-center gap-2 mt-4 md:mt-0">
           {HOME_TOP_TUTORS.map((_, index) => (

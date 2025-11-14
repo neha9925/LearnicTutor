@@ -1,11 +1,18 @@
 "use client";
 
-import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import StarRating from "@/components/ui/StarRating";
 import ImageWithFallback from "@/components/ui/ImageWithFallback";
 import { cn } from "@/lib/utils";
 import { HOME_SUCCESS_STORIES } from "@/data/home";
 import { colors, gradients, shadows, typography } from "@/theme";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const styles = {
   sectionHeading: typography.section.headingLg,
@@ -53,12 +60,18 @@ const styles = {
     }) as const,
 } as const;
 
-const SuccessStories: React.FC = () => {
-  const [activeIndex, setActiveIndex] = useState(1); // Center card is active by default
-  const [isDesktop, setIsDesktop] = useState(false);
-  const carouselRef = useRef<HTMLDivElement | null>(null);
+const useIsomorphicLayoutEffect =
+  typeof window !== "undefined" ? useLayoutEffect : React.useEffect;
 
-  useEffect(() => {
+const SuccessStories: React.FC = () => {
+  const [activeIndex, setActiveIndex] = useState(1);
+  const [isDesktop, setIsDesktop] = useState(false);
+  const [hasHydrated, setHasHydrated] = useState(false);
+  const [isCarouselHovered, setIsCarouselHovered] = useState(false);
+  const carouselRef = useRef<HTMLDivElement | null>(null);
+  const scrollRafRef = useRef<number | null>(null);
+
+  useIsomorphicLayoutEffect(() => {
     if (typeof window === "undefined") {
       return;
     }
@@ -71,6 +84,10 @@ const SuccessStories: React.FC = () => {
     mediaQuery.addEventListener("change", listener);
 
     return () => mediaQuery.removeEventListener("change", listener);
+  }, []);
+
+  useIsomorphicLayoutEffect(() => {
+    setHasHydrated(true);
   }, []);
 
   const scrollToActive = useCallback(
@@ -98,58 +115,68 @@ const SuccessStories: React.FC = () => {
     [activeIndex]
   );
 
-  useEffect(() => {
-    if (isDesktop) return;
-    scrollToActive("auto");
-  }, [isDesktop, scrollToActive]);
-
-  useEffect(() => {
-    if (isDesktop) return;
-    scrollToActive("smooth");
-  }, [activeIndex, isDesktop, scrollToActive]);
-
-  useEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     if (typeof window === "undefined") {
       return;
     }
 
-    const interval = window.setInterval(() => {
-      setActiveIndex((prev) => (prev + 1) % HOME_SUCCESS_STORIES.length);
-    }, 6000);
+    const handleScrollToActive = () => {
+      const isLargeScreen = window.matchMedia("(min-width: 768px)").matches;
+      scrollToActive(isLargeScreen ? "auto" : "smooth");
+    };
 
-    return () => window.clearInterval(interval);
-  }, []);
+    handleScrollToActive();
+
+    window.addEventListener("resize", handleScrollToActive);
+    return () => window.removeEventListener("resize", handleScrollToActive);
+  }, [scrollToActive]);
 
   const handleScroll = useCallback(() => {
     if (isDesktop || !carouselRef.current) return;
 
-    const container = carouselRef.current;
-    const containerRect = container.getBoundingClientRect();
-    const containerCenter = containerRect.left + containerRect.width / 2;
-
-    let closestIndex = activeIndex;
-    let minDistance = Number.POSITIVE_INFINITY;
-
-    container
-      .querySelectorAll<HTMLDivElement>("[data-original-index]")
-      .forEach((card) => {
-        const rect = card.getBoundingClientRect();
-        const cardCenter = rect.left + rect.width / 2;
-        const distance = Math.abs(cardCenter - containerCenter);
-
-        if (distance < minDistance) {
-          minDistance = distance;
-          const value = card.getAttribute("data-original-index");
-          if (value !== null) {
-            closestIndex = Number(value);
-          }
-        }
-      });
-
-    if (closestIndex !== activeIndex) {
-      setActiveIndex(closestIndex);
+    if (scrollRafRef.current) {
+      cancelAnimationFrame(scrollRafRef.current);
     }
+
+    scrollRafRef.current = window.requestAnimationFrame(() => {
+      const container = carouselRef.current;
+      if (!container) return;
+
+      const containerRect = container.getBoundingClientRect();
+      const containerCenter = containerRect.left + containerRect.width / 2;
+
+      let closestIndex = activeIndex;
+      let minDistance = Number.POSITIVE_INFINITY;
+
+      container
+        .querySelectorAll<HTMLDivElement>("[data-original-index]")
+        .forEach((card) => {
+          const rect = card.getBoundingClientRect();
+          const cardCenter = rect.left + rect.width / 2;
+          const distance = Math.abs(cardCenter - containerCenter);
+
+          if (distance < minDistance) {
+            minDistance = distance;
+            const value = card.getAttribute("data-original-index");
+            if (value !== null) {
+              closestIndex = Number(value);
+            }
+          }
+        });
+
+      if (closestIndex !== activeIndex) {
+        setActiveIndex(closestIndex);
+      }
+    });
   }, [activeIndex, isDesktop]);
+
+  React.useEffect(() => {
+    return () => {
+      if (scrollRafRef.current) {
+        cancelAnimationFrame(scrollRafRef.current);
+      }
+    };
+  }, []);
 
   const storiesWithIndex = useMemo(
     () =>
@@ -160,31 +187,44 @@ const SuccessStories: React.FC = () => {
     []
   );
 
-  const arrangedStories = useMemo(() => {
-    const activeStory = storiesWithIndex.find(
-      (entry) => entry.originalIndex === activeIndex
-    );
+  const totalStories = storiesWithIndex.length;
+  const prevIndex = (activeIndex - 1 + totalStories) % totalStories;
+  const nextIndex = (activeIndex + 1) % totalStories;
 
-    if (!activeStory) {
+  const useDesktopLayout = hasHydrated && isDesktop && totalStories > 2;
+
+  const displayedStories = useMemo(() => {
+    if (!useDesktopLayout) {
       return storiesWithIndex;
     }
 
-    const others = storiesWithIndex.filter(
-      (entry) => entry.originalIndex !== activeIndex
+    return [
+      storiesWithIndex[prevIndex],
+      storiesWithIndex[activeIndex],
+      storiesWithIndex[nextIndex],
+    ];
+  }, [useDesktopLayout, storiesWithIndex, prevIndex, activeIndex, nextIndex]);
+
+  if (!hasHydrated) {
+    return (
+      <section className="pt-0 pb-12 md:pb-16 bg-white">
+        <div className="mx-auto w-full px-4 sm:px-6 lg:px-8 2xl:px-12">
+          <div className="flex justify-center">
+            <div className="w-full max-w-5xl h-[520px] rounded-[40px] border border-gray-200 bg-white shadow-[0_20px_60px_rgba(79,70,229,0.08)] flex items-center justify-center">
+              <div className="flex flex-col items-center gap-4 text-center">
+                <div className="h-12 w-12 border-4 border-[#D1D5DB] border-t-[#572EEE] rounded-full animate-spin" />
+                <p className="text-gray-600 font-medium">Loading...</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
     );
-
-    const centerPosition = Math.floor(storiesWithIndex.length / 2);
-    const ordered = [...others];
-    ordered.splice(Math.min(centerPosition, ordered.length), 0, activeStory);
-
-    return ordered;
-  }, [activeIndex, storiesWithIndex]);
-
-  const displayedStories = isDesktop ? arrangedStories : storiesWithIndex;
+  }
 
   return (
     <section className="pt-0 pb-12 md:pb-16 bg-white">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto w-full px-4 sm:px-6 lg:px-8 2xl:px-12">
         <div className="text-center">
           <h2
             className="text-gray-900 mb-4"
@@ -200,87 +240,148 @@ const SuccessStories: React.FC = () => {
           </p>
         </div>
 
-        
         <div
-          ref={carouselRef}
-          className="flex gap-4 overflow-x-auto md:overflow-visible md:justify-center md:items-center md:gap-8 lg:gap-10 pb-4 md:min-h-[520px] snap-x snap-mandatory -mx-4 px-6 sm:px-4 md:mx-0 md:px-0 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden mt-6 sm:mt-8"
-          onScroll={handleScroll}
+          className="relative md:flex md:justify-center mt-6 sm:mt-8"
+          onMouseEnter={() => isDesktop && setIsCarouselHovered(true)}
+          onMouseLeave={() => isDesktop && setIsCarouselHovered(false)}
         >
-          {displayedStories.map(({ story, originalIndex }) => {
-            const isActive = originalIndex === activeIndex;
-            
-            return (
-              <div
-                key={story.id}
-                data-original-index={originalIndex}
-                className={cn(
-                  "flex-shrink-0 transition-all duration-300 cursor-pointer w-full max-w-[390px] min-w-[85vw] sm:min-w-[340px] snap-center md:min-w-0 px-2 sm:px-0",
-                  isActive
-                    ? "md:scale-[1.15] md:z-10"
-                    : "md:scale-100 md:z-0 md:blur-[1px]"
-                )}
-                onClick={() => setActiveIndex(originalIndex)}
-              >
-                <div
-                  className={cn(
-                    "p-6 rounded-xl flex flex-col items-center text-center h-full",
-                    story.gradient && isActive ? "" : "bg-white"
-                  )}
-                  style={styles.card(isActive, Boolean(story.gradient))}
-                >
-                  
-                  <div className="flex items-center justify-center gap-1 mb-6">
-                    <StarRating rating={story.rating} size="md" />
-                  </div>
+          <button
+            type="button"
+            aria-label="View previous story"
+            onClick={() =>
+              setActiveIndex(
+                (prev) => (prev - 1 + HOME_SUCCESS_STORIES.length) % HOME_SUCCESS_STORIES.length
+              )
+            }
+            className={cn(
+              "hidden md:flex absolute left-6 lg:left-6 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white shadow-lg border border-gray-100 items-center justify-center text-gray-600 hover:text-gray-900 transition-all duration-300 z-20",
+              isCarouselHovered ? "md:opacity-100 md:pointer-events-auto" : "md:opacity-0 md:pointer-events-none"
+            )}
+          >
+            <ChevronLeft className="w-5 h-5" />
+          </button>
 
-                  
-                  <p
-                    className="mb-6 flex-1 flex items-center"
-                    style={styles.quote(isActive)}
+          <div className="relative w-full md:px-24 overflow-visible">
+            <div
+              ref={carouselRef}
+              className="flex gap-4 overflow-x-auto md:overflow-visible md:justify-center md:items-stretch md:gap-8 mb-12 pb-4 w-full scroll-smooth px-4 md:px-6 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden md:snap-x md:snap-mandatory"
+              onScroll={handleScroll}
+            >
+              {displayedStories.map(({ story, originalIndex }, sliderIndex) => {
+                const isActive = originalIndex === activeIndex;
+                const offset = useDesktopLayout ? sliderIndex - 1 : 0;
+                const distance = Math.abs(offset);
+                const desktopScale = useDesktopLayout
+                  ? offset === 0
+                    ? 1.08
+                    : 0.94
+                  : 1;
+                const desktopTranslateY = useDesktopLayout
+                  ? offset === 0
+                    ? 30
+                    : 30
+                  : 0;
+                const desktopZ =
+                  useDesktopLayout && offset === 0
+                    ? 20
+                    : useDesktopLayout && distance === 1
+                    ? 10
+                    : 0;
+
+                return (
+                  <div
+                    key={story.id}
+                    data-original-index={originalIndex}
+                    className={cn(
+                      "flex-shrink-0 transition-all duration-300 cursor-pointer w-full max-w-[390px] min-w-[85vw] sm:min-w-[340px] px-2 sm:px-0",
+                      useDesktopLayout
+                        ? isActive
+                          ? "md:scale-[1.15] md:z-10 md:snap-center"
+                          : "md:scale-100 md:z-0 md:blur-[1px] md:snap-center"
+                        : ""
+                    )}
+                    style={
+                      useDesktopLayout
+                        ? {
+                            transform: `translateY(${desktopTranslateY}px) scale(${desktopScale})`,
+                            zIndex: desktopZ,
+                            transition: "transform 0.45s ease, opacity 0.45s ease",
+                          }
+                        : undefined
+                    }
+                    onClick={() => setActiveIndex(originalIndex)}
                   >
-                    &ldquo;{story.quote}&rdquo;
-                  </p>
-
-                  
-                  <div className="mb-4">
-                    <ImageWithFallback
-                      src={story.image || `/images/students/${story.id}.jpg`}
-                      alt={story.name}
-                      width={80}
-                      height={80}
-                      className="w-20 h-20 rounded-full object-cover mx-auto"
-                      fallback={
-                        <div className="w-20 h-20 rounded-full bg-gray-300 flex items-center justify-center mx-auto">
-                          <span className="text-gray-600 text-2xl font-bold">
-                            {story.name.charAt(0)}
-                          </span>
-                        </div>
-                      }
-                    />
-                  </div>
-
-                  
-                  <div className="text-center">
-                    <p
-                      className="font-bold mb-1"
-                      style={styles.name(isActive)}
+                    <div
+                      className={cn(
+                        "p-6 rounded-xl flex flex-col items-center text-center h-full",
+                        story.gradient && isActive ? "" : "bg-white"
+                      )}
+                      style={styles.card(isActive, Boolean(story.gradient))}
                     >
-                      {story.name}
-                    </p>
-                    <p
-                      className="text-sm"
-                      style={styles.role(isActive)}
-                    >
-                      {story.role}
-                    </p>
+                      <div className="flex items-center justify-center gap-1 mb-6">
+                        <StarRating rating={story.rating} size="md" />
+                      </div>
+
+                      <p
+                        className="mb-6 flex-1 flex items-center text-base"
+                        style={styles.quote(isActive)}
+                      >
+                        &ldquo;{story.quote}&rdquo;
+                      </p>
+
+                      <div className="mb-4">
+                        <ImageWithFallback
+                          src={story.image || `/images/students/${story.id}.jpg`}
+                          alt={story.name}
+                          width={80}
+                          height={80}
+                          className="w-20 h-20 rounded-full object-cover mx-auto"
+                          fallback={
+                            <div className="w-20 h-20 rounded-full bg-gray-300 flex items-center justify-center mx-auto">
+                              <span className="text-gray-600 text-2xl font-bold">
+                                {story.name.charAt(0)}
+                              </span>
+                            </div>
+                          }
+                        />
+                      </div>
+
+                      <div className="text-center">
+                        <p
+                          className="font-bold mb-1"
+                          style={styles.name(isActive)}
+                        >
+                          {story.name}
+                        </p>
+                        <p
+                          className="text-sm"
+                          style={styles.role(isActive)}
+                        >
+                          {story.role}
+                        </p>
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </div>
-            );
-          })}
+                );
+              })}
+            </div>
+          </div>
+
+          <button
+            type="button"
+            aria-label="View next story"
+            onClick={() =>
+              setActiveIndex((prev) => (prev + 1) % HOME_SUCCESS_STORIES.length)
+            }
+            className={cn(
+              "hidden md:flex absolute right-6 lg:right-6 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white shadow-lg border border-gray-100 items-center justify-center text-gray-600 hover:text-gray-900 transition-all duration-300 z-20",
+              isCarouselHovered ? "md:opacity-100 md:pointer-events-auto" : "md:opacity-0 md:pointer-events-none"
+            )}
+          >
+            <ChevronRight className="w-5 h-5" />
+          </button>
         </div>
 
-        
         <div className="flex justify-center gap-1">
           {HOME_SUCCESS_STORIES.map((_, index) => (
             <button

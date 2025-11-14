@@ -339,6 +339,66 @@ export const HOME_TOP_TUTORS: HomeTutor[] = [
     badge: "#3",
     image: "/images/tutors/Tutors3.jpg",
   },
+  {
+    id: "4",
+    name: "Liam Martinez",
+    subject: "Business Strategy",
+    subjectColor: "#F97316",
+    rating: 4.9,
+    degree: "MBA, Wharton School",
+    students: 1740,
+    experience: "9 Years Experience",
+    badge: "#4",
+    image: "/images/tutors/Tutors.jpg",
+  },
+  {
+    id: "5",
+    name: "Aisha Khan",
+    subject: "Biology",
+    subjectColor: "#22C55E",
+    rating: 4.8,
+    degree: "MS Biology, Johns Hopkins",
+    students: 1613,
+    experience: "7 Years Experience",
+    badge: "#5",
+    image: "/images/tutors/Tutors2.jpg",
+  },
+  {
+    id: "6",
+    name: "Noah Williams",
+    subject: "Robotics",
+    subjectColor: "#8B5CF6",
+    rating: 4.9,
+    degree: "MEng Robotics, Carnegie Mellon",
+    students: 1890,
+    experience: "8 Years Experience",
+    badge: "#6",
+    image: "/images/tutors/Tutors3.jpg",
+  },
+  {
+    id: "7",
+    name: "Priya Mehta",
+    subject: "Data Analytics",
+    subjectColor: "#0EA5E9",
+    rating: 5.0,
+    degree: "MTech Data Analytics, IIT Bombay",
+    students: 2055,
+    experience: "10 Years Experience",
+    badge: "#7",
+    image: "/images/tutors/Tutors.jpg",
+  },
+  {
+    id: "8",
+    name: "Ethan Brooks",
+    subject: "Creative Writing",
+    subjectColor: "#EC4899",
+    rating: 4.7,
+    degree: "MFA Creative Writing, NYU",
+    students: 1388,
+    experience: "6 Years Experience",
+    badge: "#8",
+    image: "/images/tutors/Tutors2.jpg",
+  },
 ];
 
 export interface HomeSuccessStory {
@@ -359,7 +419,7 @@ export const HOME_SUCCESS_STORIES: HomeSuccessStory[] = [
     quote:
       "From zero coding experience to building full-stack applications. The curriculum is perfectly structured and the support is incredible.",
     rating: 5.0,
-    image: "",
+    image: "/images/students/student1.jpg",
     gradient: false,
   },
   {
@@ -369,7 +429,7 @@ export const HOME_SUCCESS_STORIES: HomeSuccessStory[] = [
     quote:
       "The hands-on projects with real datasets prepared me perfectly for my role. I now lead data initiatives at my company.",
     rating: 5.0,
-    image: "",
+    image: "/images/students/student2.jpg",
     gradient: true,
   },
   {
@@ -378,9 +438,39 @@ export const HOME_SUCCESS_STORIES: HomeSuccessStory[] = [
     role: "Senior UX Designer at Airbnb",
     quote:
       "The design thinking approach and portfolio guidance helped me transition from marketing to UX design seamlessly.",
-    rating: 5.0,
-    image: "",
+    rating: 4.9,
+    image: "/images/students/student3.jpg",
     gradient: false,
+  },
+  {
+    id: "4",
+    name: "Marco Alvarez",
+    role: "Product Manager at Spotify",
+    quote:
+      "Capstone reviews and mentor feedback helped me craft a product portfolio that stood out in every interview.",
+    rating: 4.8,
+    image: "/images/students/student4.jpg",
+    gradient: true,
+  },
+  {
+    id: "5",
+    name: "Sophia Turner",
+    role: "Cybersecurity Analyst at Cisco",
+    quote:
+      "Labs felt like real on-call scenarios. I was ready for the SOC from day one because of Learnic Tutor's simulations.",
+    rating: 5.0,
+    image: "/images/students/student5.jpg",
+    gradient: false,
+  },
+  {
+    id: "6",
+    name: "Ahmed Farouk",
+    role: "AI Researcher at DeepMind",
+    quote:
+      "Advanced ML modules and community hackathons pushed me to publish my first paper. The experience here is unmatched.",
+    rating: 5.0,
+    image: "/images/students/student6.jpg",
+    gradient: true,
   },
 ];
 
