@@ -50,6 +50,9 @@ const TopTutors: React.FC = () => {
   const [isDesktop, setIsDesktop] = useState(false);
   const [hasHydrated, setHasHydrated] = useState(false);
   const carouselRef = useRef<HTMLDivElement | null>(null);
+  const isDesktopRef = useRef(false);
+  const programmaticScrollRef = useRef(false);
+  const programmaticScrollTimeoutRef = useRef<number | null>(null);
   const scrollRafRef = useRef<number | null>(null);
   const autoplayRef = useRef<number | null>(null);
   const resumeAutoplayTimeoutRef = useRef<number | null>(null);
@@ -73,29 +76,85 @@ const TopTutors: React.FC = () => {
     setHasHydrated(true);
   }, []);
 
-  const scrollToActive = useCallback(
-    (behavior: ScrollBehavior = "smooth") => {
-      const container = carouselRef.current;
-      if (!container) return;
+  useEffect(() => {
+    isDesktopRef.current = isDesktop;
+    if (
+      isDesktop &&
+      programmaticScrollTimeoutRef.current &&
+      typeof window !== "undefined"
+    ) {
+      window.clearTimeout(programmaticScrollTimeoutRef.current);
+      programmaticScrollTimeoutRef.current = null;
+      programmaticScrollRef.current = false;
+    }
+  }, [isDesktop]);
 
-      const activeCard = container.querySelector<HTMLDivElement>(
-        `[data-original-index="${activeIndex}"]`
+  const scrollToIndex = useCallback(
+    (
+      index: number,
+      behavior: ScrollBehavior = "smooth",
+      options?: { programmatic?: boolean }
+    ) => {
+      const container = carouselRef.current;
+      if (!container) {
+        return;
+      }
+
+      const isScrollable =
+        container.scrollWidth - container.clientWidth > 2;
+      if (!isScrollable) {
+        return;
+      }
+
+      const targetCard = container.querySelector<HTMLDivElement>(
+        `[data-original-index="${index}"]`
       );
 
-      if (!activeCard) return;
+      if (!targetCard) {
+        return;
+      }
 
-      const cardElement = activeCard as HTMLElement;
+      if (
+        options?.programmatic &&
+        typeof window !== "undefined" &&
+        isScrollable
+      ) {
+        programmaticScrollRef.current = true;
+        if (programmaticScrollTimeoutRef.current) {
+          window.clearTimeout(programmaticScrollTimeoutRef.current);
+        }
+
+        programmaticScrollTimeoutRef.current = window.setTimeout(() => {
+          programmaticScrollRef.current = false;
+          programmaticScrollTimeoutRef.current = null;
+        }, behavior === "smooth" ? 650 : 0);
+      }
+
+      const cardElement = targetCard as HTMLElement;
       const targetScrollLeft =
         cardElement.offsetLeft -
         container.clientWidth / 2 +
         cardElement.clientWidth / 2;
 
-      container.scrollTo({
-        left: Math.max(targetScrollLeft, 0),
-        behavior,
-      });
+      const left = Math.max(targetScrollLeft, 0);
+
+      if (typeof container.scrollTo === "function") {
+        container.scrollTo({
+          left,
+          behavior,
+        });
+      } else {
+        container.scrollLeft = left;
+      }
     },
-    [activeIndex]
+    []
+  );
+
+  const scrollToActive = useCallback(
+    (behavior: ScrollBehavior = "smooth", options?: { programmatic?: boolean }) => {
+      scrollToIndex(activeIndex, behavior, options);
+    },
+    [activeIndex, scrollToIndex]
   );
 
   useIsomorphicLayoutEffect(() => {
@@ -105,7 +164,9 @@ const TopTutors: React.FC = () => {
 
     const handleScrollToActive = () => {
       const isLargeScreen = window.matchMedia("(min-width: 768px)").matches;
-      scrollToActive(isLargeScreen ? "auto" : "smooth");
+      scrollToActive(isLargeScreen ? "auto" : "smooth", {
+        programmatic: !isLargeScreen,
+      });
     };
 
     handleScrollToActive();
@@ -114,8 +175,15 @@ const TopTutors: React.FC = () => {
     return () => window.removeEventListener("resize", handleScrollToActive);
   }, [scrollToActive]);
 
+  useEffect(() => {
+    if (!hasHydrated || isDesktop) {
+      return;
+    }
+    scrollToActive("smooth", { programmatic: true });
+  }, [activeIndex, isDesktop, hasHydrated, scrollToActive]);
+
   const handleScroll = useCallback(() => {
-    if (isDesktop || !carouselRef.current) return;
+    if (isDesktop || !carouselRef.current || programmaticScrollRef.current) return;
 
     if (scrollRafRef.current) {
       cancelAnimationFrame(scrollRafRef.current);
@@ -168,9 +236,13 @@ const TopTutors: React.FC = () => {
     }
 
     autoplayRef.current = window.setInterval(() => {
-      setActiveIndex((prev) => (prev + 1) % HOME_TOP_TUTORS.length);
+      setActiveIndex((prev) => {
+        const nextIndex = (prev + 1) % HOME_TOP_TUTORS.length;
+        scrollToIndex(nextIndex, "smooth", { programmatic: true });
+        return nextIndex;
+      });
     }, 5000);
-  }, []);
+  }, [scrollToIndex]);
 
   const scheduleAutoplayResume = useCallback(() => {
     if (resumeAutoplayTimeoutRef.current) {
@@ -207,6 +279,13 @@ const TopTutors: React.FC = () => {
     return () => {
       if (scrollRafRef.current) {
         cancelAnimationFrame(scrollRafRef.current);
+      }
+      if (programmaticScrollTimeoutRef.current) {
+        if (typeof window !== "undefined") {
+          window.clearTimeout(programmaticScrollTimeoutRef.current);
+        }
+        programmaticScrollTimeoutRef.current = null;
+        programmaticScrollRef.current = false;
       }
     };
   }, []);
