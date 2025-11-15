@@ -182,6 +182,71 @@ const TopTutors: React.FC = () => {
     scrollToActive("smooth", { programmatic: true });
   }, [activeIndex, isDesktop, hasHydrated, scrollToActive]);
 
+  const tutorsWithIndex = useMemo(
+    () =>
+      HOME_TOP_TUTORS.map((tutor, index) => ({
+        tutor,
+        originalIndex: index,
+      })),
+    []
+  );
+
+  const totalTutors = tutorsWithIndex.length;
+  const dotCount = Math.min(3, totalTutors);
+  const prevIndex = (activeIndex - 1 + totalTutors) % totalTutors;
+  const nextIndex = (activeIndex + 1) % totalTutors;
+  const dotTargets = useMemo(() => {
+    if (dotCount === 0) {
+      return [];
+    }
+
+    if (totalTutors <= dotCount) {
+      return Array.from({ length: dotCount }).map((_, idx) =>
+        idx < totalTutors ? idx : totalTutors - 1
+      );
+    }
+
+    return [prevIndex, activeIndex, nextIndex];
+  }, [dotCount, totalTutors, prevIndex, activeIndex, nextIndex]);
+
+  const highlightSlot =
+    totalTutors <= dotCount || dotCount === 0
+      ? null
+      : activeIndex % dotCount;
+
+  const useDesktopLayout = hasHydrated && isDesktop && totalTutors > 2;
+  const shouldHideDesktopCarousel = isDesktop && !hasHydrated;
+
+  const displayedTutors = useMemo(() => {
+    if (!useDesktopLayout) {
+      return tutorsWithIndex;
+    }
+
+    return [
+      tutorsWithIndex[prevIndex],
+      tutorsWithIndex[activeIndex],
+      tutorsWithIndex[nextIndex],
+    ];
+  }, [useDesktopLayout, tutorsWithIndex, prevIndex, activeIndex, nextIndex]);
+
+  const setActiveTutor = useCallback(
+    (nextIndex: number | ((previousIndex: number) => number)) => {
+      if (totalTutors === 0) {
+        return;
+      }
+
+      setActiveIndex((prev) => {
+        const rawNext =
+          typeof nextIndex === "function" ? nextIndex(prev) : nextIndex;
+        const normalized =
+          ((rawNext % totalTutors) + totalTutors) % totalTutors;
+
+        return normalized;
+      });
+    },
+    [totalTutors]
+  );
+
   const handleScroll = useCallback(() => {
     if (isDesktop || !carouselRef.current || programmaticScrollRef.current) return;
 
@@ -218,10 +283,10 @@ const TopTutors: React.FC = () => {
         });
 
       if (closestIndex !== activeIndex) {
-        setActiveIndex(closestIndex);
+        setActiveTutor(closestIndex);
       }
     });
-  }, [activeIndex, isDesktop]);
+  }, [activeIndex, isDesktop, setActiveTutor]);
 
   const clearAutoplay = useCallback(() => {
     if (autoplayRef.current) {
@@ -231,18 +296,18 @@ const TopTutors: React.FC = () => {
   }, []);
 
   const startAutoplay = useCallback(() => {
-    if (autoplayRef.current || HOME_TOP_TUTORS.length <= 1) {
+    if (autoplayRef.current || totalTutors <= 1) {
       return;
     }
 
     autoplayRef.current = window.setInterval(() => {
-      setActiveIndex((prev) => {
-        const nextIndex = (prev + 1) % HOME_TOP_TUTORS.length;
+      setActiveTutor((prev) => {
+        const nextIndex = (prev + 1) % totalTutors;
         scrollToIndex(nextIndex, "smooth", { programmatic: true });
         return nextIndex;
       });
     }, 5000);
-  }, [scrollToIndex]);
+  }, [scrollToIndex, setActiveTutor, totalTutors]);
 
   const scheduleAutoplayResume = useCallback(() => {
     if (resumeAutoplayTimeoutRef.current) {
@@ -289,34 +354,6 @@ const TopTutors: React.FC = () => {
       }
     };
   }, []);
-
-  const tutorsWithIndex = useMemo(
-    () =>
-      HOME_TOP_TUTORS.map((tutor, index) => ({
-        tutor,
-        originalIndex: index,
-      })),
-    []
-  );
-
-  const totalTutors = tutorsWithIndex.length;
-  const prevIndex = (activeIndex - 1 + totalTutors) % totalTutors;
-  const nextIndex = (activeIndex + 1) % totalTutors;
-
-  const useDesktopLayout = hasHydrated && isDesktop && totalTutors > 2;
-  const shouldHideDesktopCarousel = isDesktop && !hasHydrated;
-
-  const displayedTutors = useMemo(() => {
-    if (!useDesktopLayout) {
-      return tutorsWithIndex;
-    }
-
-    return [
-      tutorsWithIndex[prevIndex],
-      tutorsWithIndex[activeIndex],
-      tutorsWithIndex[nextIndex],
-    ];
-  }, [useDesktopLayout, tutorsWithIndex, prevIndex, activeIndex, nextIndex]);
 
   if (!hasHydrated) {
     return (
@@ -404,7 +441,7 @@ const TopTutors: React.FC = () => {
                   }
                   onClick={() => {
                     pauseAutoplay();
-                    setActiveIndex(originalIndex);
+                    setActiveTutor(originalIndex);
                   }}
                 >
                   <div
@@ -510,21 +547,33 @@ const TopTutors: React.FC = () => {
         </div>
       </div>
 
-        <div className="flex justify-center gap-2 mt-2 md:mt-4">
-          {HOME_TOP_TUTORS.map((_, index) => (
-            <button
-              key={index}
-              onClick={() => {
-                pauseAutoplay();
-                setActiveIndex(index);
-              }}
-              className="w-3 h-3 rounded-full transition-all"
-              style={{
-                backgroundColor: index === activeIndex ? "#572EEE" : "#D1D5DB",
-              }}
-            />
-          ))}
-        </div>
+        {dotCount > 0 && (
+          <div className="flex justify-center gap-2 mt-2 md:mt-4">
+            {dotTargets.map((targetIndex, slot) => {
+              const isActive =
+                totalTutors <= dotCount
+                  ? targetIndex === activeIndex
+                  : slot === highlightSlot;
+
+              return (
+                <button
+                  key={`dot-${slot}`}
+                  onClick={() => {
+                    if (targetIndex === undefined) {
+                      return;
+                    }
+                    pauseAutoplay();
+                    setActiveTutor(targetIndex);
+                  }}
+                  className="w-3 h-3 rounded-full transition-all"
+                  style={{
+                    backgroundColor: isActive ? "#572EEE" : "#D1D5DB",
+                  }}
+                />
+              );
+            })}
+          </div>
+        )}
       </div>
     </section>
   );

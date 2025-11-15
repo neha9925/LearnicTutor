@@ -317,6 +317,24 @@ const SuccessStories: React.FC = () => {
   const totalStories = storiesWithIndex.length;
   const prevIndex = (activeIndex - 1 + totalStories) % totalStories;
   const nextIndex = (activeIndex + 1) % totalStories;
+  const dotCount = Math.min(3, totalStories);
+  const dotTargets = useMemo(() => {
+    if (dotCount === 0) {
+      return [];
+    }
+
+    if (totalStories <= dotCount) {
+      return Array.from({ length: dotCount }).map((_, idx) =>
+        idx < totalStories ? idx : totalStories - 1
+      );
+    }
+
+    return [prevIndex, activeIndex, nextIndex];
+  }, [dotCount, totalStories, prevIndex, activeIndex, nextIndex]);
+  const highlightSlot =
+    totalStories <= dotCount || dotCount === 0
+      ? null
+      : activeIndex % dotCount;
 
   const useDesktopLayout = hasHydrated && isDesktop && totalStories > 2;
 
@@ -479,19 +497,31 @@ const SuccessStories: React.FC = () => {
           </div>
         </div>
 
-        <div className="flex justify-center gap-1">
-          {HOME_SUCCESS_STORIES.map((_, index) => (
-            <button
-              key={index}
-              onClick={() => {
-                pauseAutoplay();
-                setActiveIndex(index);
-              }}
-              className="w-3 h-3 rounded-full transition-all"
-              style={styles.indicator(index === activeIndex)}
-            />
-          ))}
-        </div>
+        {dotCount > 0 && (
+          <div className="flex justify-center gap-1">
+            {dotTargets.map((targetIndex, slot) => {
+              const isActive =
+                totalStories <= dotCount
+                  ? targetIndex === activeIndex
+                  : slot === highlightSlot;
+
+              return (
+                <button
+                  key={`story-dot-${slot}`}
+                  onClick={() => {
+                    if (targetIndex === undefined) {
+                      return;
+                    }
+                    pauseAutoplay();
+                    setActiveIndex(targetIndex);
+                  }}
+                  className="w-3 h-3 rounded-full transition-all"
+                  style={styles.indicator(isActive)}
+                />
+              );
+            })}
+          </div>
+        )}
       </div>
     </section>
   );
