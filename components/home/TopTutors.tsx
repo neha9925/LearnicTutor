@@ -10,7 +10,7 @@ import React, {
 } from "react";
 import StarRating from "@/components/ui/StarRating";
 import ImageWithFallback from "@/components/ui/ImageWithFallback";
-import { GraduationCap, Users, Clock, ChevronLeft, ChevronRight } from "lucide-react";
+import { GraduationCap, Users, Clock } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { HOME_TOP_TUTORS } from "@/data/home";
 import { colors, shadows, typography } from "@/theme";
@@ -49,9 +49,10 @@ const TopTutors: React.FC = () => {
   const [activeIndex, setActiveIndex] = useState(1); // Center card is active by default
   const [isDesktop, setIsDesktop] = useState(false);
   const [hasHydrated, setHasHydrated] = useState(false);
-  const [isCarouselHovered, setIsCarouselHovered] = useState(false);
   const carouselRef = useRef<HTMLDivElement | null>(null);
   const scrollRafRef = useRef<number | null>(null);
+  const autoplayRef = useRef<number | null>(null);
+  const resumeAutoplayTimeoutRef = useRef<number | null>(null);
 
   useIsomorphicLayoutEffect(() => {
     if (typeof window === "undefined") {
@@ -154,6 +155,54 @@ const TopTutors: React.FC = () => {
     });
   }, [activeIndex, isDesktop]);
 
+  const clearAutoplay = useCallback(() => {
+    if (autoplayRef.current) {
+      window.clearInterval(autoplayRef.current);
+      autoplayRef.current = null;
+    }
+  }, []);
+
+  const startAutoplay = useCallback(() => {
+    if (autoplayRef.current || HOME_TOP_TUTORS.length <= 1) {
+      return;
+    }
+
+    autoplayRef.current = window.setInterval(() => {
+      setActiveIndex((prev) => (prev + 1) % HOME_TOP_TUTORS.length);
+    }, 5000);
+  }, []);
+
+  const scheduleAutoplayResume = useCallback(() => {
+    if (resumeAutoplayTimeoutRef.current) {
+      window.clearTimeout(resumeAutoplayTimeoutRef.current);
+    }
+
+    resumeAutoplayTimeoutRef.current = window.setTimeout(() => {
+      startAutoplay();
+    }, 6000);
+  }, [startAutoplay]);
+
+  const pauseAutoplay = useCallback(() => {
+    clearAutoplay();
+    scheduleAutoplayResume();
+  }, [clearAutoplay, scheduleAutoplayResume]);
+
+  useEffect(() => {
+    if (!hasHydrated) {
+      return;
+    }
+
+    startAutoplay();
+
+    return () => {
+      clearAutoplay();
+      if (resumeAutoplayTimeoutRef.current) {
+        window.clearTimeout(resumeAutoplayTimeoutRef.current);
+        resumeAutoplayTimeoutRef.current = null;
+      }
+    };
+  }, [hasHydrated, startAutoplay, clearAutoplay]);
+
   useEffect(() => {
     return () => {
       if (scrollRafRef.current) {
@@ -210,9 +259,9 @@ const TopTutors: React.FC = () => {
   }
 
   return (
-    <section className="pt-0 pb-12 md:pb-16 bg-white">
+    <section className="pt-0 pb-10 md:pb-10 bg-white">
       <div className="mx-auto w-full px-4 sm:px-6 lg:px-8 2xl:px-12">
-        <div className="text-center mb-12">
+        <div className="text-center mb-10 md:mb-12">
           <h2 className="text-gray-900 mb-4" style={styles.sectionHeading}>
             Meet Our Top Tutors
           </h2>
@@ -230,29 +279,12 @@ const TopTutors: React.FC = () => {
             "relative md:flex md:justify-center transition-opacity duration-300",
             shouldHideDesktopCarousel ? "md:opacity-0 md:pointer-events-none" : "md:opacity-100"
           )}
-          onMouseEnter={() => isDesktop && setIsCarouselHovered(true)}
-          onMouseLeave={() => isDesktop && setIsCarouselHovered(false)}
         >
-          <button
-            type="button"
-            aria-label="View previous tutor"
-            onClick={() =>
-              setActiveIndex(
-                (prev) => (prev - 1 + HOME_TOP_TUTORS.length) % HOME_TOP_TUTORS.length
-              )
-            }
-            className={cn(
-              "hidden md:flex absolute left-10 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white shadow-lg border border-gray-100 items-center justify-center text-gray-600 hover:text-gray-900 transition-all duration-300 z-20",
-              isCarouselHovered ? "md:opacity-100 md:pointer-events-auto" : "md:opacity-0 md:pointer-events-none"
-            )}
-          >
-            <ChevronLeft className="w-5 h-5" />
-          </button>
 
           <div className="relative w-full md:px-24 overflow-visible">
             <div
               ref={carouselRef}
-              className="flex gap-4 overflow-x-auto md:overflow-visible md:justify-center md:items-stretch md:gap-8 mb-12 pb-4 w-full scroll-smooth px-4 md:px-6 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden md:snap-x md:snap-mandatory"
+              className="flex gap-4 overflow-x-auto md:overflow-visible md:justify-center md:items-stretch md:gap-8 mb-6 pb-2 md:mb-12 md:pb-4 w-full scroll-smooth px-4 md:px-6 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden md:snap-x md:snap-mandatory"
               onScroll={handleScroll}
             >
               {displayedTutors.map(({ tutor, originalIndex }, sliderIndex) => {
@@ -291,7 +323,10 @@ const TopTutors: React.FC = () => {
                         }
                       : undefined
                   }
-                  onClick={() => setActiveIndex(originalIndex)}
+                  onClick={() => {
+                    pauseAutoplay();
+                    setActiveIndex(originalIndex);
+                  }}
                 >
                   <div
                     className={cn(
@@ -302,7 +337,7 @@ const TopTutors: React.FC = () => {
                     )}
                     style={styles.card(isActive)}
                   >
-                    <div className="relative w-full h-64 overflow-hidden flex-shrink-0 rounded-t-[28px]">
+                    <div className="relative w-full h-52 md:h-[220px] overflow-hidden flex-shrink-0 rounded-t-[28px]">
                       <ImageWithFallback
                         src={tutor.image || `/images/tutors/${tutor.id}.jpg`}
                         alt={tutor.name}
@@ -327,7 +362,7 @@ const TopTutors: React.FC = () => {
                     </div>
 
                     <div
-                      className="p-6 flex flex-col flex-1"
+                      className="p-5 md:p-6 flex flex-col flex-1"
                       style={{ backgroundColor: colors.neutral.white }}
                     >
                       <div className="flex items-center justify-between gap-4 mb-2">
@@ -393,28 +428,17 @@ const TopTutors: React.FC = () => {
               );
             })}
           </div>
-
-          <button
-            type="button"
-            aria-label="View next tutor"
-            onClick={() =>
-              setActiveIndex((prev) => (prev + 1) % HOME_TOP_TUTORS.length)
-            }
-            className={cn(
-              "hidden md:flex absolute right-10 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white shadow-lg border border-gray-100 items-center justify-center text-gray-600 hover:text-gray-900 transition-all duration-300 z-20",
-              isCarouselHovered ? "md:opacity-100 md:pointer-events-auto" : "md:opacity-0 md:pointer-events-none"
-            )}
-          >
-            <ChevronRight className="w-5 h-5" />
-          </button>
         </div>
       </div>
 
-        <div className="flex justify-center gap-2 mt-4 md:mt-0">
+        <div className="flex justify-center gap-2 mt-2 md:mt-4">
           {HOME_TOP_TUTORS.map((_, index) => (
             <button
               key={index}
-              onClick={() => setActiveIndex(index)}
+              onClick={() => {
+                pauseAutoplay();
+                setActiveIndex(index);
+              }}
               className="w-3 h-3 rounded-full transition-all"
               style={{
                 backgroundColor: index === activeIndex ? "#572EEE" : "#D1D5DB",

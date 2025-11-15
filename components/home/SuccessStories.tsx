@@ -12,7 +12,6 @@ import ImageWithFallback from "@/components/ui/ImageWithFallback";
 import { cn } from "@/lib/utils";
 import { HOME_SUCCESS_STORIES } from "@/data/home";
 import { colors, gradients, shadows, typography } from "@/theme";
-import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const styles = {
   sectionHeading: typography.section.headingLg,
@@ -67,9 +66,10 @@ const SuccessStories: React.FC = () => {
   const [activeIndex, setActiveIndex] = useState(1);
   const [isDesktop, setIsDesktop] = useState(false);
   const [hasHydrated, setHasHydrated] = useState(false);
-  const [isCarouselHovered, setIsCarouselHovered] = useState(false);
   const carouselRef = useRef<HTMLDivElement | null>(null);
   const scrollRafRef = useRef<number | null>(null);
+  const autoplayRef = useRef<number | null>(null);
+  const resumeAutoplayTimeoutRef = useRef<number | null>(null);
 
   useIsomorphicLayoutEffect(() => {
     if (typeof window === "undefined") {
@@ -170,6 +170,54 @@ const SuccessStories: React.FC = () => {
     });
   }, [activeIndex, isDesktop]);
 
+  const clearAutoplay = useCallback(() => {
+    if (autoplayRef.current) {
+      window.clearInterval(autoplayRef.current);
+      autoplayRef.current = null;
+    }
+  }, []);
+
+  const startAutoplay = useCallback(() => {
+    if (autoplayRef.current || HOME_SUCCESS_STORIES.length <= 1) {
+      return;
+    }
+
+    autoplayRef.current = window.setInterval(() => {
+      setActiveIndex((prev) => (prev + 1) % HOME_SUCCESS_STORIES.length);
+    }, 5000);
+  }, []);
+
+  const scheduleAutoplayResume = useCallback(() => {
+    if (resumeAutoplayTimeoutRef.current) {
+      window.clearTimeout(resumeAutoplayTimeoutRef.current);
+    }
+
+    resumeAutoplayTimeoutRef.current = window.setTimeout(() => {
+      startAutoplay();
+    }, 6000);
+  }, [startAutoplay]);
+
+  const pauseAutoplay = useCallback(() => {
+    clearAutoplay();
+    scheduleAutoplayResume();
+  }, [clearAutoplay, scheduleAutoplayResume]);
+
+  React.useEffect(() => {
+    if (!hasHydrated) {
+      return;
+    }
+
+    startAutoplay();
+
+    return () => {
+      clearAutoplay();
+      if (resumeAutoplayTimeoutRef.current) {
+        window.clearTimeout(resumeAutoplayTimeoutRef.current);
+        resumeAutoplayTimeoutRef.current = null;
+      }
+    };
+  }, [hasHydrated, startAutoplay, clearAutoplay]);
+
   React.useEffect(() => {
     return () => {
       if (scrollRafRef.current) {
@@ -240,26 +288,7 @@ const SuccessStories: React.FC = () => {
           </p>
         </div>
 
-        <div
-          className="relative md:flex md:justify-center mt-6 sm:mt-8"
-          onMouseEnter={() => isDesktop && setIsCarouselHovered(true)}
-          onMouseLeave={() => isDesktop && setIsCarouselHovered(false)}
-        >
-          <button
-            type="button"
-            aria-label="View previous story"
-            onClick={() =>
-              setActiveIndex(
-                (prev) => (prev - 1 + HOME_SUCCESS_STORIES.length) % HOME_SUCCESS_STORIES.length
-              )
-            }
-            className={cn(
-              "hidden md:flex absolute left-6 lg:left-6 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white shadow-lg border border-gray-100 items-center justify-center text-gray-600 hover:text-gray-900 transition-all duration-300 z-20",
-              isCarouselHovered ? "md:opacity-100 md:pointer-events-auto" : "md:opacity-0 md:pointer-events-none"
-            )}
-          >
-            <ChevronLeft className="w-5 h-5" />
-          </button>
+        <div className="relative md:flex md:justify-center mt-6 sm:mt-8">
 
           <div className="relative w-full md:px-24 overflow-visible">
             <div
@@ -309,7 +338,10 @@ const SuccessStories: React.FC = () => {
                           }
                         : undefined
                     }
-                    onClick={() => setActiveIndex(originalIndex)}
+                    onClick={() => {
+                      pauseAutoplay();
+                      setActiveIndex(originalIndex);
+                    }}
                   >
                     <div
                       className={cn(
@@ -366,27 +398,16 @@ const SuccessStories: React.FC = () => {
               })}
             </div>
           </div>
-
-          <button
-            type="button"
-            aria-label="View next story"
-            onClick={() =>
-              setActiveIndex((prev) => (prev + 1) % HOME_SUCCESS_STORIES.length)
-            }
-            className={cn(
-              "hidden md:flex absolute right-6 lg:right-6 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white shadow-lg border border-gray-100 items-center justify-center text-gray-600 hover:text-gray-900 transition-all duration-300 z-20",
-              isCarouselHovered ? "md:opacity-100 md:pointer-events-auto" : "md:opacity-0 md:pointer-events-none"
-            )}
-          >
-            <ChevronRight className="w-5 h-5" />
-          </button>
         </div>
 
         <div className="flex justify-center gap-1">
           {HOME_SUCCESS_STORIES.map((_, index) => (
             <button
               key={index}
-              onClick={() => setActiveIndex(index)}
+              onClick={() => {
+                pauseAutoplay();
+                setActiveIndex(index);
+              }}
               className="w-3 h-3 rounded-full transition-all"
               style={styles.indicator(index === activeIndex)}
             />
