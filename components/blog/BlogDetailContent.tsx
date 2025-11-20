@@ -22,21 +22,21 @@ const iconMap: Record<string, React.ElementType> = {
 
 const styles = {
   introText: {
-    fontFamily: "var(--font-poppins), Poppins, sans-serif",
     ...typography.card.bodyMd,
+    fontFamily: "var(--font-poppins), Poppins, sans-serif",
     fontSize: "18px",
     lineHeight: "1.8",
     color: colors.text.secondary,
   },
   sectionTitle: {
-    fontFamily: "var(--font-poppins), Poppins, sans-serif",
     ...typography.card.titleLg,
+    fontFamily: "var(--font-poppins), Poppins, sans-serif",
     color: colors.text.primary,
     marginBottom: "12px",
   },
   sectionDescription: {
-    fontFamily: "var(--font-poppins), Poppins, sans-serif",
     ...typography.card.bodyMd,
+    fontFamily: "var(--font-poppins), Poppins, sans-serif",
     color: colors.text.secondary,
     lineHeight: "1.7",
   },
@@ -44,18 +44,18 @@ const styles = {
     background: `linear-gradient(135deg, ${colors.brand.primarySofter} 0%, ${colors.brand.primarySoft} 100%)`,
   },
   quoteText: {
-    fontFamily: "var(--font-poppins), Poppins, sans-serif",
     ...typography.card.titleMd,
+    fontFamily: "var(--font-poppins), Poppins, sans-serif",
     color: colors.text.light,
     fontSize: "20px",
     lineHeight: "1.6",
     fontStyle: "italic",
   },
   shareButton: {
-    fontFamily: "var(--font-poppins), Poppins, sans-serif",
     backgroundColor: colors.neutral.gray100,
     color: colors.text.secondary,
     ...typography.button.secondary,
+    fontFamily: "var(--font-poppins), Poppins, sans-serif",
     padding: "10px 16px",
     borderRadius: "8px",
     display: "inline-flex",
@@ -64,36 +64,36 @@ const styles = {
     fontSize: "14px",
   },
   authorName: {
-    fontFamily: "var(--font-poppins), Poppins, sans-serif",
     ...typography.card.titleMd,
+    fontFamily: "var(--font-poppins), Poppins, sans-serif",
     color: colors.text.primary,
   },
   authorRole: {
-    fontFamily: "var(--font-poppins), Poppins, sans-serif",
     ...typography.card.bodySm,
+    fontFamily: "var(--font-poppins), Poppins, sans-serif",
     color: colors.text.tertiary,
   },
   authorBio: {
-    fontFamily: "var(--font-poppins), Poppins, sans-serif",
     ...typography.card.bodyMd,
+    fontFamily: "var(--font-poppins), Poppins, sans-serif",
     color: colors.text.secondary,
     lineHeight: "1.7",
   },
   commentAuthor: {
-    fontFamily: "var(--font-poppins), Poppins, sans-serif",
     ...typography.card.titleMd,
+    fontFamily: "var(--font-poppins), Poppins, sans-serif",
     fontSize: "16px",
     color: colors.text.primary,
   },
   commentText: {
-    fontFamily: "var(--font-poppins), Poppins, sans-serif",
     ...typography.card.bodyMd,
+    fontFamily: "var(--font-poppins), Poppins, sans-serif",
     color: colors.text.secondary,
     lineHeight: "1.6",
   },
   commentTime: {
-    fontFamily: "var(--font-poppins), Poppins, sans-serif",
     ...typography.card.bodySm,
+    fontFamily: "var(--font-poppins), Poppins, sans-serif",
     color: colors.text.tertiary,
   },
 } as const;
