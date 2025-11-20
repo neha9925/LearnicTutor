@@ -11,15 +11,15 @@ const styles = {
     background: "linear-gradient(135deg, #572EEE 0%, #C084FC 70.71%)",
   },
   title: {
-    fontFamily: "var(--font-poppins), Poppins, sans-serif",
     ...typography.hero.heading,
+    fontFamily: "var(--font-poppins), Poppins, sans-serif",
     color: colors.text.light,
     fontSize: "clamp(32px, 5vw, 48px)",
     fontWeight: 700,
   },
   subtitle: {
-    fontFamily: "var(--font-poppins), Poppins, sans-serif",
     ...typography.hero.description,
+    fontFamily: "var(--font-poppins), Poppins, sans-serif",
     color: colors.text.light,
     opacity: 0.95,
     fontWeight: 400,
