@@ -54,6 +54,7 @@ const Header: React.FC = React.memo(() => {
     { href: "/videos", label: "Videos" },
     { href: "/live-classes", label: "Live Classes" },
     { href: "/test-series", label: "Test Series" },
+    { href: "/blog", label: "Blog" },
     { href: "/about", label: "About" },
   ], []);
 

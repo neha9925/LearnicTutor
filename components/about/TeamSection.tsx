@@ -8,62 +8,121 @@ import React, {
   useRef,
   useState,
 } from "react";
-import StarRating from "@/components/ui/StarRating";
 import ImageWithFallback from "@/components/ui/ImageWithFallback";
 import { cn } from "@/lib/utils";
-import { HOME_SUCCESS_STORIES } from "@/data/home";
-import { colors, gradients, shadows, typography } from "@/theme";
+import { colors, typography } from "@/theme";
+
+const useIsomorphicLayoutEffect =
+  typeof window !== "undefined" ? useLayoutEffect : React.useEffect;
 
 const styles = {
   sectionHeading: typography.section.headingLg,
   sectionDescription: typography.section.descriptionLg,
-  card: (isActive: boolean, gradient: boolean) =>
-    ({
-      borderRadius: "16px",
-      borderWidth: "1px",
-      borderStyle: "solid",
-      borderColor: colors.border.subtle,
-      boxShadow: isActive
-        ? "0px 8.61px 12.91px 0px rgba(0, 0, 0, 0.1), 0px 3.44px 5.17px 0px rgba(0, 0, 0, 0.1)"
-        : "0px 3.44px 5.17px 0px rgba(0, 0, 0, 0.1)",
-      background: isActive
-        ? gradient
-          ? gradients.successStoryActive
-          : gradients.successStoryActive
-        : colors.background.cardLight,
-    }) as const,
-  quote: (isActive: boolean) =>
-    ({
-      ...typography.card.bodySm,
-      color: isActive ? colors.text.light : colors.text.secondary,
-      display: "flex",
-      alignItems: "center",
-      lineHeight: "24px",
-    }) as const,
-  name: (isActive: boolean) =>
-    ({
-      ...typography.card.titleMd,
-      color: isActive ? colors.text.light : colors.text.primary,
-      textAlign: "center" as const,
-    }) as const,
-  role: (isActive: boolean) =>
-    ({
-      fontFamily: "var(--font-poppins), sans-serif",
-      fontWeight: 400,
-      fontSize: "14px",
-      color: isActive ? "rgba(255, 255, 255, 0.9)" : colors.text.tertiary,
-      textAlign: "center" as const,
-    }) as const,
+  memberName: typography.card.titleMd,
+  memberTitle: {
+    ...typography.card.bodySm,
+    color: colors.brand.primarySofter,
+    fontWeight: 600,
+  } as const,
+  memberQuote: {
+    ...typography.card.bodySm,
+    color: colors.text.secondary,
+    fontStyle: "italic",
+  } as const,
   indicator: (isActive: boolean) =>
     ({
       backgroundColor: isActive ? "#572EEE" : colors.neutral.gray300,
     }) as const,
 } as const;
 
-const useIsomorphicLayoutEffect =
-  typeof window !== "undefined" ? useLayoutEffect : React.useEffect;
+const teamMembers = [
+  {
+    id: "sarah-mitchell",
+    name: "Sarah Mitchell",
+    title: "Mathematics Mentor",
+    quote: "Empowering students through simplicity and clarity.",
+    image: "/images/instructors/sarah.jpg",
+  },
+  {
+    id: "david-chen",
+    name: "David Chen",
+    title: "Learning Strategist",
+    quote: "Designing experiences that inspire curiosity.",
+    image: "/images/instructors/david.jpg",
+  },
+  {
+    id: "emily-rodriguez",
+    name: "Emily Rodriguez",
+    title: "Content Creator",
+    quote: "Making complex concepts beautifully simple.",
+    image: "/images/instructors/emily.jpg",
+  },
+  {
+    id: "james-thompson",
+    name: "James Thompson",
+    title: "Innovation Lead",
+    quote: "Building tomorrow's learning experiences today.",
+    image: "/images/instructors/james.jpg",
+  },
+  {
+    id: "michael-brown",
+    name: "Michael Brown",
+    title: "Science Educator",
+    quote: "Inspiring the next generation of scientists and innovators.",
+    image: "/images/instructors/michael.jpg",
+  },
+  {
+    id: "lisa-wang",
+    name: "Lisa Wang",
+    title: "Language Specialist",
+    quote: "Breaking down language barriers one lesson at a time.",
+    image: "/images/instructors/lisa.jpg",
+  },
+  {
+    id: "robert-taylor",
+    name: "Robert Taylor",
+    title: "Tech Mentor",
+    quote: "Transforming complex tech into accessible learning paths.",
+    image: "/images/instructors/robert.jpg",
+  },
+  {
+    id: "amanda-johnson",
+    name: "Amanda Johnson",
+    title: "Creative Director",
+    quote: "Blending creativity with education for engaging experiences.",
+    image: "/images/instructors/amanda.jpg",
+  },
+  {
+    id: "christopher-lee",
+    name: "Christopher Lee",
+    title: "Physics Expert",
+    quote: "Making physics accessible and exciting for every learner.",
+    image: "/images/instructors/christopher.jpg",
+  },
+  {
+    id: "jennifer-martinez",
+    name: "Jennifer Martinez",
+    title: "History Professor",
+    quote: "Bringing history to life through engaging storytelling.",
+    image: "/images/instructors/jennifer.jpg",
+  },
+  {
+    id: "william-anderson",
+    name: "William Anderson",
+    title: "Chemistry Mentor",
+    quote: "Simplifying complex chemical concepts for better understanding.",
+    image: "/images/instructors/william.jpg",
+  },
+  {
+    id: "sophia-wright",
+    name: "Sophia Wright",
+    title: "Language Coach",
+    quote: "Helping students master languages through immersive learning.",
+    image: "/images/instructors/sophia.jpg",
+  },
+];
 
-const SuccessStories: React.FC = () => {
+const TeamSection: React.FC = () => {
   const [activeIndex, setActiveIndex] = useState(1);
   const [isDesktop, setIsDesktop] = useState(false);
   const [hasHydrated, setHasHydrated] = useState(false);
@@ -246,13 +305,17 @@ const SuccessStories: React.FC = () => {
   }, []);
 
   const startAutoplay = useCallback(() => {
-    if (autoplayRef.current || HOME_SUCCESS_STORIES.length <= 1) {
+    if (autoplayRef.current || teamMembers.length <= 1) {
       return;
     }
 
     autoplayRef.current = window.setInterval(() => {
       setActiveIndex((prev) => {
-        const nextIndex = (prev + 1) % HOME_SUCCESS_STORIES.length;
+        const cardsPerView = 4;
+        const currentPage = Math.floor(prev / cardsPerView);
+        const totalPages = Math.ceil(teamMembers.length / cardsPerView);
+        const nextPage = (currentPage + 1) % totalPages;
+        const nextIndex = nextPage * cardsPerView;
         scrollToIndex(nextIndex, "smooth", { programmatic: true });
         return nextIndex;
       });
@@ -305,55 +368,50 @@ const SuccessStories: React.FC = () => {
     };
   }, []);
 
-  const storiesWithIndex = useMemo(
+  const membersWithIndex = useMemo(
     () =>
-      HOME_SUCCESS_STORIES.map((story, index) => ({
-        story,
+      teamMembers.map((member, index) => ({
+        member,
         originalIndex: index,
       })),
     []
   );
 
-  const totalStories = storiesWithIndex.length;
-  const prevIndex = (activeIndex - 1 + totalStories) % totalStories;
-  const nextIndex = (activeIndex + 1) % totalStories;
-  const dotCount = Math.min(3, totalStories);
+  const totalMembers = membersWithIndex.length;
+  const cardsPerView = 4;
+  const totalPages = Math.ceil(totalMembers / cardsPerView);
+  const currentPage = Math.floor(activeIndex / cardsPerView);
+  
   const dotTargets = useMemo(() => {
-    if (dotCount === 0) {
-      return [];
-    }
+    return Array.from({ length: totalPages }).map((_, idx) => idx * cardsPerView);
+  }, [totalPages, cardsPerView]);
+  
+  const highlightSlot = currentPage;
 
-    if (totalStories <= dotCount) {
-      return Array.from({ length: dotCount }).map((_, idx) =>
-        idx < totalStories ? idx : totalStories - 1
-      );
-    }
+  const useDesktopLayout = hasHydrated && isDesktop;
 
-    return [prevIndex, activeIndex, nextIndex];
-  }, [dotCount, totalStories, prevIndex, activeIndex, nextIndex]);
-  const highlightSlot =
-    totalStories <= dotCount || dotCount === 0
-      ? null
-      : activeIndex % dotCount;
-
-  const useDesktopLayout = hasHydrated && isDesktop && totalStories > 2;
-
-  const displayedStories = useMemo(() => {
+  const displayedMembers = useMemo(() => {
     if (!useDesktopLayout) {
-      return storiesWithIndex;
+      return membersWithIndex;
     }
 
-    return [
-      storiesWithIndex[prevIndex],
-      storiesWithIndex[activeIndex],
-      storiesWithIndex[nextIndex],
-    ];
-  }, [useDesktopLayout, storiesWithIndex, prevIndex, activeIndex, nextIndex]);
+    // Show 4 cards at a time based on activeIndex
+    const cardsPerView = 4;
+    const startIndex = activeIndex;
+    const endIndex = Math.min(startIndex + cardsPerView, totalMembers);
+    
+    // If we're near the end and can't show 4 cards, show the last 4
+    if (endIndex - startIndex < cardsPerView && endIndex === totalMembers) {
+      return membersWithIndex.slice(-cardsPerView);
+    }
+    
+    return membersWithIndex.slice(startIndex, endIndex);
+  }, [useDesktopLayout, membersWithIndex, activeIndex, totalMembers]);
 
   if (!hasHydrated) {
     return (
-      <section className="pt-0 pb-12 md:pb-16 bg-white">
-        <div className="mx-auto w-full px-4 sm:px-6 lg:px-8 2xl:px-12">
+      <section className="pt-12 pb-16 md:pt-16 md:pb-20 bg-white">
+        <div className="mx-auto w-full px-4 sm:px-6 lg:px-12 xl:px-20 2xl:px-24">
           <div className="flex justify-center">
             <div className="w-full max-w-5xl h-[520px] rounded-[40px] border border-gray-200 bg-white shadow-[0_20px_60px_rgba(79,70,229,0.08)] flex items-center justify-center">
               <div className="flex flex-col items-center gap-4 text-center">
@@ -368,127 +426,104 @@ const SuccessStories: React.FC = () => {
   }
 
   return (
-    <section className="pt-12 md:pt-16 pb-12 md:pb-16 bg-white">
-      <div className="mx-auto w-full px-4 sm:px-6 lg:px-8 2xl:px-12">
-        <div className="text-center">
-          <h2
-            className="text-gray-900 mb-4"
-            style={styles.sectionHeading}
-          >
-            Success Stories from Every Field
+    <section className="pt-12 pb-16 md:pt-16 md:pb-20 bg-white">
+      <div className="mx-auto w-full px-4 sm:px-6 lg:px-12 xl:px-20 2xl:px-24">
+        <div className="text-center mb-12 md:mb-16">
+          <h2 className="text-gray-900 mb-4" style={styles.sectionHeading}>
+            Meet our top team
           </h2>
           <p
             className="text-gray-600 max-w-2xl mx-auto"
             style={styles.sectionDescription}
           >
-            Join thousands of learners who have transformed their careers
+            Learn from industry experts and certified professionals who are passionate about sharing their knowledge and helping you succeed.
           </p>
         </div>
 
-        <div className="relative md:flex md:justify-center mt-6 sm:mt-8">
-
-          <div className="relative w-full md:px-24 overflow-visible">
+        <div className="relative md:flex md:justify-center">
+          <div className="relative w-full overflow-hidden">
             <div
               ref={carouselRef}
-              className="flex gap-4 overflow-x-auto md:overflow-visible md:justify-center md:items-stretch md:gap-8 mb-12 pb-4 w-full scroll-smooth px-4 md:px-6 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden md:snap-x md:snap-mandatory"
+              className="flex gap-4 overflow-x-auto md:overflow-hidden md:justify-center md:items-stretch md:gap-6 mb-12 pb-4 w-full scroll-smooth px-4 md:px-0 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden md:snap-x md:snap-mandatory"
               onScroll={handleScroll}
             >
-              {displayedStories.map(({ story, originalIndex }, sliderIndex) => {
+              {displayedMembers.map(({ member, originalIndex }, sliderIndex) => {
                 const isActive = originalIndex === activeIndex;
-                const offset = useDesktopLayout ? sliderIndex - 1 : 0;
-                const distance = Math.abs(offset);
-                const desktopScale = useDesktopLayout
-                  ? offset === 0
-                    ? 1.08
-                    : 0.94
-                  : 1;
-                const desktopTranslateY = useDesktopLayout
-                  ? offset === 0
-                    ? 30
-                    : 30
-                  : 0;
-                const desktopZ =
-                  useDesktopLayout && offset === 0
-                    ? 20
-                    : useDesktopLayout && distance === 1
-                    ? 10
-                    : 0;
 
                 return (
                   <div
-                    key={story.id}
+                    key={member.id}
                     data-original-index={originalIndex}
-                    className={cn(
-                      "flex-shrink-0 transition-all duration-300 cursor-pointer w-full max-w-[390px] min-w-[85vw] sm:min-w-[340px] px-2 sm:px-0",
-                      useDesktopLayout
-                        ? isActive
-                          ? "md:scale-[1.15] md:z-10 md:snap-center"
-                          : "md:scale-100 md:z-0 md:blur-[1px] md:snap-center"
-                        : ""
-                    )}
-                    style={
-                      useDesktopLayout
-                        ? {
-                            transform: `translateY(${desktopTranslateY}px) scale(${desktopScale})`,
-                            zIndex: desktopZ,
-                            transition: "transform 0.45s ease, opacity 0.45s ease",
-                          }
-                        : undefined
-                    }
-                    onClick={() => {
-                      pauseAutoplay();
-                      setActiveIndex(originalIndex);
+                    className="flex-shrink-0 min-w-[280px] sm:min-w-[280px] md:min-w-0 px-2 sm:px-0 flex items-center justify-center"
+                    style={{
+                      height: "379px",
                     }}
                   >
-                    <div
-                      className={cn(
-                        "p-6 rounded-xl flex flex-col items-center text-center h-full",
-                        story.gradient && isActive ? "" : "bg-white"
-                      )}
-                      style={styles.card(isActive, Boolean(story.gradient))}
-                    >
-                      <div className="flex items-center justify-center gap-1 mb-6">
-                        <StarRating rating={story.rating} size="md" />
-                      </div>
-
-                      <p
-                        className="mb-6 flex-1 flex items-center text-base"
-                        style={styles.quote(isActive)}
-                      >
-                        &ldquo;{story.quote}&rdquo;
-                      </p>
-
-                      <div className="mb-4">
+                    <div 
+                    className="bg-white text-center flex flex-col"
+                    style={{
+                      width: "280px",
+                      height: "379px",
+                      borderRadius: "17.47px",
+                      background: "#FFFFFF",
+                      boxShadow: "0px 4.37px 6.55px 0px #0000001A",
+                      padding: "24px",
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                      <div className="relative w-32 h-32 mx-auto mb-6 rounded-full overflow-hidden border-2 flex-shrink-0 shadow-md" style={{ borderColor: colors.brand.primarySofter || "#5636FF" }}>
                         <ImageWithFallback
-                          src={story.image || `/images/students/${story.id}.jpg`}
-                          alt={story.name}
-                          width={80}
-                          height={80}
-                          className="w-20 h-20 rounded-full object-cover mx-auto"
+                          src={member.image}
+                          alt={member.name}
+                          width={128}
+                          height={128}
+                          className="w-full h-full object-cover"
                           fallback={
-                            <div className="w-20 h-20 rounded-full bg-gray-300 flex items-center justify-center mx-auto">
-                              <span className="text-gray-600 text-2xl font-bold">
-                                {story.name.charAt(0)}
+                            <div className="w-full h-full bg-gradient-to-br from-purple-400 to-blue-400 flex items-center justify-center">
+                              <span className="text-white text-3xl font-bold">
+                                {member.name.charAt(0)}
                               </span>
                             </div>
                           }
                         />
                       </div>
-
-                      <div className="text-center">
-                        <p
-                          className="font-bold mb-1"
-                          style={styles.name(isActive)}
-                        >
-                          {story.name}
-                        </p>
-                        <p
-                          className="text-sm"
-                          style={styles.role(isActive)}
-                        >
-                          {story.role}
-                        </p>
-                      </div>
+                      <h3
+                        className="text-gray-900 mb-3 font-bold flex-shrink-0"
+                        style={{
+                          ...styles.memberName,
+                          fontSize: "24px",
+                          fontWeight: 700,
+                          color: "#1F2937",
+                        }}
+                      >
+                        {member.name}
+                      </h3>
+                      <p 
+                        className="mb-6 flex-shrink-0 font-bold" 
+                        style={{
+                          ...styles.memberTitle,
+                          fontSize: "18px",
+                          fontWeight: 700,
+                          color: colors.brand.primarySofter || "#5636FF",
+                        }}
+                      >
+                        {member.title}
+                      </p>
+                      <p
+                        className="text-gray-500 leading-relaxed flex-shrink-0 text-center"
+                        style={{
+                          ...styles.memberQuote,
+                          fontSize: "16px",
+                          fontWeight: 400,
+                          color: "#6B7280",
+                          fontStyle: "normal",
+                        }}
+                      >
+                        &ldquo;{member.quote}&rdquo;
+                      </p>
                     </div>
                   </div>
                 );
@@ -497,17 +532,14 @@ const SuccessStories: React.FC = () => {
           </div>
         </div>
 
-        {dotCount > 0 && (
+        {dotTargets.length > 0 && (
           <div className="flex justify-center gap-1">
             {dotTargets.map((targetIndex, slot) => {
-              const isActive =
-                totalStories <= dotCount
-                  ? targetIndex === activeIndex
-                  : slot === highlightSlot;
+              const isActive = slot === highlightSlot;
 
               return (
                 <button
-                  key={`story-dot-${slot}`}
+                  key={`team-dot-${slot}`}
                   onClick={() => {
                     if (targetIndex === undefined) {
                       return;
@@ -527,4 +559,4 @@ const SuccessStories: React.FC = () => {
   );
 };
 
-export default SuccessStories;
+export default TeamSection;
