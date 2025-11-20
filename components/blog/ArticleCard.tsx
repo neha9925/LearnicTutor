@@ -60,9 +60,10 @@ const ArticleCard: React.FC<ArticleCardProps> = ({ article }) => {
         <ImageWithFallback
           src={article.image}
           alt={article.title}
-          fill
-          className="object-cover"
-          fallbackSrc="/images/banners/Banner1.png"
+          width={400}
+          height={192}
+          className="w-full h-full object-cover"
+          objectFit="cover"
         />
       </div>
       
