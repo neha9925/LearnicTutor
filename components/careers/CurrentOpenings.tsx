@@ -651,7 +651,7 @@ const CurrentOpenings: React.FC = () => {
                     letterSpacing: "0%",
                   }}
                 >
-                  I agree to Learnic's{" "}
+                  I agree to Learnic&apos;s{" "}
                   <Link href="/terms-and-conditions" className="font-bold text-[#572EEE] hover:underline">
                     terms
                   </Link>{" "}

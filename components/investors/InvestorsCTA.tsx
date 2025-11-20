@@ -31,10 +31,10 @@ const InvestorsCTA: React.FC = () => {
       <div className="mx-auto w-full px-4 sm:px-6 lg:px-12 xl:px-20 2xl:px-24">
         <div className="max-w-3xl mx-auto text-center">
           <h2 style={styles.heading} className="mb-6">
-            Be Part of Learnic's Growth Journey
+            Be Part of Learnic&apos;s Growth Journey
           </h2>
           <p style={styles.description} className="mb-8">
-            Let's build the future of learning together and make quality education accessible to millions worldwide.
+            Let&apos;s build the future of learning together and make quality education accessible to millions worldwide.
           </p>
           <Button
             variant="primary"

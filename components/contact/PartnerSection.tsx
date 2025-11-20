@@ -30,7 +30,7 @@ const PartnerSection: React.FC = () => {
             Looking to Partner with Us?
           </h2>
           <p style={styles.sectionDescription} className="text-base md:text-lg">
-            We're always open to collaborations with educators, institutions, and content creators. Let's grow together!
+            We&apos;re always open to collaborations with educators, institutions, and content creators. Let&apos;s grow together!
           </p>
           <Button
             variant="primary"

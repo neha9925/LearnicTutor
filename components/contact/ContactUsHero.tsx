@@ -28,10 +28,10 @@ const ContactUsHero: React.FC = () => {
           {/* Left Panel - Content */}
           <div className="text-center lg:text-left">
             <h1 style={styles.title} className="mb-6">
-              We'd Love to Hear From You!
+              We&apos;d Love to Hear From You!
             </h1>
             <p style={styles.description} className="text-lg md:text-xl max-w-xl mx-auto lg:mx-0">
-              Whether you have a question, feedback, or partnership idea, we're here to listen.
+              Whether you have a question, feedback, or partnership idea, we&apos;re here to listen.
             </p>
           </div>
 

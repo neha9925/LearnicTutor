@@ -58,7 +58,7 @@ const ContactSupport: React.FC = () => {
             Still Need Help?
           </h2>
           <p style={styles.sectionDescription} className="text-base md:text-lg max-w-2xl mx-auto">
-            If you didn't find what you're looking for, we're just a message away.
+            If you didn&apos;t find what you&apos;re looking for, we&apos;re just a message away.
           </p>
         </div>
 

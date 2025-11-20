@@ -62,7 +62,7 @@ const ContactForm: React.FC = () => {
               Get In Touch
             </h2>
             <p style={styles.sectionDescription} className="text-base md:text-lg">
-              We're here to help and answer any question you might have.
+              We&apos;re here to help and answer any question you might have.
             </p>
           </div>
 

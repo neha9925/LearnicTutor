@@ -84,7 +84,7 @@ const WhyChooseSection: React.FC = () => {
             className="text-gray-600 max-w-2xl mx-auto"
             style={styles.sectionDescription}
           >
-            Experience the world's largest education platform with Learnic.
+            Experience the world&apos;s largest education platform with Learnic.
           </p>
         </div>
 

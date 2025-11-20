@@ -91,7 +91,7 @@ const TermsContent: React.FC = () => {
                 fontFamily: "var(--font-poppins), Poppins, sans-serif",
               }}
             >
-              By creating an account or using Learnic's services, you acknowledge that you have read, understood, and agreed to these Terms and Conditions.
+              By creating an account or using Learnic&apos;s services, you acknowledge that you have read, understood, and agreed to these Terms and Conditions.
             </p>
             
             {/* Checkbox with light purple background */}
@@ -568,7 +568,7 @@ const TermsContent: React.FC = () => {
               fontFamily: "var(--font-poppins), Poppins, sans-serif",
             }}
           >
-            Have questions about our terms? We're here to help. Reach out to our legal team for any clarifications.
+            Have questions about our terms? We&apos;re here to help. Reach out to our legal team for any clarifications.
           </p>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
             {/* Email Card */}

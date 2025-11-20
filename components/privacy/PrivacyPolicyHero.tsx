@@ -37,7 +37,7 @@ const PrivacyPolicyHero: React.FC = () => {
             Privacy Policy
           </h1>
           <p style={styles.subtitle} className="text-lg md:text-xl mb-4">
-            Your trust matters to us. Here's how Learnic protects and uses your information.
+            Your trust matters to us. Here&apos;s how Learnic protects and uses your information.
           </p>
           <p style={styles.lastUpdated} className="text-sm">
             Last updated: October 2025

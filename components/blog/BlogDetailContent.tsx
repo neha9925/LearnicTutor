@@ -229,7 +229,7 @@ const BlogDetailContent: React.FC<BlogDetailContentProps> = ({ article, author }
               color: "#374151",
             }}
           >
-            "{article.content.quote}"
+            &quot;{article.content.quote}&quot;
           </p>
         </div>
       )}

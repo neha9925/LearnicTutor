@@ -30,7 +30,7 @@ const WantToTeachCTA: React.FC = () => {
             className="mb-10 text-white max-w-2xl mx-auto leading-relaxed"
             style={styles.sectionDescription}
           >
-            Join our growing network of passionate educators and share your expertise with learners across the world. Make a difference in students' lives while building your teaching career.
+            Join our growing network of passionate educators and share your expertise with learners across the world. Make a difference in students&apos; lives while building your teaching career.
           </p>
           <button
             className="px-8 py-4 rounded-lg font-semibold bg-white text-[#572EEE] hover:bg-gray-50 transition-colors"

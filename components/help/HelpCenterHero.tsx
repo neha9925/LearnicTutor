@@ -45,7 +45,7 @@ const HelpCenterHero: React.FC = () => {
           {/* Left Section: Text and Search (2/3 width) */}
           <div className="lg:col-span-2 flex flex-col gap-6">
             <h1 style={styles.title} className="mb-2">
-              We're Here to Help You
+              We&apos;re Here to Help You
             </h1>
             <p style={styles.description} className="mb-4">
               Find answers, explore guides, or contact our support team — all in one place.
