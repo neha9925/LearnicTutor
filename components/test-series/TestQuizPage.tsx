@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 import { ArrowLeft, Clock, CheckCircle2, Check, BarChart3, ChevronLeft, ChevronRight } from "lucide-react";
 import TestResultsModal from "./TestResultsModal";
 import { colors, gradients, radii, shadows, typography } from "@/theme";
@@ -254,11 +255,14 @@ const TestQuizPage: React.FC<TestQuizPageProps> = ({ quiz }) => {
               {currentQuestion.image && (
                 <div className="mb-6">
                   <div className="w-full rounded-lg overflow-hidden" style={{ backgroundColor: "#1e3a8a" }}>
-                    <img
+                    <Image
                       src={currentQuestion.image}
                       alt="Question diagram"
+                      width={800}
+                      height={400}
                       className="w-full h-auto"
                       style={{ maxHeight: "400px", objectFit: "contain" }}
+                      unoptimized={currentQuestion.image.endsWith('.svg')}
                     />
                   </div>
                 </div>

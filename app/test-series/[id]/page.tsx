@@ -1,7 +1,7 @@
 import TestSeriesDetailPage from "@/components/test-series/TestSeriesDetailPage";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { testSeriesDetails, getTestSeriesDetailById } from "@/data/testSeriesDetails";
+import { testSeriesDetails, getTestSeriesDetailById, type TestSeriesDetail } from "@/data/testSeriesDetails";
 import { testSeriesData } from "@/data/testSeries";
 
 export const metadata: Metadata = {
@@ -24,8 +24,8 @@ function getTestSeriesById(id: string) {
 }
 
 // Helper function to convert basic test series to detail format
-function convertToDetailFormat(basicTest: ReturnType<typeof getTestSeriesById>) {
-  if (!basicTest) return null;
+function convertToDetailFormat(basicTest: ReturnType<typeof getTestSeriesById>): TestSeriesDetail | undefined {
+  if (!basicTest) return undefined;
   
   return {
     id: basicTest.id,

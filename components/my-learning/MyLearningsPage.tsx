@@ -43,7 +43,7 @@ const MyLearningsPage: React.FC = () => {
               fontFamily: "var(--font-poppins), sans-serif",
             }}
           >
-            Track your learning journey and discover what's waiting for you.
+            Track your learning journey and discover what&apos;s waiting for you.
           </p>
         </div>
       </div>
