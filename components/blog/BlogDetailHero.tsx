@@ -25,14 +25,14 @@ const styles = {
     fontWeight: 500,
   },
   title: {
-    fontFamily: "var(--font-poppins), Poppins, sans-serif",
     ...typography.hero.heading,
+    fontFamily: "var(--font-poppins), Poppins, sans-serif",
     color: "#FFFFFF",
     fontSize: "clamp(32px, 5vw, 48px)",
   },
   meta: {
-    fontFamily: "var(--font-poppins), Poppins, sans-serif",
     ...typography.card.bodyMd,
+    fontFamily: "var(--font-poppins), Poppins, sans-serif",
     color: "#FFFFFF",
     opacity: 0.9,
   },

@@ -16,8 +16,8 @@ const styles = {
     marginBottom: "48px",
   },
   cardTitle: {
-    fontFamily: "var(--font-poppins), Poppins, sans-serif",
     ...typography.card.titleMd,
+    fontFamily: "var(--font-poppins), Poppins, sans-serif",
     color: "#1F2937",
     marginBottom: "8px",
     fontSize: "18px",
@@ -25,8 +25,8 @@ const styles = {
     textAlign: "center" as const,
   },
   cardDescription: {
-    fontFamily: "var(--font-poppins), Poppins, sans-serif",
     ...typography.card.bodySm,
+    fontFamily: "var(--font-poppins), Poppins, sans-serif",
     color: "#6B7280",
     fontSize: "14px",
     lineHeight: "1.5",

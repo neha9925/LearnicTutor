@@ -11,6 +11,7 @@ import {
   Moon,
   Sunset,
   PlayCircle,
+  Play,
   Lock,
   ChevronDown,
   ChevronRight,
@@ -623,27 +624,13 @@ const LiveClassDetail: React.FC<LiveClassDetailProps> = ({
                       <div
                         key={section.title}
                       className={cn(
-                        "rounded-3xl border transition-all",
-                        isVideoVariant && "rounded-2xl border-[#E7EAF5] bg-[#FDFDFF]"
+                        "rounded-2xl border transition-all",
+                        isVideoVariant && "rounded-2xl bg-white"
                       )}
                         style={{
-                        borderColor: isVideoVariant
-                          ? "#E7EAF5"
-                          : isActive
-                          ? "#D9D6FE"
-                          : "rgba(148, 163, 184, 0.4)",
-                        backgroundColor: isVideoVariant
-                          ? idx === activeSection
-                            ? "#EEF2FF"
-                            : "#FFFFFF"
-                          : isActive
-                          ? "#EEF2FF"
-                          : "#FFFFFF",
-                        boxShadow: isVideoVariant
-                          ? "0px 10px 28px rgba(79, 70, 229, 0.08)"
-                          : isActive
-                          ? "0px 24px 60px rgba(79, 70, 229, 0.12)"
-                          : "0px 8px 32px rgba(15, 23, 42, 0.04)",
+                        borderColor: "#E5E7EB",
+                        backgroundColor: isActive ? "#F9F9FF" : "#FFFFFF",
+                        boxShadow: "0px 1px 3px rgba(0, 0, 0, 0.1)",
                         }}
                       >
                         <button
@@ -655,20 +642,12 @@ const LiveClassDetail: React.FC<LiveClassDetailProps> = ({
                             <div
                               className="w-10 h-10 rounded-full flex items-center justify-center font-semibold"
                               style={{
-                              backgroundColor: isVideoVariant
-                                ? idx === activeSection
-                                  ? "#4F46E5"
-                                  : "#EEF1FF"
-                                : isActive
-                                ? "#6B47ED"
-                                : "#F3F4F6",
-                              color: isVideoVariant
-                                ? idx === activeSection
+                                backgroundColor: isActive
+                                  ? "#6B47ED"
+                                  : "#F3F4F6",
+                                color: isActive
                                   ? "#FFFFFF"
-                                  : "#4C1D95"
-                                : isActive
-                                ? "#FFFFFF"
-                                : "#6B47ED",
+                                  : "#1F2937",
                                 ...infoFont,
                               }}
                             >
@@ -678,7 +657,7 @@ const LiveClassDetail: React.FC<LiveClassDetailProps> = ({
                               <p
                                 style={{
                                   ...infoFont,
-                                  fontWeight: 600,
+                                  fontWeight: 700,
                                   fontSize: "18px",
                                   color: "#1F2937",
                                 }}
@@ -686,63 +665,55 @@ const LiveClassDetail: React.FC<LiveClassDetailProps> = ({
                                 {section.title}
                               </p>
                               {summaryText && (
-                                <p style={textStyle({ fontWeight: 500, fontSize: "14px", color: colors.text.secondary })}>
+                                <p style={textStyle({ fontWeight: 500, fontSize: "14px", color: "#9CA3AF" })}>
                                   {summaryText}
                                 </p>
                               )}
                             </div>
                           </div>
                         {isActive ? (
-                          <ChevronDown className="w-5 h-5 text-[#6B47ED]" />
+                          <ChevronDown className="w-5 h-5" style={{ color: "#9CA3AF" }} />
                         ) : (
-                          <ChevronRight className="w-5 h-5 text-[#6B47ED]" />
+                          <ChevronRight className="w-5 h-5" style={{ color: "#9CA3AF" }} />
                         )}
                         </button>
 
                         {isActive && lessons.length > 0 && (
-                        <div className={cn("pb-6", isVideoVariant ? "px-6 border-t border-[#ECEFF8]" : "px-8")}>
-                          <div className={cn("space-y-4", !isVideoVariant && "border-t border-gray-200 pt-5")}>
-                            {lessons.map((lesson) => (
+                        <div className="pb-6 px-6 border-t border-gray-200 pt-4">
+                          <div className="space-y-4">
+                            {lessons.map((lesson, lessonIdx) => {
+                              return (
                               <div key={lesson.title} className="flex items-center justify-between gap-4">
                                 <div className="flex items-center gap-4">
                                   <div
-                                    className={cn(
-                                      "rounded-full flex items-center justify-center",
-                                      isVideoVariant ? "w-9 h-9" : "w-8 h-8 bg-white border border-gray-200"
-                                    )}
+                                    className="w-7 h-7 rounded-full flex items-center justify-center"
                                     style={{
-                                      backgroundColor: isVideoVariant
-                                        ? lesson.isPreview
-                                          ? "rgba(79,70,229,0.12)"
-                                          : "#F1F5F9"
+                                      backgroundColor: lesson.isPreview
+                                        ? "#10B981"
                                         : undefined,
-                                      color: lesson.isPreview ? "#4C1D95" : "#6B7280",
                                     }}
                                   >
                                     {lesson.isPreview ? (
-                                      <PlayCircle className={isVideoVariant ? "w-5 h-5" : "w-4 h-4 text-green-500"} />
+                                      <Play className="w-3 h-3 ml-0.5" style={{ color: "#FFFFFF" }} fill="#FFFFFF" />
                                     ) : (
-                                      <Lock className={isVideoVariant ? "w-5 h-5" : "w-4 h-4 text-gray-400"} />
+                                      <Lock className="w-4 h-4" style={{ color: "#9CA3AF" }} />
                                     )}
                                   </div>
                                   <div className="flex flex-col">
-                                    <p style={textStyle({ fontWeight: 500, color: colors.text.primary })}>
+                                    <p style={textStyle({ fontWeight: 500, color: "#1F2937", fontSize: "16px" })}>
                                       {lesson.title}
                                     </p>
-                                    {lesson.isPreview && (
-                                      <span style={textStyle({ color: colors.brand.primarySoft, fontSize: "13px", fontWeight: 600 })}>
-                                        Preview
-                                      </span>
-                                    )}
                                   </div>
                                 </div>
                                 <div className="flex items-center gap-3 text-sm" style={textStyle()}>
-                                  {lesson.duration && (
-                                    <span style={{ color: colors.text.secondary }}>{lesson.duration}</span>
-                                  )}
+                                  {lesson.isPreview ? (
+                                    <span style={{ color: "#9CA3AF", fontSize: "14px" }}>Preview</span>
+                                  ) : lesson.duration ? (
+                                    <span style={{ color: "#9CA3AF", fontSize: "14px" }}>{lesson.duration}</span>
+                                  ) : null}
                                 </div>
                               </div>
-                            ))}
+                            )})}
                           </div>
                         </div>
                         )}
@@ -760,19 +731,16 @@ const LiveClassDetail: React.FC<LiveClassDetailProps> = ({
                 </h3>
                 <Button
                   variant="primary"
-                  className="px-6 py-2 rounded-full"
+                  className="px-6 py-3"
                   style={{
                     background: "#572EEE",
                     color: "#FFFFFF",
                     fontFamily: "var(--font-poppins), sans-serif",
-                    fontWeight: 400,
-                    fontSize: "15px",
-                    lineHeight: "100%",
-                    letterSpacing: "0%",
-                    textAlign: "center",
-                    width: "141.16883850097656px",
-                    height: "41.55844497680664px",
-                    borderRadius: "8.31px",
+                    fontWeight: 600,
+                    fontSize: "16px",
+                    border: "none",
+                    boxShadow: "none",
+                    borderRadius: "8px",
                   }}
                 >
                   Leave Review
@@ -888,7 +856,7 @@ const LiveClassDetail: React.FC<LiveClassDetailProps> = ({
                     <Button
                       className="w-full sm:w-[335.94px] text-white py-3 rounded-full"
                       style={{
-                        background: "#5A3FFF",
+                        background: "#572EEE",
                         fontFamily: "var(--font-poppins), sans-serif",
                         fontWeight: 600,
                         fontSize: "15px",
@@ -987,10 +955,11 @@ const LiveClassDetail: React.FC<LiveClassDetailProps> = ({
             </div>
 
             
-            <div
-              className="bg-white rounded-[28px] p-6"
-              style={{ boxShadow: "0px 1.04px 2.08px 0px #0000000D" }}
-            >
+            {(isVideoVariant ? course.suggestions.length > 0 : suggestedCourseCards.length > 0) && (
+              <div
+                className="bg-white rounded-[28px] p-6"
+                style={{ boxShadow: "0px 1.04px 2.08px 0px #0000000D" }}
+              >
               <h4 className="mb-5" style={textStyle({ fontWeight: 700, fontSize: "20px", color: colors.text.primary })}>
                 {isVideoVariant ? "Suggested Videos" : "Suggested Classes"}
               </h4>
@@ -1041,7 +1010,8 @@ const LiveClassDetail: React.FC<LiveClassDetailProps> = ({
                   ))}
                 </div>
               )}
-            </div>
+              </div>
+            )}
           </div>
         </div>
       </div>

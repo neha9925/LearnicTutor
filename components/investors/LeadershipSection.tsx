@@ -8,16 +8,16 @@ import { colors, typography } from "@/theme";
 
 const styles = {
   sectionHeading: {
-    fontFamily: "var(--font-poppins), Poppins, sans-serif",
     ...typography.section.headingLg,
+    fontFamily: "var(--font-poppins), Poppins, sans-serif",
     marginBottom: "12px",
     color: "#1F2937",
     fontWeight: 700,
     textAlign: "center" as const,
   },
   sectionDescription: {
-    fontFamily: "var(--font-poppins), Poppins, sans-serif",
     ...typography.section.descriptionMd,
+    fontFamily: "var(--font-poppins), Poppins, sans-serif",
     marginBottom: "48px",
     color: "#1F2937",
     textAlign: "center" as const,
@@ -41,8 +41,8 @@ const styles = {
     color: "#1F2937",
   },
   memberName: {
-    fontFamily: "var(--font-poppins), Poppins, sans-serif",
     ...typography.card.titleMd,
+    fontFamily: "var(--font-poppins), Poppins, sans-serif",
     color: "#1F2937",
     marginBottom: "8px",
     fontWeight: 700,
@@ -50,8 +50,8 @@ const styles = {
     textAlign: "center" as const,
   },
   memberRole: {
-    fontFamily: "var(--font-poppins), Poppins, sans-serif",
     ...typography.card.bodySm,
+    fontFamily: "var(--font-poppins), Poppins, sans-serif",
     color: colors.brand.primarySofter || "#5636FF",
     marginBottom: "12px",
     fontWeight: 600,
@@ -128,14 +128,14 @@ const LeadershipSection: React.FC = () => {
               key={member.id}
               className="bg-white p-6 text-center rounded-2xl shadow-md hover:shadow-xl transition-shadow"
             >
-              <div className="relative w-24 h-24 mx-auto mb-4 rounded-full overflow-hidden border-2 flex-shrink-0" style={{ borderColor: colors.brand.primarySofter || "#5636FF" }}>
+              <div className="relative w-24 h-24 mx-auto mb-4 rounded-full overflow-hidden border-2 flex-shrink-0 bg-gray-100" style={{ borderColor: colors.brand.primarySofter || "#5636FF" }}>
                 <ImageWithFallback
                   src={member.avatar}
                   alt={member.name}
                   width={96}
                   height={96}
                   className="w-full h-full"
-                  objectFit="cover"
+                  objectFit={member.avatar.endsWith('.svg') ? "contain" : "cover"}
                 />
               </div>
               <h3 style={styles.memberName}>

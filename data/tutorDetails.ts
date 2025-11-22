@@ -227,10 +227,17 @@ export const TUTOR_DETAILS: TutorDetail[] = [
     education: [
       {
         id: "1",
-        degree: "PhD in Mathematics",
-        university: "MIT",
-        year: "2014",
+        degree: "Ph.D. in Applied Mathematics",
+        university: "Baghdad University",
+        year: "2010",
         icon: "graduation",
+      },
+      {
+        id: "2",
+        degree: "Master's in Pure Mathematics",
+        university: "University of Technology",
+        year: "2006",
+        icon: "award",
       },
     ],
     achievements: [
@@ -239,6 +246,12 @@ export const TUTOR_DETAILS: TutorDetail[] = [
         title: "Top Rated Instructor",
         subtitle: "2023 Excellence Award",
         icon: "trophy",
+      },
+      {
+        id: "2",
+        title: "Certified Online Educator",
+        subtitle: "International Teaching Board",
+        icon: "sparkles",
       },
     ],
     courses: [

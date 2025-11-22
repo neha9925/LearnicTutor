@@ -56,14 +56,14 @@ const ArticleCard: React.FC<ArticleCardProps> = ({ article }) => {
 
   return (
     <div className="bg-white rounded-xl overflow-hidden h-full flex flex-col shadow-md hover:shadow-lg transition-shadow">
-      <div className="relative w-full h-48 overflow-hidden">
+      <div className="relative w-full h-48 overflow-hidden bg-gray-100">
         <ImageWithFallback
           src={article.image}
           alt={article.title}
           width={400}
           height={192}
-          className="w-full h-full object-cover"
-          objectFit="cover"
+          className="w-full h-full"
+          objectFit={article.image.endsWith('.svg') ? "contain" : "cover"}
         />
       </div>
       

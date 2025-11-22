@@ -4,7 +4,7 @@ import React, { useState, useMemo } from "react";
 import Link from "next/link";
 import { Calendar } from "lucide-react";
 import { colors, typography } from "@/theme";
-import { TextField, Select, MenuItem } from "@mui/material";
+import { TextField, Select, MenuItem, SelectChangeEvent } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import SideDrawer from "@/components/ui/SideDrawer";
 
@@ -210,7 +210,7 @@ const CurrentOpenings: React.FC = () => {
               <StyledSelect
                 fullWidth
                 value={selectedDepartment}
-                onChange={(e) => setSelectedDepartment(e.target.value)}
+                onChange={(e) => setSelectedDepartment(e.target.value as string)}
                 displayEmpty
               >
                 {departmentOptions.map((option) => (
@@ -224,7 +224,7 @@ const CurrentOpenings: React.FC = () => {
               <StyledSelect
                 fullWidth
                 value={selectedLocation}
-                onChange={(e) => setSelectedLocation(e.target.value)}
+                onChange={(e) => setSelectedLocation(e.target.value as string)}
                 displayEmpty
               >
                 {locationOptions.map((option) => (

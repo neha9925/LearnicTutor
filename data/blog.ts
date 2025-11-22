@@ -111,7 +111,7 @@ export const LATEST_ARTICLES: BlogArticle[] = [
     authorId: "michael-chen",
     date: "Nov 10, 2024",
     category: "Live Learning",
-    image: "/images/students/student-1.jpg",
+    image: "/images/banners/blogA.svg",
     content: {
       introduction: "Online learning has revolutionized education, offering flexibility and accessibility like never before. However, mastering the art of studying effectively in a digital environment requires specific strategies and techniques.",
       sections: [
@@ -156,7 +156,7 @@ export const LATEST_ARTICLES: BlogArticle[] = [
     author: "Emily Rodriguez",
     date: "Nov 8, 2024",
     category: "Exam Prep",
-    image: "/images/students/student-2.jpg",
+    image: "/images/banners/blogB.svg",
   },
   {
     id: "article-3",
@@ -165,7 +165,7 @@ export const LATEST_ARTICLES: BlogArticle[] = [
     author: "David Kumar",
     date: "Nov 6, 2024",
     category: "Skill Growth",
-    image: "/images/students/student-3.jpg",
+    image: "/images/banners/blogC.svg",
   },
   {
     id: "article-4",
@@ -174,7 +174,7 @@ export const LATEST_ARTICLES: BlogArticle[] = [
     author: "Jessica Wang",
     date: "Nov 4, 2024",
     category: "Live Learning",
-    image: "/images/students/student-4.jpg",
+    image: "/images/banners/blogD.svg",
   },
   {
     id: "article-5",
@@ -183,7 +183,7 @@ export const LATEST_ARTICLES: BlogArticle[] = [
     author: "Alex Thompson",
     date: "Nov 2, 2024",
     category: "Skill Growth",
-    image: "/images/students/student-5.jpg",
+    image: "/images/banners/blogA.svg",
   },
   {
     id: "article-6",
@@ -192,7 +192,7 @@ export const LATEST_ARTICLES: BlogArticle[] = [
     author: "Maria Garcia",
     date: "Oct 30, 2024",
     category: "Exam Prep",
-    image: "/images/students/student-6.jpg",
+    image: "/images/banners/blogB.svg",
   },
 ];
 
@@ -201,19 +201,19 @@ export const POPULAR_POSTS: PopularPost[] = [
     id: "popular-1",
     title: "Study Tips for better Focus",
     date: "Oct 25, 2024",
-    image: "/images/students/student-1.jpg",
+    image: "/images/banners/blogA.svg",
   },
   {
     id: "popular-2",
     title: "Exam Anxiety Solutions",
     date: "Oct 20, 2024",
-    image: "/images/students/student-2.jpg",
+    image: "/images/banners/blogB.svg",
   },
   {
     id: "popular-3",
     title: "Building Motivation for Learning",
     date: "Oct 15, 2024",
-    image: "/images/students/student-3.jpg",
+    image: "/images/banners/blogC.svg",
   },
 ];
 

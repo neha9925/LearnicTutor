@@ -159,6 +159,7 @@ export const LEARNIC_GUIDES: Guide[] = [
     description: "Learn the basics of navigating the platform and setting up your profile",
     duration: "3 min read",
     type: "read",
+    image: "/images/banners/blogA.svg",
   },
   {
     id: "guide-2",
@@ -166,6 +167,7 @@ export const LEARNIC_GUIDES: Guide[] = [
     description: "Step-by-step guide to browsing, selecting, and purchasing courses",
     duration: "2 min video",
     type: "video",
+    image: "/images/banners/blogB.svg",
   },
   {
     id: "guide-3",
@@ -173,6 +175,7 @@ export const LEARNIC_GUIDES: Guide[] = [
     description: "Discover how to take tests, review results, and track your progress",
     duration: "4 min read",
     type: "read",
+    image: "/images/banners/blogC.svg",
   },
 ];
 

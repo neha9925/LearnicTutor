@@ -136,7 +136,7 @@ const ExpertTutorsList: React.FC = () => {
             <StyledSelect
               fullWidth
               value={sortBy}
-              onChange={(e) => setSortBy(e.target.value)}
+              onChange={(e) => setSortBy(e.target.value as string)}
               displayEmpty
             >
               {sortOptions.map((option) => (

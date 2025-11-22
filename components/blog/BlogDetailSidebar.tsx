@@ -70,9 +70,10 @@ const BlogDetailSidebar: React.FC = () => {
                   <ImageWithFallback
                     src={post.image}
                     alt={post.title}
-                    fill
-                    className="object-cover group-hover:scale-110 transition-transform"
-                    fallbackSrc="/images/banners/Banner1.png"
+                    width={80}
+                    height={48}
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform"
+                    objectFit="cover"
                   />
                 </div>
                 <div className="flex-1">

@@ -47,7 +47,12 @@ const TutorDetailPage = ({ params }: { params: { id: string } }) => {
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
-      <main className="flex-1 bg-white">
+      <main 
+        className="flex-1"
+        style={{
+          background: "linear-gradient(90deg, rgba(87, 46, 238, 0.1) 0%, #FAF5FF 100%)",
+        }}
+      >
         <TutorDetail tutor={tutor} />
       </main>
       <Footer />

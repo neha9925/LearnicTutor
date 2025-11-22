@@ -317,7 +317,7 @@ const LiveClassesContent: React.FC = () => {
           </div>
         </div>
 
-        <div className="flex flex-col gap-6">
+        <div className="flex flex-col gap-6" style={styles.gridWrapper}>
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div>
               <h1 style={styles.sectionTitle}>Live Classes</h1>

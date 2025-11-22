@@ -359,7 +359,7 @@ const TutorDetail: React.FC<TutorDetailProps> = ({ tutor }) => {
   }, [useDesktopLayout, reviewsWithIndex, prevIndex, activeIndex, nextIndex]);
 
   return (
-    <div className="bg-white">
+    <div>
       {/* Instructor Profile Section */}
       <section className="py-12 md:py-16 lg:py-12">
         <div className="mx-auto w-full px-4 sm:px-6 lg:px-12 xl:px-20 2xl:px-24">
@@ -499,11 +499,11 @@ const TutorDetail: React.FC<TutorDetailProps> = ({ tutor }) => {
                       key={edu.id}
                       className="flex items-start gap-4"
                     >
-                      <div className="w-12 h-12 rounded-lg bg-[#E9D5FF] flex items-center justify-center flex-shrink-0">
+                      <div className="w-12 h-12 rounded-lg bg-[#F3E8FF] flex items-center justify-center flex-shrink-0">
                         {edu.icon === "graduation" ? (
-                          <GraduationCap className="w-6 h-6 text-white" />
+                          <GraduationCap className="w-6 h-6 text-[#572EEE]" />
                         ) : (
-                          <Award className="w-6 h-6 text-white" />
+                          <Award className="w-6 h-6 text-[#572EEE]" />
                         )}
                       </div>
                       <div>
@@ -516,7 +516,7 @@ const TutorDetail: React.FC<TutorDetailProps> = ({ tutor }) => {
                           {edu.degree}
                         </h3>
                         <p
-                          className="text-gray-700"
+                          className="text-gray-600"
                           style={{
                             fontFamily: "var(--font-poppins), Poppins, sans-serif",
                             fontSize: "16px",
@@ -544,36 +544,34 @@ const TutorDetail: React.FC<TutorDetailProps> = ({ tutor }) => {
                   {tutor.achievements.map((achievement) => (
                     <div
                       key={achievement.id}
-                      className="rounded-lg p-6"
+                      className="rounded-lg p-6 relative"
                       style={{
                         background: "linear-gradient(135deg, #F3E8FF 0%, #E9D5FF 100%)",
                       }}
                     >
-                      <div className="flex items-start gap-4">
-                        {achievement.icon === "trophy" ? (
-                          <Trophy className="w-6 h-6 text-white flex-shrink-0" />
-                        ) : (
-                          <Sparkles className="w-6 h-6 text-white flex-shrink-0" />
-                        )}
-                        <div>
-                          <h3
-                            className="font-bold text-lg mb-1 text-gray-900"
-                            style={{
-                              fontFamily: "var(--font-poppins), Poppins, sans-serif",
-                            }}
-                          >
-                            {achievement.title}
-                          </h3>
-                          <p
-                            className="text-gray-700"
-                            style={{
-                              fontFamily: "var(--font-poppins), Poppins, sans-serif",
-                              fontSize: "16px",
-                            }}
-                          >
-                            {achievement.subtitle}
-                          </p>
-                        </div>
+                      {achievement.icon === "trophy" ? (
+                        <Trophy className="w-6 h-6 text-blue-600 absolute top-4 left-4" />
+                      ) : (
+                        <Sparkles className="w-6 h-6 text-blue-600 absolute top-4 left-4" />
+                      )}
+                      <div className="pt-8">
+                        <h3
+                          className="font-bold text-lg mb-1 text-gray-900"
+                          style={{
+                            fontFamily: "var(--font-poppins), Poppins, sans-serif",
+                          }}
+                        >
+                          {achievement.title}
+                        </h3>
+                        <p
+                          className="text-gray-600"
+                          style={{
+                            fontFamily: "var(--font-poppins), Poppins, sans-serif",
+                            fontSize: "16px",
+                          }}
+                        >
+                          {achievement.subtitle}
+                        </p>
                       </div>
                     </div>
                   ))}

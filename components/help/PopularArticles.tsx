@@ -4,6 +4,7 @@ import React from "react";
 import Link from "next/link";
 import { ArrowRight, Clock, Play } from "lucide-react";
 import { Card } from "@/components/ui/Card";
+import ImageWithFallback from "@/components/ui/ImageWithFallback";
 import { LEARNIC_GUIDES } from "@/data/helpCenter";
 import { colors, typography } from "@/theme";
 
@@ -68,10 +69,20 @@ const PopularArticles: React.FC = () => {
               <Card className="overflow-hidden hover:shadow-xl transition-shadow cursor-pointer h-full flex flex-col p-0">
                 {/* Illustration Area */}
                 <div style={styles.illustrationArea} className="flex items-center justify-center">
-                  {/* Placeholder for illustration - can be replaced with actual images */}
-                  <div className="w-full h-full flex items-center justify-center">
-                    <div className="w-32 h-32 bg-white/20 rounded-lg"></div>
-                  </div>
+                  {guide.image ? (
+                    <ImageWithFallback
+                      src={guide.image}
+                      alt={guide.title}
+                      width={180}
+                      height={180}
+                      className="w-full h-full"
+                      objectFit={guide.image.endsWith('.svg') ? "contain" : "cover"}
+                    />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center">
+                      <div className="w-32 h-32 bg-white/20 rounded-lg"></div>
+                    </div>
+                  )}
                 </div>
                 
                 {/* Text Content Area */}

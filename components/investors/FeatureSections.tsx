@@ -19,8 +19,8 @@ const styles = {
     letterSpacing: "0.5px",
   },
   heading: {
-    fontFamily: "var(--font-poppins), Poppins, sans-serif",
     ...typography.section.headingLg,
+    fontFamily: "var(--font-poppins), Poppins, sans-serif",
     fontSize: "clamp(28px, 4vw, 40px)",
     textAlign: "left" as const,
     marginBottom: "16px",
@@ -28,8 +28,8 @@ const styles = {
     fontWeight: 700,
   },
   description: {
-    fontFamily: "var(--font-poppins), Poppins, sans-serif",
     ...typography.section.descriptionMd,
+    fontFamily: "var(--font-poppins), Poppins, sans-serif",
     textAlign: "left" as const,
     color: "#1F2937",
     fontSize: "16px",

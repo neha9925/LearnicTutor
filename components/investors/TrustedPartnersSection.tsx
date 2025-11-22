@@ -7,16 +7,16 @@ import { typography } from "@/theme";
 
 const styles = {
   sectionHeading: {
-    fontFamily: "var(--font-poppins), Poppins, sans-serif",
     ...typography.section.headingLg,
+    fontFamily: "var(--font-poppins), Poppins, sans-serif",
     marginBottom: "12px",
     color: "#1F2937",
     fontWeight: 700,
     textAlign: "center" as const,
   },
   sectionDescription: {
-    fontFamily: "var(--font-poppins), Poppins, sans-serif",
     ...typography.section.descriptionMd,
+    fontFamily: "var(--font-poppins), Poppins, sans-serif",
     marginBottom: "48px",
     color: "#6B7280",
     textAlign: "center" as const,
@@ -38,7 +38,7 @@ const TrustedPartnersSection: React.FC = () => {
         </div>
 
         {/* Partners Logos */}
-        <div className="flex flex-wrap items-center justify-center gap-8 md:gap-12">
+        <div className="flex flex-wrap items-center justify-center gap-16 md:gap-20 lg:gap-24 xl:gap-32">
           {TRUSTED_PARTNERS.map((partner) => (
             <div
               key={partner.id}
@@ -52,7 +52,7 @@ const TrustedPartnersSection: React.FC = () => {
                     width={120}
                     height={64}
                     className="h-full w-auto object-contain"
-                    style={{ filter: "brightness(0)" }}
+                    unoptimized={partner.logo.endsWith('.svg')}
                   />
                 </div>
               ) : (

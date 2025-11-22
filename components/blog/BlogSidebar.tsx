@@ -52,13 +52,14 @@ const BlogSidebar: React.FC = () => {
           {POPULAR_POSTS.map((post) => (
             <Link key={post.id} href={`/blog/${post.id}`}>
               <div className="flex gap-4 group cursor-pointer">
-                <div className="relative w-20 h-14 flex-shrink-0 rounded-lg overflow-hidden">
+                <div className="relative w-20 h-14 flex-shrink-0 rounded-lg overflow-hidden bg-gray-100">
                   <ImageWithFallback
                     src={post.image}
                     alt={post.title}
-                    fill
-                    className="object-cover group-hover:scale-110 transition-transform"
-                    fallbackSrc="/images/banners/Banner1.png"
+                    width={80}
+                    height={56}
+                    className="w-full h-full group-hover:scale-110 transition-transform"
+                    objectFit={post.image.endsWith('.svg') ? "contain" : "cover"}
                   />
                 </div>
                 <div className="flex-1">
