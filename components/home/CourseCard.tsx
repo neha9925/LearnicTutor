@@ -128,7 +128,7 @@ const CourseCardComponent: React.FC<CourseCardProps> = ({
             </div>
           )}
         </div>
-        <div className="p-6 flex flex-col flex-1 bg-white">
+        <div className="p-4 sm:p-5 md:p-6 flex flex-col flex-1 bg-white">
           <h3 
             className="font-bold mb-2 line-clamp-2"
             style={styles.title}

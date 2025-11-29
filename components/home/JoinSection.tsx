@@ -58,11 +58,11 @@ const styles = {
 
 const JoinSection: React.FC = () => {
   return (
-    <section className="py-12 md:py-16 bg-white">
-      <div className="mx-auto w-full px-4 sm:px-6 lg:px-12 xl:px-20 2xl:px-24">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+    <section className="py-8 sm:py-12 md:py-16 bg-white">
+      <div className="mx-auto w-full px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 2xl:px-20 max-w-10xl">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-6 xl:gap-8 items-center">
           
-          <div className="flex flex-col gap-3 text-center lg:text-left mx-auto lg:mx-0 w-full max-w-2xl">
+          <div className="flex flex-col gap-2 sm:gap-3 text-center lg:text-left mx-auto lg:mx-0 w-full lg:max-w-xl">
             <h2
               className="text-gray-900"
               style={styles.heading}
@@ -79,9 +79,9 @@ const JoinSection: React.FC = () => {
           </div>
 
           
-          <div className="flex flex-col lg:flex-row gap-6 lg:gap-8 items-stretch justify-center lg:justify-end w-full">
+          <div className="flex flex-col md:flex-row lg:flex-row gap-3 sm:gap-4 lg:gap-3 xl:gap-4 items-stretch justify-center lg:justify-start w-full">
             
-            <div className="bg-white p-6 sm:p-8 relative overflow-hidden flex flex-col w-full max-w-md mx-auto lg:mx-0 rounded-3xl" style={styles.card}>
+            <div className="bg-white p-5 sm:p-6 md:p-8 relative overflow-hidden flex flex-col w-full md:flex-1 lg:flex-1 lg:flex-basis-0 lg:min-w-0 max-w-md mx-auto md:mx-0 lg:mx-0 lg:max-w-none rounded-3xl" style={styles.card}>
               
               <div
                 className="absolute top-0 right-0 w-20 h-20"
@@ -93,15 +93,15 @@ const JoinSection: React.FC = () => {
               
               
               <div
-                className="w-16 h-16 rounded-xl flex items-center justify-center mb-7 relative z-10"
+                className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 rounded-xl flex items-center justify-center mb-3 sm:mb-4 md:mb-5 relative z-10"
                 style={{ backgroundColor: tutorAccentColor }}
               >
-                <User className="w-8 h-8 text-white" />
+                <User className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 text-white" />
               </div>
 
               
               <h3
-                className="font-bold mb-5 relative z-10"
+                className="font-bold mb-3 sm:mb-4 md:mb-4 relative z-10"
                 style={styles.cardTitle}
               >
                 Become a Tutor
@@ -109,14 +109,14 @@ const JoinSection: React.FC = () => {
 
               
               <p
-                className="mb-7 relative z-10"
+                className="mb-4 sm:mb-5 md:mb-5 relative z-10"
                 style={styles.cardBody}
               >
                 Teach millions, build your brand, and earn with flexible teaching hours on our global platform.
               </p>
 
               
-              <ul className="space-y-4 mb-6 relative z-10">
+              <ul className="space-y-2 sm:space-y-3 md:space-y-3 mb-4 sm:mb-5 md:mb-5 relative z-10">
                 {JOIN_SECTION_TUTOR_FEATURES.map((feature, index) => (
                   <li key={index} className="flex items-center gap-2">
                     <Check
@@ -134,7 +134,7 @@ const JoinSection: React.FC = () => {
 
               
               <button
-                className="w-full py-4 px-4 rounded-lg font-medium text-white relative z-10 mt-auto bg-[#FC921C] hover:bg-[#D47914] transition-colors"
+                className="w-full py-3 sm:py-4 px-4 rounded-lg font-medium text-white relative z-10 mt-auto bg-[#FC921C] hover:bg-[#D47914] transition-colors text-sm sm:text-base"
                 style={styles.primaryButton}
               >
                 Start Teaching
@@ -142,7 +142,7 @@ const JoinSection: React.FC = () => {
             </div>
 
             
-            <div className="bg-white p-6 sm:p-8 relative overflow-hidden flex flex-col w-full max-w-md mx-auto lg:mx-0 rounded-3xl" style={styles.card}>
+            <div className="bg-white p-5 sm:p-6 md:p-8 relative overflow-hidden flex flex-col w-full md:flex-1 lg:flex-1 lg:flex-basis-0 lg:min-w-0 max-w-md mx-auto md:mx-0 lg:mx-0 lg:max-w-none rounded-3xl" style={styles.card}>
               
               <div
                 className="absolute top-0 right-0 w-20 h-20"
@@ -154,15 +154,15 @@ const JoinSection: React.FC = () => {
               
               
               <div
-                className="w-16 h-16 rounded-xl flex items-center justify-center mb-7 relative z-10"
+                className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 rounded-xl flex items-center justify-center mb-3 sm:mb-4 md:mb-5 relative z-10"
                 style={{ backgroundColor: coordinatorAccentColor }}
               >
-                <Handshake className="w-8 h-8 text-white" />
+                <Handshake className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 text-white" />
               </div>
 
               
               <h3
-                className="font-bold mb-5 relative z-10"
+                className="font-bold mb-3 sm:mb-4 md:mb-4 relative z-10"
                 style={styles.cardTitle}
               >
                 Become a Coordinator
@@ -170,14 +170,14 @@ const JoinSection: React.FC = () => {
 
               
               <p
-                className="mb-7 relative z-10"
+                className="mb-4 sm:mb-5 md:mb-5 relative z-10"
                 style={styles.cardBody}
               >
                 Refer students to courses and earn commission — be the bridge between learners & tutors.
               </p>
 
               
-              <ul className="space-y-4 mb-6 relative z-10">
+              <ul className="space-y-2 sm:space-y-3 md:space-y-3 mb-4 sm:mb-5 md:mb-5 relative z-10">
                 {JOIN_SECTION_COORDINATOR_FEATURES.map((feature, index) => (
                   <li key={index} className="flex items-center gap-2">
                     <feature.icon
@@ -195,7 +195,7 @@ const JoinSection: React.FC = () => {
 
               
               <button
-                className="w-full py-4 px-4 rounded-lg font-medium text-white relative z-10 mt-auto bg-[#572EEE] hover:bg-[#3311B2] transition-colors"
+                className="w-full py-3 sm:py-4 px-4 rounded-lg font-medium text-white relative z-10 mt-auto bg-[#572EEE] hover:bg-[#3311B2] transition-colors text-sm sm:text-base"
                 style={styles.primaryButton}
               >
                 Become a Coordinator

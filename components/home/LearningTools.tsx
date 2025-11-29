@@ -58,19 +58,19 @@ const LearningTools: React.FC = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6 lg:gap-8 justify-items-center mx-auto w-full px-2 sm:px-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 justify-items-stretch mx-auto w-full max-w-7xl px-2 sm:px-4">
           {HOME_LEARNING_TOOLS.map((tool, index) => {
             const Icon = tool.icon;
             return (
               <Card 
                 key={index} 
-                className="hover:shadow-xl transition-shadow w-full"
+                className="hover:shadow-xl transition-shadow w-full max-w-full"
                 style={{
                   backgroundColor: tool.cardBg,
                   ...styles.card,
                 }}
               >
-                <CardContent className="p-6 lg:p-8 h-full flex flex-col">
+                <CardContent className="p-6 lg:p-8 h-full flex flex-col min-h-[300px]">
                   
                   <div className="flex justify-start mb-4">
                     <div

@@ -187,9 +187,9 @@ const LiveClassDetail: React.FC<LiveClassDetailProps> = ({
   };
 
   return (
-    <section className="py-16 md:py-20 bg-white">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid gap-10 xl:grid-cols-[minmax(0,2.25fr)_minmax(320px,1fr)]">
+    <section className="py-12 sm:py-16 md:py-20 bg-white">
+      <div className="container mx-auto px-4 sm:px-6 md:px-8 lg:px-8">
+        <div className="grid gap-6 sm:gap-8 lg:gap-10 grid-cols-1 lg:grid-cols-[minmax(0,2fr)_minmax(300px,1fr)] xl:grid-cols-[minmax(0,2.25fr)_minmax(320px,1fr)]">
           
           <div className="space-y-8">
             
@@ -475,35 +475,35 @@ const LiveClassDetail: React.FC<LiveClassDetailProps> = ({
 
             
             {course.batches.length > 0 && (
-              <div className="bg-white border border-gray-100 rounded-3xl shadow-sm p-8">
-                <div className="space-y-6">
-                  <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+              <div className="bg-white border border-gray-100 rounded-3xl shadow-sm p-4 sm:p-6 md:p-8">
+                <div className="space-y-4 sm:space-y-6">
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4">
                     <div>
-                      <h3 style={textStyle({ fontWeight: 700, fontSize: "22px", color: colors.text.primary })}>
+                      <h3 className="text-lg sm:text-xl md:text-[22px]" style={textStyle({ fontWeight: 700, color: colors.text.primary })}>
                         Choose Your Batch Size
                       </h3>
-                      <p style={textStyle({ color: colors.text.secondary, fontSize: "14px" })}>
+                      <p className="text-xs sm:text-sm" style={textStyle({ color: colors.text.secondary })}>
                         Flexible schedules to match your learning pace
                       </p>
                     </div>
                     {selectedBatchInfo && (
-                      <div className="text-right">
-                        <p style={textStyle({ color: colors.text.secondary, fontSize: "12px" })}>Starting from</p>
-                        <p style={textStyle({ fontWeight: 700, color: colors.brand.primarySoft, fontSize: "18px" })}>
+                      <div className="text-left sm:text-right">
+                        <p className="text-xs" style={textStyle({ color: colors.text.secondary })}>Starting from</p>
+                        <p className="text-base sm:text-lg" style={textStyle({ fontWeight: 700, color: colors.brand.primarySoft })}>
                           {formatCurrency(selectedBatchInfo.price)}
                         </p>
                       </div>
                     )}
                   </div>
 
-                  <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4">
                     {course.batches.map((batch) => {
                       const isActive = selectedBatch === batch.id;
                       return (
                         <button
                           key={batch.id}
                           onClick={() => setSelectedBatch(batch.id)}
-                          className="text-left p-6 rounded-3xl border transition-all"
+                          className="text-left p-4 sm:p-5 md:p-6 rounded-3xl border transition-all w-full"
                           style={{
                             borderColor: isActive ? colors.brand.primarySoft : palette.borderStrong,
                             backgroundColor: isActive ? "#F5F1FF" : palette.backgroundWhite,
@@ -515,14 +515,14 @@ const LiveClassDetail: React.FC<LiveClassDetailProps> = ({
                             ...infoFont,
                           }}
                         >
-                          <div className="flex flex-col gap-5 h-full">
-                            <div className="space-y-2">
-                              <p style={{ fontWeight: 600, fontSize: "18px", color: colors.text.primary }}>{batch.title}</p>
-                              <p style={{ fontWeight: 700, fontSize: "24px", color: "#4C1D95" }}>
+                          <div className="flex flex-col gap-3 sm:gap-4 md:gap-5 h-full">
+                            <div className="space-y-1 sm:space-y-2">
+                              <p className="text-base sm:text-lg md:text-[18px]" style={{ fontWeight: 600, color: colors.text.primary }}>{batch.title}</p>
+                              <p className="text-xl sm:text-2xl md:text-2xl" style={{ fontWeight: 700, color: "#4C1D95" }}>
                                 {formatCurrency(batch.price)}
                               </p>
                               {batch.studentsCount && (
-                                <p style={{ fontWeight: 500, fontSize: "15px", color: colors.text.secondary }}>
+                                <p className="text-sm sm:text-base" style={{ fontWeight: 500, color: colors.text.secondary }}>
                                   {batch.studentsCount} Students
                                 </p>
                               )}
@@ -550,28 +550,28 @@ const LiveClassDetail: React.FC<LiveClassDetailProps> = ({
 
             
             {course.timings.length > 0 && (
-              <div className="bg-white border border-gray-100 rounded-3xl shadow-sm p-8">
-                <div className="space-y-6">
-                  <h3 style={textStyle({ fontWeight: 700, fontSize: "22px", color: colors.text.primary })}>
+              <div className="bg-white border border-gray-100 rounded-3xl shadow-sm p-4 sm:p-6 md:p-8">
+                <div className="space-y-4 sm:space-y-6">
+                  <h3 className="text-lg sm:text-xl md:text-[22px]" style={textStyle({ fontWeight: 700, color: colors.text.primary })}>
                     Select Timing Slot
                   </h3>
-                  <div className="flex flex-wrap gap-10">
+                  <div className="flex flex-col sm:flex-row sm:flex-wrap gap-6 sm:gap-8 md:gap-10">
                     {timingGroups.map(([category, slots]) => (
-                      <div key={category} className="space-y-3">
+                      <div key={category} className="space-y-2 sm:space-y-3 flex-1 min-w-0">
                         <div className="flex items-center gap-2">
                           {renderCategoryIcon(category)}
-                          <span style={textStyle({ fontWeight: 600, fontSize: "16px", color: colors.text.primary })}>
+                          <span className="text-sm sm:text-base" style={textStyle({ fontWeight: 600, color: colors.text.primary })}>
                             {category}
                           </span>
                         </div>
-                        <div className="flex flex-wrap gap-3">
+                        <div className="flex flex-wrap gap-2 sm:gap-3">
                           {slots.map((slot) => {
                             const isActive = selectedSlot === slot.id;
                             return (
                               <button
                                 key={slot.id}
                                 onClick={() => setSelectedSlot(slot.id)}
-                                className="px-5 py-3 rounded-xl border transition-all"
+                                className="px-3 sm:px-4 md:px-5 py-2 sm:py-2.5 md:py-3 rounded-xl border transition-all text-xs sm:text-sm md:text-base whitespace-nowrap"
                                 style={{
                                   ...textStyle({
                                     fontWeight: 600,
@@ -909,37 +909,36 @@ const LiveClassDetail: React.FC<LiveClassDetailProps> = ({
                     </div>
                   </div>
 
-                  <div className="flex flex-col gap-3 items-center">
+                  <div className="flex flex-col gap-3 items-center w-full">
                     <Link href="/checkout" className="w-full flex justify-center">
                       <Button
-                        className="w-full sm:w-[335.94px] text-white py-3 rounded-full"
+                        className="w-full sm:w-[335.94px] text-white py-3 rounded-full text-sm sm:text-[15px] min-h-[44px] sm:min-h-[49.87px]"
                         style={{
                           background: "linear-gradient(135deg, #6B47ED 0%, #6933FF 100%)",
                           fontFamily: "var(--font-poppins), sans-serif",
                           fontWeight: 600,
-                          fontSize: "15px",
                           lineHeight: "100%",
                           letterSpacing: "0%",
                           textAlign: "center",
-                          height: "49.87013244628906px",
                           borderRadius: "12.47px",
                         }}
                       >
                         Enroll Now
                       </Button>
                     </Link>
-                    <button
-                      className="w-full sm:w-[335.94px] py-3 rounded-full border"
-                      style={{
-                        ...textStyle({ fontWeight: 600, color: "#1F2937" }),
-                        borderColor: "rgba(148, 163, 184, 0.6)",
-                        minHeight: "51.94805145263672px",
-                        borderRadius: "12.47px",
-                        borderWidth: "1.04px",
-                      }}
-                    >
-                      Add to Cart
-                    </button>
+                    <div className="w-full flex justify-center">
+                      <button
+                        className="w-full sm:w-[335.94px] py-3 rounded-full border text-sm sm:text-base min-h-[44px] sm:min-h-[51.95px]"
+                        style={{
+                          ...textStyle({ fontWeight: 600, color: "#1F2937" }),
+                          borderColor: "rgba(148, 163, 184, 0.6)",
+                          borderRadius: "12.47px",
+                          borderWidth: "1.04px",
+                        }}
+                      >
+                        Add to Cart
+                      </button>
+                    </div>
                   </div>
 
                   <div className="text-center space-y-1">
@@ -957,16 +956,16 @@ const LiveClassDetail: React.FC<LiveClassDetailProps> = ({
             
             {(isVideoVariant ? course.suggestions.length > 0 : suggestedCourseCards.length > 0) && (
               <div
-                className="bg-white rounded-[28px] p-6"
+                className="bg-white rounded-[28px] p-4 sm:p-5 md:p-6"
                 style={{ boxShadow: "0px 1.04px 2.08px 0px #0000000D" }}
               >
-              <h4 className="mb-5" style={textStyle({ fontWeight: 700, fontSize: "20px", color: colors.text.primary })}>
+              <h4 className="mb-4 sm:mb-5 text-lg sm:text-xl" style={textStyle({ fontWeight: 700, color: colors.text.primary })}>
                 {isVideoVariant ? "Suggested Videos" : "Suggested Classes"}
               </h4>
               {!isVideoVariant && suggestedCourseCards.length > 0 ? (
-                <div className="flex flex-col gap-6">
+                <div className="flex flex-col gap-4 sm:gap-5 md:gap-6 w-full">
                   {suggestedCourseCards.slice(0, 3).map((card) => (
-                    <div key={card.id}>
+                    <div key={card.id} className="w-full max-w-full">
                       <CourseCard
                         id={card.id}
                         title={card.title}
