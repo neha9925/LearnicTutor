@@ -170,11 +170,11 @@ const TestSeriesContent: React.FC = () => {
 
   return (
     <section className="pt-0 pb-16 md:pb-20 bg-white">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto w-full px-4 sm:px-6 lg:px-12 xl:px-20 2xl:px-24">
         {/* Hero Section */}
-        <div className="-mx-4 sm:-mx-6 lg:-mx-8 mb-12">
+        <div className="-mx-4 sm:-mx-6 lg:-mx-12 xl:-mx-20 2xl:-mx-24 mb-12">
           <div
-            className="px-6 py-16 md:px-12 md:py-20 text-center"
+            className="px-4 sm:px-6 lg:px-12 xl:px-20 2xl:px-24 py-16 md:py-20 text-center"
             style={styles.heroBanner}
           >
             <h1 style={styles.heroTitle}>Test Series</h1>

@@ -188,7 +188,7 @@ const LiveClassDetail: React.FC<LiveClassDetailProps> = ({
 
   return (
     <section className="py-12 sm:py-16 md:py-20 bg-white">
-      <div className="container mx-auto px-4 sm:px-6 md:px-8 lg:px-8">
+      <div className="mx-auto w-full px-4 sm:px-6 lg:px-12 xl:px-20 2xl:px-24">
         <div className="grid gap-6 sm:gap-8 lg:gap-10 grid-cols-1 lg:grid-cols-[minmax(0,2fr)_minmax(300px,1fr)] xl:grid-cols-[minmax(0,2.25fr)_minmax(320px,1fr)]">
           
           <div className="space-y-8">
