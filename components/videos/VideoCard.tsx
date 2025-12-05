@@ -4,6 +4,7 @@ import React from "react";
 import Link from "next/link";
 import { Clock, User } from "lucide-react";
 import ImageWithFallback from "@/components/ui/ImageWithFallback";
+import Badge from "@/components/ui/Badge";
 import { Card } from "@/components/ui/Card";
 
 interface VideoCardProps {
@@ -52,13 +53,34 @@ const VideoCard: React.FC<VideoCardProps> = React.memo(
                 </div>
               }
             />
-            <div className="absolute top-3 left-3 bg-white/90 text-xs font-semibold px-3 py-1 rounded-full text-gray-800">
+            <Badge
+              variant="category"
+              position="top-left"
+              style={{
+                backgroundColor: "rgba(255, 255, 255, 0.9)",
+                color: "#1F2937",
+                fontWeight: 600,
+                fontSize: "12px",
+                padding: "4px 12px",
+              }}
+            >
               {category}
-            </div>
-            <div className="absolute bottom-3 right-3 bg-black/70 text-xs text-white px-2.5 py-1 rounded-full flex items-center gap-1 font-medium">
-              <Clock className="w-3.5 h-3.5" />
+            </Badge>
+            <Badge
+              variant="duration"
+              position="bottom-right"
+              icon={Clock}
+              iconPosition="left"
+              style={{
+                backgroundColor: "rgba(0, 0, 0, 0.7)",
+                color: "#FFFFFF",
+                fontWeight: 500,
+                fontSize: "12px",
+                padding: "4px 10px",
+              }}
+            >
               {duration}
-            </div>
+            </Badge>
           </div>
 
           <div className="flex flex-col flex-1 p-4 gap-4">

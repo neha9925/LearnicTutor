@@ -1,7 +1,8 @@
  "use client";
 
 import React, { useMemo, useState } from "react";
-import { Filter, Search } from "lucide-react";
+import FilterButton from "@/components/ui/FilterButton";
+import SearchInput from "@/components/ui/SearchInput";
 import {
   FormControl,
   MenuItem,
@@ -12,6 +13,7 @@ import VideoCard from "@/components/videos/VideoCard";
 import SideDrawer from "@/components/ui/SideDrawer";
 import Checkbox from "@/components/ui/Checkbox";
 import Button from "@/components/ui/Button";
+import CategoryChip from "@/components/ui/CategoryChip";
 import { videoLibrary } from "@/data/videoLibrary";
 import {
   baseSelectStyles,
@@ -80,21 +82,6 @@ const styles = {
     fontWeight: 500,
     color: colors.text.secondary,
   },
-  categoryChip: (isActive: boolean) =>
-    ({
-      ...typography.labels.md,
-      fontSize: "14px",
-      color: isActive ? colors.text.light : colors.text.tertiary,
-      background: isActive
-        ? gradients.buttonPrimary
-        : colors.neutral.white,
-      boxShadow: isActive
-        ? "0px 10px 20px rgba(107, 71, 237, 0.25)"
-        : "0px 6px 12px rgba(107, 71, 237, 0.08)",
-      border: isActive
-        ? "1px solid rgba(107, 71, 237, 0.2)"
-        : "1px solid rgba(107, 71, 237, 0.08)",
-    }) as const,
   gridWrapper: {
     maxWidth: spacing.containerMax,
     margin: "0 auto",
@@ -283,20 +270,13 @@ const VideosContent: React.FC = () => {
             </p>
 
             <div className="mt-8 max-w-2xl mx-auto">
-              <div className="relative">
-                <div className="absolute left-4 top-1/2 -translate-y-1/2 flex h-9 w-9 items-center justify-center rounded-full bg-[#6B47ED] shadow-md">
-                  <Search className="w-5 h-5 text-white" />
-                  <span className="sr-only">Search</span>
-                </div>
-                <input
-                  type="text"
-                  placeholder="Search by topic, skill, or tutor..."
-                  className="w-full rounded-full border border-transparent bg-white px-5 py-4 pl-16 pr-6 text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-[#6B47ED] focus:border-transparent transition-shadow shadow-[0px_10px_24px_rgba(107,71,237,0.08)]"
-                  style={styles.searchInput}
-                  value={searchQuery}
-                  onChange={(event) => setSearchQuery(event.target.value)}
-                />
-              </div>
+              <SearchInput
+                value={searchQuery}
+                onChange={(event) => setSearchQuery(event.target.value)}
+                placeholder="Search by topic, skill, or tutor..."
+                variant="default"
+                inputStyle={styles.searchInput}
+              />
             </div>
           </div>
         </div>
@@ -317,14 +297,10 @@ const VideosContent: React.FC = () => {
             </div>
 
             <div className="flex items-center gap-3 self-start md:self-center">
-              <button
-                className="flex items-center gap-2 px-4 py-2 rounded-lg border border-gray-200 text-gray-700"
-                style={styles.filterButton}
+              <FilterButton
                 onClick={() => setIsFilterOpen(true)}
-              >
-                <Filter className="w-4 h-4" />
-                Filter
-              </button>
+                style={styles.filterButton}
+              />
               <FormControl
                 size="small"
                 sx={styles.sortMenu}
@@ -359,14 +335,13 @@ const VideosContent: React.FC = () => {
               {categories.map((category) => {
                 const isActive = category === activeCategory;
                 return (
-                  <button
+                  <CategoryChip
                     key={category}
+                    label={category}
+                    isActive={isActive}
                     onClick={() => setActiveCategory(category)}
-                    className="px-4 py-2 rounded-xl transition-all"
-                  style={styles.categoryChip(isActive)}
-                  >
-                    {category}
-                  </button>
+                    variant="default"
+                  />
                 );
               })}
             </div>

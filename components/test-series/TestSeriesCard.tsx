@@ -4,6 +4,7 @@ import React from "react";
 import Link from "next/link";
 import { FileQuestion, Clock, Star, Users, Flame } from "lucide-react";
 import ImageWithFallback from "@/components/ui/ImageWithFallback";
+import Badge from "@/components/ui/Badge";
 import { colors, radii, shadows, typography } from "@/theme";
 import type { TestSeries } from "@/data/testSeries";
 
@@ -24,20 +25,6 @@ const TestSeriesCard: React.FC<TestSeriesCardProps> = ({
       borderColor: colors.background.cardBorder,
       boxShadow: variant === "popular" ? shadows.cardSoft : "0px 4px 12px rgba(0, 0, 0, 0.05)",
       backgroundColor: colors.neutral.white,
-    },
-    bestsellerTag: {
-      backgroundColor: "#F48C06",
-      color: colors.text.light,
-      fontFamily: "var(--font-poppins), sans-serif",
-      fontWeight: 600,
-      fontSize: "12px",
-      lineHeight: "100%",
-      letterSpacing: "0%",
-      padding: "6px 10px",
-      borderRadius: "20px",
-      display: "flex",
-      alignItems: "center",
-      gap: "4px",
     },
     title: {
       ...typography.card.titleMd,
@@ -81,15 +68,6 @@ const TestSeriesCard: React.FC<TestSeriesCardProps> = ({
       fontWeight: 700,
       fontSize: variant === "popular" ? "24px" : "20px",
       fontFamily: "var(--font-poppins), sans-serif",
-    },
-    discountTag: {
-      backgroundColor: "#86EFAC",
-      color: colors.text.light,
-      fontFamily: "var(--font-poppins), sans-serif",
-      fontWeight: 600,
-      fontSize: "12px",
-      padding: "4px 10px",
-      borderRadius: "20px",
     },
     buyButton: {
       ...typography.button.secondary,
@@ -198,21 +176,25 @@ const TestSeriesCard: React.FC<TestSeriesCardProps> = ({
           </div>
         )}
         {testSeries.isBestseller && variant === "popular" && (
-          <div
-            className="absolute top-3 right-3 flex items-center gap-1"
-            style={styles.bestsellerTag}
-          >
-            <Flame className="w-3 h-3" fill="currentColor" />
-            <span>Bestseller</span>
-          </div>
-        )}
-        {testSeries.isBestseller && variant !== "popular" && (
-          <div
-            className="absolute top-3 right-3"
-            style={styles.bestsellerTag}
+          <Badge
+            variant="bestseller"
+            position="top-right"
+            icon={Flame}
+            iconPosition="left"
+            style={{
+              gap: "4px",
+            }}
           >
             Bestseller
-          </div>
+          </Badge>
+        )}
+        {testSeries.isBestseller && variant !== "popular" && (
+          <Badge
+            variant="bestseller"
+            position="top-right"
+          >
+            Bestseller
+          </Badge>
         )}
       </div>
 
@@ -271,9 +253,9 @@ const TestSeriesCard: React.FC<TestSeriesCardProps> = ({
               </span>
             </div>
             {variant === "popular" && (
-              <span style={styles.discountTag}>
+              <Badge variant="discount" position="inline">
                 {testSeries.discount}% OFF
-              </span>
+              </Badge>
             )}
           </div>
           <button

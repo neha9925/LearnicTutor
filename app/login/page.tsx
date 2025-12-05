@@ -1,17 +1,21 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { Mail, Eye, EyeOff } from "lucide-react";
 import { FaGoogle, FaFacebook, FaApple } from "react-icons/fa";
 
 export default function LoginPage() {
+  const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
 
   // Preload background image
   useEffect(() => {
@@ -40,9 +44,39 @@ export default function LoginPage() {
     });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission
+    setError("");
+    setIsLoading(true);
+
+    // Simple validation
+    if (!formData.email || !formData.password) {
+      setError("Please fill in all fields");
+      setIsLoading(false);
+      return;
+    }
+
+    // Simulate login (in real app, this would be an API call)
+    setTimeout(() => {
+      // Set authentication data in localStorage
+      localStorage.setItem("isAuthenticated", "true");
+      localStorage.setItem("userName", "Sarah");
+      localStorage.setItem("userAvatar", "/images/avatars/default-avatar.jpg");
+      
+      // Redirect to home page
+      router.push("/");
+      setIsLoading(false);
+    }, 500);
+  };
+
+  const handleSocialLogin = (provider: string) => {
+    // Set authentication data in localStorage
+    localStorage.setItem("isAuthenticated", "true");
+    localStorage.setItem("userName", "Sarah");
+    localStorage.setItem("userAvatar", "/images/avatars/default-avatar.jpg");
+    
+    // Redirect to home page
+    router.push("/");
   };
 
   return (
@@ -198,6 +232,15 @@ export default function LoginPage() {
             </div>
           </div>
 
+          {/* Error Message */}
+          {error && (
+            <div className="text-red-500 text-sm text-center" style={{
+              fontFamily: 'var(--font-poppins), Poppins, sans-serif',
+            }}>
+              {error}
+            </div>
+          )}
+
           {/* Forgot Password Link */}
           <div className="flex justify-end">
             <Link 
@@ -216,14 +259,15 @@ export default function LoginPage() {
           {/* Login Button */}
           <button
             type="submit"
-            className="text-white hover:opacity-90 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[#572EEE] focus:ring-offset-2 w-full sm:w-auto sm:max-w-[382px] mx-auto block"
+            disabled={isLoading}
+            className="text-white hover:opacity-90 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[#572EEE] focus:ring-offset-2 w-full sm:w-auto sm:max-w-[382px] mx-auto block disabled:opacity-50 disabled:cursor-not-allowed"
             style={{
               width: '100%',
               maxWidth: '382px',
               height: '48px',
               borderRadius: '8px',
               backgroundColor: '#572EEE',
-              opacity: 1,
+              opacity: isLoading ? 0.5 : 1,
               boxShadow: '0px 10px 15px 0px #0000001A, 0px 4px 6px 0px #0000001A',
               fontFamily: 'var(--font-poppins), Poppins, sans-serif',
               fontWeight: 500,
@@ -233,7 +277,7 @@ export default function LoginPage() {
               textAlign: 'center',
             }}
           >
-            Login
+            {isLoading ? "Logging in..." : "Login"}
           </button>
         </form>
 
@@ -260,6 +304,7 @@ export default function LoginPage() {
         <div className="flex justify-center gap-3 sm:gap-4 mb-4 sm:mb-5">
           <button
             type="button"
+            onClick={() => handleSocialLogin("google")}
             className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white border-2 border-gray-200 flex items-center justify-center hover:border-gray-300 transition-all"
             style={{
               boxShadow: '0px 4px 6px 0px #0000001A, 0px 2px 4px 0px #0000001A',
@@ -270,6 +315,7 @@ export default function LoginPage() {
           </button>
           <button
             type="button"
+            onClick={() => handleSocialLogin("facebook")}
             className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white border-2 border-gray-200 flex items-center justify-center hover:border-gray-300 transition-all"
             style={{
               boxShadow: '0px 4px 6px 0px #0000001A, 0px 2px 4px 0px #0000001A',
@@ -280,6 +326,7 @@ export default function LoginPage() {
           </button>
           <button
             type="button"
+            onClick={() => handleSocialLogin("apple")}
             className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white border-2 border-gray-200 flex items-center justify-center hover:border-gray-300 transition-all"
             style={{
               boxShadow: '0px 4px 6px 0px #0000001A, 0px 2px 4px 0px #0000001A',

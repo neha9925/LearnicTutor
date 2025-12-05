@@ -2,6 +2,7 @@
 
 import React, { useMemo, useState } from "react";
 import { HOME_CATEGORIES, HOME_CATEGORY_TABS } from "@/data/home";
+import CategoryChip from "@/components/ui/CategoryChip";
 import { colors, radii, shadows, typography } from "@/theme";
 
 const styles = {
@@ -9,9 +10,6 @@ const styles = {
   sectionDescription: typography.section.descriptionLg,
   filtersContainer: {
     backgroundColor: colors.background.categoryFilter,
-  } as const,
-  tabButton: {
-    ...typography.labels.md,
   } as const,
   card: {
     borderRadius: radii.lg,
@@ -32,9 +30,6 @@ const styles = {
   cardChip: {
     ...typography.chips.text,
     textAlign: "center" as const,
-  },
-  tabButtonActive: {
-    ...typography.labels.md,
   },
 } as const;
 
@@ -79,26 +74,13 @@ const Categories: React.FC = () => {
           style={styles.filtersContainer}
         >
           {tabs.map((tab) => (
-            <button
+            <CategoryChip
               key={tab}
+              label={tab}
+              isActive={activeTab === tab}
               onClick={() => setActiveTab(tab)}
-              className={`px-5 py-3 rounded-lg font-medium transition-all flex-shrink-0 whitespace-nowrap ${
-                activeTab === tab
-                ? "text-white shadow-md"
-                : "bg-white text-gray-700 border border-gray-200 hover:border-gray-300 hover:text-gray-900 hover:shadow-md"
-            }`}
-            style={{
-              ...styles.tabButton,
-              ...(activeTab === tab
-                ? {
-                    background: "linear-gradient(90deg, #6366F1 0%, #8B5CF6 100%)",
-                    border: "none",
-                  }
-                : {}),
-            }}
-            >
-              {tab}
-            </button>
+              variant="tab"
+            />
           ))}
         </div>
 

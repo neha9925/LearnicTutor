@@ -1,14 +1,16 @@
 "use client";
 
 import React from "react";
+import Link from "next/link";
 import { Card, CardContent } from "@/components/ui/Card";
 import Button from "@/components/ui/Button";
+import SectionHeader from "@/components/ui/SectionHeader";
+import IconContainer from "@/components/ui/IconContainer";
+import CardGridContainer from "@/components/ui/CardGridContainer";
 import { HOME_LEARNING_TOOLS } from "@/data/home";
 import { colors, radii, shadows, typography } from "@/theme";
 
 const styles = {
-  sectionHeading: typography.section.headingXl,
-  sectionDescription: typography.section.descriptionLg,
   card: {
     borderRadius: "16.82px",
     borderWidth: "1.05px",
@@ -43,22 +45,18 @@ const LearningTools: React.FC = () => {
   return (
     <section className="py-12 md:py-16 bg-white">
       <div className="mx-auto w-full px-4 sm:px-6 lg:px-8 2xl:px-12">
-        <div className="text-center mb-12">
-          <h2 
-            className="text-gray-900 mb-4"
-            style={styles.sectionHeading}
-          >
-            All Learning Tools in One Place
-          </h2>
-          <p 
-            className="text-gray-600 max-w-2xl mx-auto"
-            style={styles.sectionDescription}
-          >
-            Comprehensive learning experience designed for your success
-          </p>
-        </div>
+        <SectionHeader
+          title="All Learning Tools in One Place"
+          subtitle="Comprehensive learning experience designed for your success"
+          variant="light"
+          bottomMargin="md"
+        />
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 justify-items-stretch mx-auto w-full max-w-7xl px-2 sm:px-4">
+        <CardGridContainer
+          cols="grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
+          justifyItems="stretch"
+          maxWidth="mx-auto w-full max-w-7xl px-2 sm:px-4"
+        >
           {HOME_LEARNING_TOOLS.map((tool, index) => {
             const Icon = tool.icon;
             return (
@@ -73,17 +71,14 @@ const LearningTools: React.FC = () => {
                 <CardContent className="p-6 lg:p-8 h-full flex flex-col min-h-[300px]">
                   
                   <div className="flex justify-start mb-4">
-                    <div
-                      className="w-16 h-16 rounded-full flex items-center justify-center"
-                      style={styles.iconCircle(tool.iconCircleBg)}
-                    >
-                      <Icon
-                        className="w-8 h-8"
-                        style={{
-                          color: tool.iconColor,
-                        }}
-                      />
-                    </div>
+                    <IconContainer
+                      size="md"
+                      shape="circle"
+                      backgroundColor={tool.iconCircleBg}
+                      icon={Icon}
+                      iconColor={tool.iconColor}
+                      iconSize={32}
+                    />
                   </div>
                   
                   
@@ -109,21 +104,36 @@ const LearningTools: React.FC = () => {
                   </p>
                   
                   
-                  <button
-                    className={`px-6 rounded-lg font-medium transition-colors mt-auto self-start ${
-                      tool.title === "Recorded Videos"
-                        ? "bg-[#FC921C] hover:bg-[#D47914] text-white"
-                        : "bg-[#572EEE] hover:bg-[#3311B2] text-white"
-                    }`}
-                    style={styles.exploreButtonBase}
-                  >
-                    Explore
-                  </button>
+                  {(() => {
+                    // Determine navigation route based on tool title
+                    let href = "#";
+                    if (tool.title === "Live Classes") {
+                      href = "/live-classes";
+                    } else if (tool.title === "Recorded Videos") {
+                      href = "/videos";
+                    } else if (tool.title === "Interactive Test Series") {
+                      href = "/test-series";
+                    }
+                    
+                    return (
+                      <Link
+                        href={href}
+                        className={`px-6 rounded-lg font-medium transition-colors mt-auto self-start ${
+                          tool.title === "Recorded Videos"
+                            ? "bg-[#FC921C] hover:bg-[#D47914] text-white"
+                            : "bg-[#572EEE] hover:bg-[#3311B2] text-white"
+                        }`}
+                        style={styles.exploreButtonBase}
+                      >
+                        Explore
+                      </Link>
+                    );
+                  })()}
                 </CardContent>
               </Card>
             );
           })}
-        </div>
+        </CardGridContainer>
       </div>
     </section>
   );

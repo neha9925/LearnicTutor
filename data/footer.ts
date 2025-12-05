@@ -16,7 +16,6 @@ export const FOOTER_SOCIAL_LINKS: FooterSocialLink[] = [
 export const FOOTER_COMPANY_LINKS = [
   "About Us",
   "Careers",
-  "Press",
   "Blog",
   "Investors",
 ] as const;
@@ -26,6 +25,9 @@ export const FOOTER_QUICK_LINKS = [
   "Contact Us",
   "Affiliate",
   "Help and Support",
+  "Meet our tutors",
+  "Become a tutor",
+  "Become a coordinator",
 ] as const;
 
 export interface FooterHighlightStat {

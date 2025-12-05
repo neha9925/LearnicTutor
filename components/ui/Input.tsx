@@ -21,8 +21,8 @@ const Input: React.FC<InputProps> = ({
     <div className="w-full">
       {label && (
         <label
-          className={cn("block text-sm font-medium text-gray-700 mb-2", labelClassName)}
-          style={labelStyle ?? typography.labels.md}
+          className={cn("block text-sm font-medium text-gray-700 mb-2 text-left", labelClassName)}
+          style={{ ...(labelStyle ?? typography.labels.md), textAlign: "left" }}
         >
           {label}
         </label>

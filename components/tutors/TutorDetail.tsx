@@ -10,6 +10,7 @@ import React, {
 } from "react";
 import ImageWithFallback from "@/components/ui/ImageWithFallback";
 import StarRating from "@/components/ui/StarRating";
+import Badge from "@/components/ui/Badge";
 import Link from "next/link";
 import { Check, GraduationCap, Infinity, Trophy, Award, Users, Star, Clock, Sparkles } from "lucide-react";
 import type { TutorDetail as TutorDetailType } from "@/data/tutorDetails";
@@ -607,13 +608,20 @@ const TutorDetail: React.FC<TutorDetailProps> = ({ tutor }) => {
                           }
                         />
                         {course.tag && (
-                          <div className="absolute top-3 right-3 px-3 py-1 rounded-lg text-xs font-medium text-white"
+                          <Badge
+                            variant="custom"
+                            position="top-right"
                             style={{
                               backgroundColor: course.tag === "CBSE" ? "#10B981" : course.tag === "ICSE" ? "#F97316" : "#8B5CF6",
+                              color: "#FFFFFF",
+                              fontSize: "12px",
+                              fontWeight: 500,
+                              padding: "3px 12px",
+                              borderRadius: "8px",
                             }}
                           >
                             {course.tag}
-                          </div>
+                          </Badge>
                         )}
                       </div>
                       <div className="p-4">

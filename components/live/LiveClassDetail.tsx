@@ -25,6 +25,7 @@ import CourseCard from "@/components/home/CourseCard";
 import { liveClassCards, LiveClassCardData } from "@/data/liveClassesList";
 import StarRating from "@/components/ui/StarRating";
 import ImageWithFallback from "@/components/ui/ImageWithFallback";
+import Badge from "@/components/ui/Badge";
 import Button from "@/components/ui/Button";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
@@ -324,17 +325,20 @@ const LiveClassDetail: React.FC<LiveClassDetailProps> = ({
                 <div className="space-y-8">
                   <div className="space-y-4">
                     {course.tag && (
-                      <span
-                        className="inline-flex items-center px-3 py-1 rounded-full text-sm"
+                      <Badge
+                        variant="info"
+                        position="inline"
                         style={{
                           ...infoFont,
                           fontWeight: 600,
                           color: colors.brand.primarySoft,
                           backgroundColor: colors.brand.primaryTint,
+                          fontSize: "14px",
+                          padding: "3px 12px",
                         }}
                       >
                         {course.tag}
-                      </span>
+                      </Badge>
                     )}
                     <div className="space-y-2">
                       <h1
@@ -528,16 +532,19 @@ const LiveClassDetail: React.FC<LiveClassDetailProps> = ({
                               )}
                             </div>
                             {batch.badgeLabel && (
-                              <span
-                                className="inline-flex items-center justify-center px-4 py-2 rounded-full text-sm"
+                              <Badge
+                                variant="info"
+                                position="inline"
                                 style={{
                                   backgroundColor: batch.badgeBg || "#EEF4FF",
                                   color: batch.badgeTextColor || "#4338CA",
                                   fontWeight: 600,
+                                  fontSize: "14px",
+                                  padding: "8px 16px",
                                 }}
                               >
                                 {batch.badgeLabel}
-                              </span>
+                              </Badge>
                             )}
                           </div>
                         </button>

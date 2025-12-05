@@ -1130,8 +1130,719 @@ export const liveClasses: LiveClassData[] = [
   },
 ];
 
-export const getLiveClassById = (id: string) =>
-  liveClasses.find((item) => item.id === id);
+// Helper function to generate academic course data
+const generateAcademicCourse = (classNumber: number, board: string, batchNumber: number = 1): LiveClassData | null => {
+  const boardSlug = board.toLowerCase().replace(/\s+/g, '-');
+  const courseId = `class-${classNumber}-${boardSlug}-batch-${batchNumber}`;
+  
+  // Use existing course as template and modify for academic courses
+  const baseCourse = liveClasses[0]; // Use first course as template
+  if (!baseCourse) return null;
+
+  // Class-specific data based on class number
+  const classData: Record<number, {
+    subjects: string[];
+    level: string;
+    sessions: number;
+    duration: string;
+    price: number;
+    originalPrice: number;
+    rating: number;
+    reviewsCount: number;
+    students: number;
+    instructor: {
+      name: string;
+      experience: string;
+      qualification: string;
+      expertise: string;
+      rating: number;
+    };
+    curriculum: LiveClassCurriculumSection[];
+    includes: string[];
+    outcomes: string[];
+  }> = {
+    3: {
+      subjects: ["Mathematics", "English", "Environmental Studies", "Hindi"],
+      level: "Beginner",
+      sessions: 40,
+      duration: "2 Months",
+      price: 1000,
+      originalPrice: 1500,
+      rating: 4.3,
+      reviewsCount: 120,
+      students: 350,
+      instructor: {
+        name: "Prof. Priya Sharma",
+        experience: "8+ Years Experience",
+        qualification: "M.Ed, B.Ed",
+        expertise: "Primary Education Expert",
+        rating: 4.4,
+      },
+      curriculum: [
+        {
+          title: "Mathematics",
+          lessonsCount: 10,
+          totalDuration: "20 Hours",
+          lessons: [
+            { title: "Numbers and Counting", duration: "2h", isPreview: true },
+            { title: "Addition and Subtraction", duration: "2h", isLocked: true },
+            { title: "Shapes and Patterns", duration: "2h", isLocked: true },
+          ],
+        },
+        {
+          title: "English",
+          lessonsCount: 10,
+          totalDuration: "20 Hours",
+          lessons: [
+            { title: "Alphabets and Phonics", duration: "2h", isPreview: false },
+            { title: "Basic Reading", duration: "2h", isLocked: true },
+            { title: "Simple Sentences", duration: "2h", isLocked: true },
+          ],
+        },
+      ],
+      includes: [
+        "40 Live interactive sessions",
+        "365-day access to recorded lectures",
+        "Weekly performance analytics",
+        "Doubt clearing support",
+        "Study materials and notes",
+      ],
+      outcomes: [
+        "Master basic Mathematics concepts",
+        "Build strong English foundation",
+        "Develop learning habits",
+        "Score better in exams",
+      ],
+    },
+    4: {
+      subjects: ["Mathematics", "English", "Environmental Studies", "Hindi"],
+      level: "Beginner",
+      sessions: 45,
+      duration: "2 Months",
+      price: 1100,
+      originalPrice: 1600,
+      rating: 4.4,
+      reviewsCount: 150,
+      students: 420,
+      instructor: {
+        name: "Prof. Anjali Verma",
+        experience: "9+ Years Experience",
+        qualification: "M.Ed, B.Ed",
+        expertise: "Elementary Education Specialist",
+        rating: 4.5,
+      },
+      curriculum: [
+        {
+          title: "Mathematics",
+          lessonsCount: 12,
+          totalDuration: "24 Hours",
+          lessons: [
+            { title: "Multiplication Basics", duration: "2h", isPreview: true },
+            { title: "Division Concepts", duration: "2h", isLocked: true },
+            { title: "Fractions Introduction", duration: "2h", isLocked: true },
+          ],
+        },
+        {
+          title: "English",
+          lessonsCount: 12,
+          totalDuration: "24 Hours",
+          lessons: [
+            { title: "Grammar Basics", duration: "2h", isPreview: false },
+            { title: "Reading Comprehension", duration: "2h", isLocked: true },
+            { title: "Creative Writing", duration: "2h", isLocked: true },
+          ],
+        },
+      ],
+      includes: [
+        "45 Live interactive sessions",
+        "365-day access to recorded lectures",
+        "Weekly performance analytics",
+        "Doubt clearing support",
+        "Study materials and notes",
+      ],
+      outcomes: [
+        "Master Class 4 Mathematics",
+        "Improve English reading skills",
+        "Build confidence in studies",
+        "Excel in school exams",
+      ],
+    },
+    5: {
+      subjects: ["Mathematics", "English", "Science", "Social Studies", "Hindi"],
+      level: "Beginner",
+      sessions: 50,
+      duration: "3 Months",
+      price: 1200,
+      originalPrice: 1800,
+      rating: 4.5,
+      reviewsCount: 180,
+      students: 500,
+      instructor: {
+        name: "Prof. Rajesh Kumar",
+        experience: "10+ Years Experience",
+        qualification: "M.Sc, B.Ed",
+        expertise: "Primary Education Expert",
+        rating: 4.6,
+      },
+      curriculum: [
+        {
+          title: "Mathematics",
+          lessonsCount: 12,
+          totalDuration: "24 Hours",
+          lessons: [
+            { title: "Advanced Operations", duration: "2h", isPreview: true },
+            { title: "Decimals and Fractions", duration: "2h", isLocked: true },
+            { title: "Geometry Basics", duration: "2h", isLocked: true },
+          ],
+        },
+        {
+          title: "Science",
+          lessonsCount: 12,
+          totalDuration: "24 Hours",
+          lessons: [
+            { title: "Living and Non-living", duration: "2h", isPreview: false },
+            { title: "Plants and Animals", duration: "2h", isLocked: true },
+            { title: "Our Environment", duration: "2h", isLocked: true },
+          ],
+        },
+      ],
+      includes: [
+        "50 Live interactive sessions",
+        "365-day access to recorded lectures",
+        "Weekly performance analytics",
+        "Doubt clearing support",
+        "Study materials and notes",
+      ],
+      outcomes: [
+        "Master all Class 5 subjects",
+        "Build strong foundation",
+        "Develop scientific thinking",
+        "Score excellent in exams",
+      ],
+    },
+    6: {
+      subjects: ["Mathematics", "Science", "Social Studies", "English", "Hindi"],
+      level: "Intermediate",
+      sessions: 60,
+      duration: "3 Months",
+      price: 1300,
+      originalPrice: 2000,
+      rating: 4.6,
+      reviewsCount: 220,
+      students: 580,
+      instructor: {
+        name: "Prof. Meera Singh",
+        experience: "12+ Years Experience",
+        qualification: "M.Sc, B.Ed",
+        expertise: "Middle School Expert",
+        rating: 4.7,
+      },
+      curriculum: [
+        {
+          title: "Mathematics",
+          lessonsCount: 15,
+          totalDuration: "30 Hours",
+          lessons: [
+            { title: "Integers and Fractions", duration: "2h", isPreview: true },
+            { title: "Algebra Basics", duration: "2h", isLocked: true },
+            { title: "Geometry and Mensuration", duration: "2h", isLocked: true },
+          ],
+        },
+        {
+          title: "Science",
+          lessonsCount: 15,
+          totalDuration: "30 Hours",
+          lessons: [
+            { title: "Food and Nutrition", duration: "2h", isPreview: false },
+            { title: "Motion and Measurement", duration: "2h", isLocked: true },
+            { title: "Light and Shadows", duration: "2h", isLocked: true },
+          ],
+        },
+      ],
+      includes: [
+        "60 Live interactive sessions",
+        "365-day access to recorded lectures",
+        "Weekly performance analytics",
+        "Doubt clearing support",
+        "Study materials and notes",
+      ],
+      outcomes: [
+        "Master Class 6 curriculum",
+        "Build analytical skills",
+        "Prepare for higher classes",
+        "Achieve top grades",
+      ],
+    },
+    7: {
+      subjects: ["Mathematics", "Science", "Social Studies", "English", "Hindi"],
+      level: "Intermediate",
+      sessions: 65,
+      duration: "3 Months",
+      price: 1400,
+      originalPrice: 2100,
+      rating: 4.7,
+      reviewsCount: 250,
+      students: 650,
+      instructor: {
+        name: "Prof. Amit Patel",
+        experience: "13+ Years Experience",
+        qualification: "M.Sc, B.Ed",
+        expertise: "Middle School Specialist",
+        rating: 4.8,
+      },
+      curriculum: [
+        {
+          title: "Mathematics",
+          lessonsCount: 15,
+          totalDuration: "30 Hours",
+          lessons: [
+            { title: "Rational Numbers", duration: "2h", isPreview: true },
+            { title: "Linear Equations", duration: "2h", isLocked: true },
+            { title: "Triangles and Congruence", duration: "2h", isLocked: true },
+          ],
+        },
+        {
+          title: "Science",
+          lessonsCount: 15,
+          totalDuration: "30 Hours",
+          lessons: [
+            { title: "Nutrition in Plants", duration: "2h", isPreview: false },
+            { title: "Heat and Temperature", duration: "2h", isLocked: true },
+            { title: "Winds and Storms", duration: "2h", isLocked: true },
+          ],
+        },
+      ],
+      includes: [
+        "65 Live interactive sessions",
+        "365-day access to recorded lectures",
+        "Weekly performance analytics",
+        "Doubt clearing support",
+        "Study materials and notes",
+      ],
+      outcomes: [
+        "Master Class 7 concepts",
+        "Develop problem-solving skills",
+        "Excel in competitive exams",
+        "Build strong foundation",
+      ],
+    },
+    8: {
+      subjects: ["Mathematics", "Science", "Social Studies", "English", "Hindi"],
+      level: "Intermediate",
+      sessions: 70,
+      duration: "4 Months",
+      price: 1500,
+      originalPrice: 2200,
+      rating: 4.8,
+      reviewsCount: 280,
+      students: 720,
+      instructor: {
+        name: "Prof. Sunita Reddy",
+        experience: "14+ Years Experience",
+        qualification: "M.Sc, B.Ed",
+        expertise: "Middle School Expert",
+        rating: 4.9,
+      },
+      curriculum: [
+        {
+          title: "Mathematics",
+          lessonsCount: 18,
+          totalDuration: "36 Hours",
+          lessons: [
+            { title: "Rational Numbers", duration: "2h", isPreview: true },
+            { title: "Linear Equations", duration: "2h", isLocked: true },
+            { title: "Quadrilaterals", duration: "2h", isLocked: true },
+          ],
+        },
+        {
+          title: "Science",
+          lessonsCount: 18,
+          totalDuration: "36 Hours",
+          lessons: [
+            { title: "Crop Production", duration: "2h", isPreview: false },
+            { title: "Microorganisms", duration: "2h", isLocked: true },
+            { title: "Force and Pressure", duration: "2h", isLocked: true },
+          ],
+        },
+      ],
+      includes: [
+        "70 Live interactive sessions",
+        "365-day access to recorded lectures",
+        "Weekly performance analytics",
+        "Doubt clearing support",
+        "Study materials and notes",
+      ],
+      outcomes: [
+        "Master Class 8 syllabus",
+        "Prepare for board exams",
+        "Build competitive edge",
+        "Achieve academic excellence",
+      ],
+    },
+    9: {
+      subjects: ["Mathematics", "Science", "Social Studies", "English", "Hindi"],
+      level: "Advanced",
+      sessions: 75,
+      duration: "4 Months",
+      price: 1600,
+      originalPrice: 2400,
+      rating: 4.8,
+      reviewsCount: 320,
+      students: 800,
+      instructor: {
+        name: "Prof. Vikram Malhotra",
+        experience: "15+ Years Experience",
+        qualification: "Ph.D, M.Sc",
+        expertise: "High School Expert",
+        rating: 4.9,
+      },
+      curriculum: [
+        {
+          title: "Mathematics",
+          lessonsCount: 20,
+          totalDuration: "40 Hours",
+          lessons: [
+            { title: "Number Systems", duration: "2h", isPreview: true },
+            { title: "Polynomials", duration: "2h", isLocked: true },
+            { title: "Coordinate Geometry", duration: "2h", isLocked: true },
+          ],
+        },
+        {
+          title: "Science",
+          lessonsCount: 20,
+          totalDuration: "40 Hours",
+          lessons: [
+            { title: "Matter in Surroundings", duration: "2h", isPreview: false },
+            { title: "Atoms and Molecules", duration: "2h", isLocked: true },
+            { title: "Structure of Atom", duration: "2h", isLocked: true },
+          ],
+        },
+      ],
+      includes: [
+        "75 Live interactive sessions",
+        "365-day access to recorded lectures",
+        "Weekly performance analytics",
+        "Doubt clearing support",
+        "Study materials and notes",
+      ],
+      outcomes: [
+        "Master Class 9 fundamentals",
+        "Prepare for board exams",
+        "Build strong concepts",
+        "Score 90+ in exams",
+      ],
+    },
+    10: {
+      subjects: ["Mathematics", "Science", "Social Studies", "English", "Hindi"],
+      level: "Advanced",
+      sessions: 80,
+      duration: "4 Months",
+      price: 1700,
+      originalPrice: 2600,
+      rating: 4.9,
+      reviewsCount: 380,
+      students: 950,
+      instructor: {
+        name: "Prof. Neha Agarwal",
+        experience: "16+ Years Experience",
+        qualification: "Ph.D, M.Sc",
+        expertise: "Board Exam Specialist",
+        rating: 5.0,
+      },
+      curriculum: [
+        {
+          title: "Mathematics",
+          lessonsCount: 20,
+          totalDuration: "40 Hours",
+          lessons: [
+            { title: "Real Numbers", duration: "2h", isPreview: true },
+            { title: "Polynomials", duration: "2h", isLocked: true },
+            { title: "Pair of Linear Equations", duration: "2h", isLocked: true },
+          ],
+        },
+        {
+          title: "Science",
+          lessonsCount: 20,
+          totalDuration: "40 Hours",
+          lessons: [
+            { title: "Chemical Reactions", duration: "2h", isPreview: false },
+            { title: "Acids and Bases", duration: "2h", isLocked: true },
+            { title: "Metals and Non-metals", duration: "2h", isLocked: true },
+          ],
+        },
+      ],
+      includes: [
+        "80 Live interactive sessions",
+        "365-day access to recorded lectures",
+        "Weekly performance analytics",
+        "Doubt clearing support",
+        "Study materials and notes",
+      ],
+      outcomes: [
+        "Master Class 10 board syllabus",
+        "Score 95+ in board exams",
+        "Excel in competitive exams",
+        "Build career foundation",
+      ],
+    },
+    11: {
+      subjects: ["Mathematics", "Physics", "Chemistry", "Biology", "English"],
+      level: "Advanced",
+      sessions: 85,
+      duration: "5 Months",
+      price: 1800,
+      originalPrice: 2800,
+      rating: 4.9,
+      reviewsCount: 420,
+      students: 1100,
+      instructor: {
+        name: "Prof. Ravi Shankar",
+        experience: "18+ Years Experience",
+        qualification: "Ph.D, M.Sc",
+        expertise: "Senior Secondary Expert",
+        rating: 5.0,
+      },
+      curriculum: [
+        {
+          title: "Mathematics",
+          lessonsCount: 22,
+          totalDuration: "44 Hours",
+          lessons: [
+            { title: "Sets and Relations", duration: "2h", isPreview: true },
+            { title: "Trigonometry", duration: "2h", isLocked: true },
+            { title: "Complex Numbers", duration: "2h", isLocked: true },
+          ],
+        },
+        {
+          title: "Physics",
+          lessonsCount: 22,
+          totalDuration: "44 Hours",
+          lessons: [
+            { title: "Physical World", duration: "2h", isPreview: false },
+            { title: "Units and Measurements", duration: "2h", isLocked: true },
+            { title: "Motion in Straight Line", duration: "2h", isLocked: true },
+          ],
+        },
+      ],
+      includes: [
+        "85 Live interactive sessions",
+        "365-day access to recorded lectures",
+        "Weekly performance analytics",
+        "Doubt clearing support",
+        "Study materials and notes",
+      ],
+      outcomes: [
+        "Master Class 11 concepts",
+        "Prepare for JEE/NEET",
+        "Build strong foundation",
+        "Excel in competitive exams",
+      ],
+    },
+    12: {
+      subjects: ["Mathematics", "Physics", "Chemistry", "Biology", "English"],
+      level: "Advanced",
+      sessions: 90,
+      duration: "5 Months",
+      price: 2000,
+      originalPrice: 3000,
+      rating: 5.0,
+      reviewsCount: 480,
+      students: 1250,
+      instructor: {
+        name: "Prof. Deepak Joshi",
+        experience: "20+ Years Experience",
+        qualification: "Ph.D, M.Sc",
+        expertise: "Board & Competitive Exam Expert",
+        rating: 5.0,
+      },
+      curriculum: [
+        {
+          title: "Mathematics",
+          lessonsCount: 24,
+          totalDuration: "48 Hours",
+          lessons: [
+            { title: "Relations and Functions", duration: "2h", isPreview: true },
+            { title: "Inverse Trigonometric Functions", duration: "2h", isLocked: true },
+            { title: "Matrices", duration: "2h", isLocked: true },
+          ],
+        },
+        {
+          title: "Physics",
+          lessonsCount: 24,
+          totalDuration: "48 Hours",
+          lessons: [
+            { title: "Electric Charges and Fields", duration: "2h", isPreview: false },
+            { title: "Electrostatic Potential", duration: "2h", isLocked: true },
+            { title: "Current Electricity", duration: "2h", isLocked: true },
+          ],
+        },
+      ],
+      includes: [
+        "90 Live interactive sessions",
+        "365-day access to recorded lectures",
+        "Weekly performance analytics",
+        "Doubt clearing support",
+        "Study materials and notes",
+      ],
+      outcomes: [
+        "Master Class 12 board syllabus",
+        "Score 95+ in board exams",
+        "Crack JEE/NEET with confidence",
+        "Build successful career",
+      ],
+    },
+  };
+
+  const data = classData[classNumber] || classData[6]; // Default to Class 6 if not found
+
+  return {
+    ...baseCourse,
+    id: courseId,
+    title: `Class ${classNumber} Full Course (Batch ${batchNumber})`,
+    subtitle: `Complete ${classNumber}th grade curriculum for ${board} board`,
+    shortDescription: `Comprehensive live classes covering ${data.subjects.join(", ")} for Class ${classNumber} ${board} board students.`,
+    description: `Join our interactive live classes designed specifically for Class ${classNumber} ${board} board students. Master all subjects including ${data.subjects.join(", ")} with personalized attention, weekly assessments, and dedicated doubt clearing support.`,
+    categoryTags: ["Academic"],
+    category: "Academic",
+    tag: board,
+    rating: data.rating,
+    reviewsCount: data.reviewsCount,
+    students: data.students,
+    duration: data.duration,
+    durationSummary: `${data.duration} | ${data.sessions}+ Classes`,
+    level: data.level,
+    language: "English",
+    lastUpdated: "Dec 15, 2024",
+    liveSessions: data.sessions,
+    startDate: "15 Dec 2024",
+    image: "/images/courses/V1.jpg",
+    price: data.price,
+    originalPrice: data.originalPrice,
+    discountLabel: `Save ₹${data.originalPrice - data.price}`,
+    instructor: {
+      name: data.instructor.name,
+      image: "/images/instructors/james-wilson.jpg",
+      expertise: `${data.instructor.expertise} - ${board} Board`,
+      experience: data.instructor.experience,
+      qualification: data.instructor.qualification,
+      bio: `Experienced educator specializing in ${board} board curriculum for Class ${classNumber} students.`,
+      achievements: [`Mentored ${data.students}+ students`, `${board} Board Expert`],
+      rating: data.instructor.rating,
+      learners: `${data.students * 2}+ learners`,
+    },
+    batches: [
+      {
+        id: `batch-${batchNumber}-${courseId}`,
+        title: `Batch ${batchNumber}`,
+        startDate: batchNumber === 1 ? "15 Dec 2024" : batchNumber === 2 ? "20 Dec 2024" : batchNumber === 3 ? "25 Dec 2024" : batchNumber === 4 ? "28 Dec 2024" : "18 Dec 2024",
+        price: data.price,
+        studentsCount: 25,
+        badgeLabel: batchNumber <= 3 ? "New" : undefined,
+        badgeBg: "#FEF3C7",
+        badgeTextColor: "#92400E",
+      },
+    ],
+    timings: [
+      {
+        id: "timing-1",
+        label: batchNumber === 1 ? "9:00 AM – 10:00 AM" : batchNumber === 2 ? "10:00 AM – 11:00 AM" : batchNumber === 3 ? "4:00 PM – 5:00 PM" : batchNumber === 4 ? "5:00 PM – 6:00 PM" : "9:00 AM – 10:00 AM",
+        timeRange: batchNumber === 1 ? "9:00 AM – 10:00 AM" : batchNumber === 2 ? "10:00 AM – 11:00 AM" : batchNumber === 3 ? "4:00 PM – 5:00 PM" : batchNumber === 4 ? "5:00 PM – 6:00 PM" : "9:00 AM – 10:00 AM",
+        isRecommended: batchNumber === 1,
+        category: batchNumber <= 2 ? "Morning" : "Evening",
+      },
+      {
+        id: "timing-2",
+        label: "10:00 AM – 11:00 AM",
+        timeRange: "10:00 AM – 11:00 AM",
+        category: "Morning",
+      },
+      {
+        id: "timing-3",
+        label: "4:00 PM – 5:00 PM",
+        timeRange: "4:00 PM – 5:00 PM",
+        category: "Evening",
+      },
+    ],
+    highlights: [
+      {
+        title: "Complete Syllabus Coverage",
+        description: `Cover all ${data.subjects.length} subjects as per ${board} board curriculum.`,
+      },
+      {
+        title: "Weekly Assessments",
+        description: "Regular tests and quizzes to track your progress.",
+      },
+      {
+        title: "Doubt Clearing Sessions",
+        description: "Dedicated time after each class for doubt solving.",
+      },
+      {
+        title: "Study Materials",
+        description: "Downloadable notes, worksheets, and practice papers.",
+      },
+    ],
+    benefits: [
+      {
+        label: "Complete Syllabus Coverage",
+        icon: "📚",
+        bgColor: "#EEF4FF",
+        textColor: "#4338CA",
+        borderColor: "#C7D2FE",
+      },
+      {
+        label: "Weekly Assessments",
+        icon: "📝",
+        bgColor: "#E9F8EF",
+        textColor: "#047857",
+        borderColor: "#A7F3D0",
+      },
+      {
+        label: "Doubt Clearing",
+        icon: "❓",
+        bgColor: "#FFF5E5",
+        textColor: "#B45309",
+        borderColor: "#FDE68A",
+      },
+      {
+        label: "Study Materials",
+        icon: "📄",
+        bgColor: "#F3E8FF",
+        textColor: "#6B21A8",
+        borderColor: "#DDD6FE",
+      },
+    ],
+    includes: data.includes,
+    outcomes: data.outcomes,
+    curriculum: data.curriculum,
+    reviews: [
+      {
+        id: `review-1-${courseId}`,
+        name: "Student Parent",
+        rating: data.rating,
+        role: `Class ${classNumber} Student`,
+        date: "Dec 10, 2024",
+        comment: `Excellent teaching for Class ${classNumber}. My child is improving well with ${data.instructor.name}'s guidance.`,
+      },
+    ],
+    suggestions: [],
+    supportContact: "+91 98765 43210",
+    supportHours: "Daily • 9:00 AM to 6:00 PM",
+  };
+};
+
+export const getLiveClassById = (id: string) => {
+  // Check if it's an academic course ID (format: class-{number}-{board}-batch-{number})
+  const academicMatch = id.match(/^class-(\d+)-(.+)-batch-(\d+)$/);
+  if (academicMatch) {
+    const classNumber = parseInt(academicMatch[1], 10);
+    const board = academicMatch[2].replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+    const batchNumber = parseInt(academicMatch[3], 10);
+    return generateAcademicCourse(classNumber, board, batchNumber);
+  }
+  
+  // Otherwise, find in existing liveClasses
+  return liveClasses.find((item) => item.id === id);
+};
 
 export const formatCurrency = (value: number) => formatter.format(value);
 

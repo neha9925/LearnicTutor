@@ -1,4 +1,4 @@
-const FONT_FAMILY = "var(--font-poppins), sans-serif";
+export const FONT_FAMILY = "var(--font-poppins), sans-serif";
 
 export const typography = {
   hero: {

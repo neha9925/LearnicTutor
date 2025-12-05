@@ -5,6 +5,7 @@ import Link from "next/link";
 import { CheckCircle, Clock, Target, Users, Star, BookOpen, Play, Trophy, Video, ClipboardList, Circle, TrendingUp, Check, List } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/Card";
 import Button from "@/components/ui/Button";
+import Badge from "@/components/ui/Badge";
 import ImageWithFallback from "@/components/ui/ImageWithFallback";
 import StarRating from "@/components/ui/StarRating";
 import { myLearningData } from "@/data/myLearning";
@@ -454,25 +455,23 @@ const MyLearningsPage: React.FC = () => {
                       }
                     />
                     {classItem.status === "completed" && (
-                      <div
-                        className="absolute top-4 right-4 px-3 py-1 rounded-md flex items-center gap-1"
+                      <Badge
+                        variant="completed"
+                        position="top-right"
+                        icon={Check}
+                        iconPosition="left"
                         style={{
                           backgroundColor: "#10B981",
                           color: colors.neutral.white,
+                          fontSize: "12px",
+                          fontWeight: 600,
+                          padding: "3px 12px",
+                          borderRadius: "6px",
+                          gap: "4px",
                         }}
                       >
-                        <Check className="w-4 h-4" />
-                        <span
-                          style={{
-                            ...typography.card.bodySm,
-                            fontSize: "12px",
-                            fontWeight: 600,
-                            fontFamily: "var(--font-poppins), sans-serif",
-                          }}
-                        >
-                          Completed
-                        </span>
-                      </div>
+                        Completed
+                      </Badge>
                     )}
                   </div>
                   <div className="p-6">
@@ -714,43 +713,35 @@ const MyLearningsPage: React.FC = () => {
                     />
                     {test.status === "completed" && (
                       <>
-                        <div
-                          className="absolute top-3 right-3 px-2 py-1 rounded-md"
+                        <Badge
+                          variant="completed"
+                          position="top-right"
                           style={{
                             backgroundColor: "#10B981",
                             color: colors.neutral.white,
+                            fontSize: "12px",
+                            fontWeight: 600,
+                            padding: "4px 8px",
+                            borderRadius: "6px",
                           }}
                         >
-                          <span
-                            style={{
-                              ...typography.card.bodySm,
-                              fontSize: "12px",
-                              fontWeight: 600,
-                              fontFamily: "var(--font-poppins), sans-serif",
-                            }}
-                          >
-                            Completed
-                          </span>
-                        </div>
+                          Completed
+                        </Badge>
                         {test.rank && (
-                          <div
-                            className="absolute bottom-3 left-3 px-2 py-1 rounded-md"
+                          <Badge
+                            variant="primary"
+                            position="bottom-left"
                             style={{
                               backgroundColor: "#6B47ED",
                               color: colors.neutral.white,
+                              fontSize: "12px",
+                              fontWeight: 600,
+                              padding: "4px 8px",
+                              borderRadius: "6px",
                             }}
                           >
-                            <span
-                              style={{
-                                ...typography.card.bodySm,
-                                fontSize: "12px",
-                                fontWeight: 600,
-                                fontFamily: "var(--font-poppins), sans-serif",
-                              }}
-                            >
-                              Rank : #{test.rank}
-                            </span>
-                          </div>
+                            Rank : #{test.rank}
+                          </Badge>
                         )}
                       </>
                     )}

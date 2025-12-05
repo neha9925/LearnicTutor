@@ -49,8 +49,23 @@ const LiveClassPage: React.FC<LiveClassPageProps> = ({ params }) => {
 export default LiveClassPage;
 
 export function generateStaticParams() {
-  return liveClasses.map((course) => ({
+  const staticParams = liveClasses.map((course) => ({
     id: course.id,
   }));
+
+  // Generate academic course IDs (classes 3-12, with different boards and batches)
+  const academicClasses = [3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+  const boards = ["cbse", "bihar-board", "rbse"];
+  const batches = [1, 2, 3, 4];
+  
+  const academicParams = academicClasses.flatMap((classNumber) =>
+    boards.flatMap((board) =>
+      batches.map((batch) => ({
+        id: `class-${classNumber}-${board}-batch-${batch}`,
+      }))
+    )
+  );
+
+  return [...staticParams, ...academicParams];
 }
 

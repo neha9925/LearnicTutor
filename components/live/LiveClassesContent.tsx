@@ -1,11 +1,14 @@
 "use client";
 
 import React, { useMemo, useState } from "react";
-import { Filter, Search } from "lucide-react";
 import CourseCard from "@/components/home/CourseCard";
+import AcademicCourseCard from "@/components/live/AcademicCourseCard";
 import SideDrawer from "@/components/ui/SideDrawer";
 import Checkbox from "@/components/ui/Checkbox";
 import Button from "@/components/ui/Button";
+import CategoryChip from "@/components/ui/CategoryChip";
+import FilterButton from "@/components/ui/FilterButton";
+import SearchInput from "@/components/ui/SearchInput";
 import {
   FormControl,
   MenuItem,
@@ -13,6 +16,7 @@ import {
   SelectChangeEvent,
 } from "@mui/material";
 import { liveClassCards } from "@/data/liveClassesList";
+import { getLiveClassById } from "@/data/liveClasses";
 import {
   baseSelectStyles,
   colors,
@@ -64,6 +68,7 @@ const LiveClassesContent: React.FC = () => {
   }, []);
 
   const [activeCategory, setActiveCategory] = useState(categoryList[0] ?? "All");
+  const [selectedClass, setSelectedClass] = useState<number | null>(null);
   const [sortOption, setSortOption] = useState("Popularity");
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
@@ -299,20 +304,13 @@ const LiveClassesContent: React.FC = () => {
             </p>
 
             <div className="mt-8 max-w-2xl mx-auto">
-              <div className="relative">
-                <div className="absolute left-4 top-1/2 -translate-y-1/2 flex h-9 w-9 items-center justify-center rounded-full bg-[#6B47ED] shadow-md">
-                  <Search className="w-5 h-5 text-white" />
-                  <span className="sr-only">Search</span>
-                </div>
-                <input
-                  type="text"
-                  placeholder="Search by topic, skill, or tutor..."
-                  className="w-full rounded-full border border-transparent bg-white px-5 py-4 pl-16 pr-6 text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-[#6B47ED] focus:border-transparent transition-shadow shadow-[0px_10px_24px_rgba(107,71,237,0.08)]"
-                  value={searchQuery}
-                  onChange={(event) => setSearchQuery(event.target.value)}
-                  style={styles.searchInput}
-                />
-              </div>
+              <SearchInput
+                value={searchQuery}
+                onChange={(event) => setSearchQuery(event.target.value)}
+                placeholder="Search by topic, skill, or tutor..."
+                variant="default"
+                inputStyle={styles.searchInput}
+              />
             </div>
           </div>
         </div>
@@ -325,14 +323,10 @@ const LiveClassesContent: React.FC = () => {
             </div>
 
             <div className="flex items-center gap-5 self-start md:self-center">
-              <button
-                className="flex items-center gap-2 px-4 py-2 rounded-lg border border-gray-200 text-gray-700"
-                style={styles.filterButton}
+              <FilterButton
                 onClick={() => setIsFilterOpen(true)}
-              >
-                <Filter className="w-4 h-4" />
-                Filter
-              </button>
+                style={styles.filterButton}
+              />
               <FormControl
                 variant="outlined"
                 size="small"
@@ -364,43 +358,143 @@ const LiveClassesContent: React.FC = () => {
               {categoryList.map((category) => {
                 const isActive = category === activeCategory;
                 return (
-                  <button
+                  <CategoryChip
                     key={category}
-                    onClick={() => setActiveCategory(category)}
-                    className="px-4 py-2 rounded-xl transition-all"
-                    style={styles.categoryChip(isActive)}
-                  >
-                    {category}
-                  </button>
+                    label={category}
+                    isActive={isActive}
+                    onClick={() => {
+                      setActiveCategory(category);
+                      if (category !== "Academic") {
+                        setSelectedClass(null);
+                      }
+                    }}
+                    variant="default"
+                  />
                 );
               })}
             </div>
           </div>
         </div>
 
-        <div
-          className="mt-16 pt-6 pb-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 justify-items-center"
-          style={styles.gridWrapper}
-        >
-          {filteredCourses.map((course) => (
-            <CourseCard
-              key={course.id}
-              id={course.id}
-              title={course.title}
-              description={course.description}
-              instructor={course.instructor}
-              image={course.image}
-              rating={course.rating}
-              price={course.price}
-              originalPrice={course.originalPrice}
-              students={course.students}
-              duration={course.duration}
-              tag={course.tag}
-              href={course.href ?? `/live-classes/${course.id}`}
-              descriptionClamp={1}
-            />
-          ))}
-        </div>
+        {activeCategory === "Academic" ? (
+          selectedClass ? (
+            <>
+              <div
+                className="mt-16 pt-6 pb-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+                style={styles.gridWrapper}
+              >
+                {[
+                  { board: "CBSE", batch: 1, timing: "9:00 AM - 10:00 AM", startDate: "15 Dec 2024" },
+                  { board: "CBSE", batch: 2, timing: "10:00 AM - 11:00 AM", startDate: "20 Dec 2024" },
+                  { board: "CBSE", batch: 3, timing: "4:00 PM - 5:00 PM", startDate: "25 Dec 2024" },
+                  { board: "Bihar Board", batch: 1, timing: "9:00 AM - 10:00 AM", startDate: "18 Dec 2024" },
+                  { board: "RBSE", batch: 1, timing: "10:00 AM - 11:00 AM", startDate: "22 Dec 2024" },
+                  { board: "CBSE", batch: 4, timing: "5:00 PM - 6:00 PM", startDate: "28 Dec 2024" },
+                ].map((course, index) => {
+                  // Generate unique ID for each course: class-{classNumber}-{board}-batch-{batchNumber}
+                  const courseId = `class-${selectedClass}-${course.board.toLowerCase().replace(/\s+/g, '-')}-batch-${course.batch}`;
+                  const courseData = getLiveClassById(courseId);
+                  
+                  // Get price from course data or use default
+                  const price = courseData?.price || 1200;
+                  const formattedPrice = `₹ ${price}/M`;
+                  
+                  return (
+                    <AcademicCourseCard
+                      key={`${course.board}-${course.batch}-${index}`}
+                      classNumber={selectedClass}
+                      batchNumber={course.batch}
+                      timing={course.timing}
+                      nextBatchStart={course.startDate}
+                      price={formattedPrice}
+                      board={course.board}
+                      isNew={index < 3} // First 3 are new
+                      href={`/live-classes/${courseId}`}
+                    />
+                  );
+                })}
+              </div>
+            </>
+          ) : (
+            <div
+              className="mt-16 pt-6 pb-6 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 md:gap-6"
+              style={styles.gridWrapper}
+            >
+              {[
+                { number: 3, color: "#FB923C" }, // Orange
+                { number: 4, color: "#3B82F6" }, // Blue
+                { number: 5, color: "#10B981" }, // Green
+                { number: 6, color: "#FBBF24" }, // Yellow
+                { number: 7, color: "#A855F7" }, // Purple
+                { number: 8, color: "#EC4899" }, // Pink
+                { number: 9, color: "#6366F1" }, // Indigo
+                { number: 10, color: "#EF4444" }, // Red
+                { number: 11, color: "#14B8A6" }, // Teal
+                { number: 12, color: "#FB923C" }, // Orange
+              ].map((classItem) => (
+                <div
+                  key={classItem.number}
+                  className="bg-white rounded-lg shadow-md p-6 text-center cursor-pointer hover:shadow-lg transition-shadow"
+                  onClick={() => setSelectedClass(classItem.number)}
+                  style={{
+                    fontFamily: "var(--font-poppins), sans-serif",
+                  }}
+                >
+                  <div
+                    className="w-16 h-16 rounded-lg mx-auto mb-4 flex items-center justify-center"
+                    style={{
+                      backgroundColor: classItem.color,
+                    }}
+                  >
+                    <span
+                      className="text-white font-bold"
+                      style={{
+                        fontSize: "24px",
+                        fontFamily: "var(--font-poppins), sans-serif",
+                      }}
+                    >
+                      {classItem.number}
+                    </span>
+                  </div>
+                  <p
+                    className="text-gray-800 font-medium"
+                    style={{
+                      fontSize: "16px",
+                      fontFamily: "var(--font-poppins), sans-serif",
+                    }}
+                  >
+                    Class {classItem.number}
+                  </p>
+                </div>
+              ))}
+            </div>
+          )
+        ) : (
+          <div
+            className="mt-16 pt-6 pb-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 justify-items-center"
+            style={styles.gridWrapper}
+          >
+            {filteredCourses.map((course) => (
+              <CourseCard
+                key={course.id}
+                id={course.id}
+                title={course.title}
+                description={course.description}
+                instructor={course.instructor}
+                image={course.image}
+                rating={course.rating}
+                price={course.price}
+                originalPrice={course.originalPrice}
+                students={course.students}
+                duration={course.duration}
+                tag={course.tag}
+                href={course.href ?? `/live-classes/${course.id}`}
+                descriptionClamp={1}
+                variant="skills"
+              />
+            ))}
+          </div>
+        )}
       </div>
 
       <SideDrawer

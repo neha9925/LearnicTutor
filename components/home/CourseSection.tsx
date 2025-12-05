@@ -4,6 +4,7 @@ import React, { useMemo, useState } from "react";
 import Link from "next/link";
 import Button from "@/components/ui/Button";
 import CourseCard from "@/components/home/CourseCard";
+import SectionHeader from "@/components/ui/SectionHeader";
 import { liveClassCards } from "@/data/liveClassesList";
 import { Filter as FilterIcon } from "lucide-react";
 import Select, {
@@ -16,11 +17,9 @@ import Select, {
   type StylesConfig,
   type ValueContainerProps,
 } from "react-select";
-import { colors, gradients, radii, shadows, spacing, typography } from "@/theme";
+import { colors, gradients, radii, shadows, spacing, typography, FONT_FAMILY } from "@/theme";
 
 const styles = {
-  sectionHeading: typography.section.headingLg,
-  sectionDescription: typography.section.descriptionLg,
   filterPanel: {
     boxShadow: shadows.cardSoft,
   },
@@ -71,7 +70,7 @@ const selectStyles: StylesConfig<Option, false, GroupBase<Option>> = {
     paddingLeft: 4,
     paddingRight: 4,
     minHeight: "42px",
-    fontFamily: "var(--font-poppins), sans-serif",
+    fontFamily: FONT_FAMILY,
     fontWeight: 500,
     fontSize: "14px",
     color: colors.text.secondary,
@@ -118,7 +117,7 @@ const selectStyles: StylesConfig<Option, false, GroupBase<Option>> = {
     state: OptionProps<Option, false, GroupBase<Option>>
   ) => ({
     ...base,
-    fontFamily: "var(--font-poppins), sans-serif",
+    fontFamily: FONT_FAMILY,
     fontSize: "14px",
     fontWeight: 500,
     color: state.isSelected ? "#fff" : colors.text.secondary,
@@ -147,20 +146,12 @@ const CourseSection: React.FC = () => {
       }}
     >
       <div className="mx-auto w-full px-4 sm:px-6 lg:px-8 2xl:px-12">
-        <div className="text-center mb-12">
-          <h2 
-            className="text-gray-900 mb-4"
-            style={styles.sectionHeading}
-          >
-            Virtual Face-to-Face Academic Classes
-          </h2>
-          <p 
-            className="text-gray-600 max-w-2xl mx-auto"
-            style={styles.sectionDescription}
-          >
-            Join interactive live sessions with expert teachers and boost your academic performance
-          </p>
-        </div>
+        <SectionHeader
+          title="Virtual Face-to-Face Academic Classes"
+          subtitle="Join interactive live sessions with expert teachers and boost your academic performance"
+          variant="light"
+          bottomMargin="md"
+        />
 
         <div className="flex justify-center mb-10 px-0 sm:px-4">
           <div
@@ -221,12 +212,13 @@ const CourseSection: React.FC = () => {
         <div
           className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-6 lg:gap-8 mb-8 w-full max-w-[1400px] mx-auto items-stretch"
         >
-          {courses.map((course) => (
+          {courses.map((course, index) => (
             <CourseCard
               key={course.id}
               {...course}
               href={course.href ?? `/live-classes/${course.id}`}
               footerPaddingTop="11px"
+              isNew={index < 3}
             />
           ))}
         </div>
@@ -238,7 +230,7 @@ const CourseSection: React.FC = () => {
               size="lg"
               className="text-white bg-[#572EEE] hover:bg-[#3311B2] transition-colors w-full sm:w-auto px-8 py-5 rounded-xl font-semibold"
               style={{
-                fontFamily: "var(--font-poppins), sans-serif",
+                fontFamily: FONT_FAMILY,
                 fontWeight: 600,
                 fontSize: "16px",
                 lineHeight: "100%",

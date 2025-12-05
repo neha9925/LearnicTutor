@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Link from "next/link";
 import ImageWithFallback from "@/components/ui/ImageWithFallback";
 import { typography } from "@/theme";
 
@@ -32,7 +33,8 @@ const CtaBanner: React.FC = () => {
             >
               Join thousands of learners mastering new skills and subjects every day.
             </p>
-            <button
+            <Link
+              href="/signup"
               className="inline-flex bg-white text-[#6B47ED] shadow-md hover:shadow-lg transition-shadow w-full sm:w-auto rounded-[12px] items-center justify-center mx-auto md:mx-0 px-8 py-4 font-semibold text-base"
               style={{
                 ...typography.button.primary,
@@ -41,7 +43,7 @@ const CtaBanner: React.FC = () => {
               }}
             >
               Join Learnic Now
-            </button>
+            </Link>
           </div>
 
           

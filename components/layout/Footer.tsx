@@ -90,17 +90,24 @@ const Footer: React.FC = React.memo(() => {
               Company
             </h3>
             <ul className="space-y-3 flex flex-col items-center md:items-start">
-              {FOOTER_COMPANY_LINKS.map((link) => (
-                <li key={link}>
-                  <Link
-                    href={`/${link.toLowerCase().replace(/\s+/g, '-')}`}
-                    className="hover:text-primary-600 transition-colors"
-                    style={styles.link}
-                  >
-                    {link}
-                  </Link>
-                </li>
-              ))}
+              {FOOTER_COMPANY_LINKS.map((link) => {
+                // Handle "About Us" to link to /about instead of /about-us
+                const href = link === "About Us" 
+                  ? "/about" 
+                  : `/${link.toLowerCase().replace(/\s+/g, '-')}`;
+                
+                return (
+                  <li key={link}>
+                    <Link
+                      href={href}
+                      className="hover:text-primary-600 transition-colors"
+                      style={styles.link}
+                    >
+                      {link}
+                    </Link>
+                  </li>
+                );
+              })}
             </ul>
           </div>
 
@@ -112,19 +119,35 @@ const Footer: React.FC = React.memo(() => {
               Quick Links
             </h3>
             <ul className="space-y-3 flex flex-col items-center md:items-start">
-              {FOOTER_QUICK_LINKS.map((link) => (
-                <li key={link}>
-                  <Link
-                    href={`/${link.toLowerCase().replace(/\s+/g, '-')}`}
-                    className="hover:text-primary-600 transition-colors"
-                    style={{
-                      ...styles.link,
-                    }}
-                  >
-                    {link}
-                  </Link>
-                </li>
-              ))}
+              {FOOTER_QUICK_LINKS.map((link) => {
+                // Handle custom links
+                let href: string;
+                if (link === "Help and Support") {
+                  href = "/help-center";
+                } else if (link === "Meet our tutors") {
+                  href = "/tutors";
+                } else if (link === "Become a tutor") {
+                  href = "/become-a-teacher";
+                } else if (link === "Become a coordinator") {
+                  href = "/become-a-coordinator";
+                } else {
+                  href = `/${link.toLowerCase().replace(/\s+/g, '-')}`;
+                }
+                
+                return (
+                  <li key={link}>
+                    <Link
+                      href={href}
+                      className="hover:text-primary-600 transition-colors"
+                      style={{
+                        ...styles.link,
+                      }}
+                    >
+                      {link}
+                    </Link>
+                  </li>
+                );
+              })}
             </ul>
           </div>
 

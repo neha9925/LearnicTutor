@@ -1,7 +1,8 @@
 "use client";
 
 import React, { useMemo, useState } from "react";
-import { Filter, Search } from "lucide-react";
+import FilterButton from "@/components/ui/FilterButton";
+import SearchInput from "@/components/ui/SearchInput";
 import {
   FormControl,
   MenuItem,
@@ -9,6 +10,7 @@ import {
   SelectChangeEvent,
 } from "@mui/material";
 import TestSeriesCard from "./TestSeriesCard";
+import CategoryChip from "@/components/ui/CategoryChip";
 import { testSeriesData, testSeriesCategories, type TestSeries } from "@/data/testSeries";
 import {
   baseSelectStyles,
@@ -78,21 +80,6 @@ const styles = {
     fontWeight: 500,
     color: colors.text.secondary,
   },
-  categoryChip: (isActive: boolean) =>
-    ({
-      ...typography.labels.md,
-      fontSize: "14px",
-      color: isActive ? colors.text.light : colors.text.tertiary,
-      background: isActive
-        ? gradients.buttonPrimary
-        : colors.neutral.white,
-      boxShadow: isActive
-        ? "0px 10px 20px rgba(107, 71, 237, 0.25)"
-        : "0px 6px 12px rgba(107, 71, 237, 0.08)",
-      border: isActive
-        ? "1px solid rgba(107, 71, 237, 0.2)"
-        : "1px solid rgba(107, 71, 237, 0.08)",
-    }) as const,
   gridWrapper: {
     maxWidth: spacing.containerMax,
     margin: "0 auto",
@@ -183,20 +170,14 @@ const TestSeriesContent: React.FC = () => {
             </p>
 
             <div className="mt-10 max-w-2xl mx-auto">
-              <div className="relative">
-                <div className="absolute left-4 top-1/2 -translate-y-1/2 flex h-10 w-10 items-center justify-center">
-                  <Search className="w-5 h-5 text-gray-400" />
-                  <span className="sr-only">Search</span>
-                </div>
-                <input
-                  type="text"
-                  placeholder="Search test series"
-                  className="w-full rounded-full border border-transparent bg-white px-5 py-4 pl-14 pr-6 text-base focus:outline-none focus:ring-2 focus:ring-white/50 focus:border-transparent transition-shadow shadow-lg"
-                  style={styles.searchInput}
-                  value={searchQuery}
-                  onChange={(event) => setSearchQuery(event.target.value)}
-                />
-              </div>
+              <SearchInput
+                value={searchQuery}
+                onChange={(event) => setSearchQuery(event.target.value)}
+                placeholder="Search test series"
+                variant="minimal"
+                inputStyle={styles.searchInput}
+                iconContainerSize={40}
+              />
             </div>
           </div>
         </div>
@@ -212,13 +193,10 @@ const TestSeriesContent: React.FC = () => {
             </div>
 
             <div className="flex items-center gap-3 self-start md:self-center">
-              <button
-                className="flex items-center gap-2 px-4 py-2 rounded-lg border border-gray-200 text-gray-700 bg-white hover:bg-gray-50 transition-colors"
+              <FilterButton
+                showHover={true}
                 style={styles.filterButton}
-              >
-                <Filter className="w-4 h-4" />
-                Filter
-              </button>
+              />
               <FormControl size="small" sx={styles.sortMenu}>
                 <Select
                   value={sortOption}
@@ -251,14 +229,14 @@ const TestSeriesContent: React.FC = () => {
               {testSeriesCategories.map((category) => {
                 const isActive = category === activeCategory;
                 return (
-                  <button
+                  <CategoryChip
                     key={category}
+                    label={category}
+                    isActive={isActive}
                     onClick={() => setActiveCategory(category)}
-                    className="px-4 py-2 rounded-xl transition-all whitespace-nowrap"
-                    style={styles.categoryChip(isActive)}
-                  >
-                    {category}
-                  </button>
+                    variant="default"
+                    className="whitespace-nowrap"
+                  />
                 );
               })}
             </div>
