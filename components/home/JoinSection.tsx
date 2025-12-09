@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { useRouter } from "next/navigation";
 import { Check, User, Handshake } from "lucide-react";
 import {
   JOIN_SECTION_COORDINATOR_FEATURES,
@@ -57,6 +58,8 @@ const styles = {
 } as const;
 
 const JoinSection: React.FC = () => {
+  const router = useRouter();
+
   return (
     <section className="py-8 sm:py-12 md:py-16 bg-white">
       <div className="mx-auto w-full px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 2xl:px-20 max-w-10xl">
@@ -134,6 +137,7 @@ const JoinSection: React.FC = () => {
 
               
               <button
+                onClick={() => router.push("/tutor-dashboard")}
                 className="w-full py-3 sm:py-4 lg:py-4 px-4 rounded-lg font-medium text-white relative z-10 mt-auto bg-[#FC921C] hover:bg-[#D47914] transition-colors text-sm sm:text-base lg:text-base"
                 style={styles.primaryButton}
               >
@@ -195,6 +199,7 @@ const JoinSection: React.FC = () => {
 
               
               <button
+                onClick={() => router.push("/coordinator-dashboard")}
                 className="w-full py-3 sm:py-4 lg:py-4 px-4 rounded-lg font-medium text-white relative z-10 mt-auto bg-[#572EEE] hover:bg-[#3311B2] transition-colors text-sm sm:text-base lg:text-base"
                 style={styles.primaryButton}
               >
