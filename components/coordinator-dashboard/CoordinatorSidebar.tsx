@@ -21,17 +21,34 @@ const sidebarLinks: SidebarLink[] = [
   { href: "/coordinator-dashboard/settings", label: "Settings", icon: Settings },
 ];
 
-const CoordinatorSidebar: React.FC = () => {
+interface CoordinatorSidebarProps {
+  isMobileMenuOpen: boolean;
+  setIsMobileMenuOpen: (open: boolean) => void;
+}
+
+const CoordinatorSidebar: React.FC<CoordinatorSidebarProps> = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
   const pathname = usePathname();
 
   return (
-    <div
-      className="w-64 h-screen fixed left-0 top-0 flex flex-col border-r border-gray-200"
-      style={{
-        fontFamily: FONT_FAMILY,
-        backgroundColor: "#FFFFFF",
-      }}
-    >
+    <>
+      {/* Mobile Overlay */}
+      {isMobileMenuOpen && (
+        <div
+          className="md:hidden fixed inset-0 bg-black bg-opacity-50 z-40"
+          onClick={() => setIsMobileMenuOpen(false)}
+        />
+      )}
+
+      {/* Sidebar */}
+      <div
+        className={`w-64 h-screen fixed left-0 top-0 flex flex-col border-r border-gray-200 z-40 transform transition-transform duration-300 ease-in-out ${
+          isMobileMenuOpen ? "translate-x-0" : "-translate-x-full"
+        } md:translate-x-0`}
+        style={{
+          fontFamily: FONT_FAMILY,
+          backgroundColor: "#FFFFFF",
+        }}
+      >
       {/* Logo */}
       <div className="p-6">
         <Image
@@ -85,6 +102,7 @@ const CoordinatorSidebar: React.FC = () => {
             <Link
               key={link.href}
               href={link.href}
+              onClick={() => setIsMobileMenuOpen(false)}
               className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
                 isActive ? "" : "text-gray-700 hover:bg-gray-200"
               }`}
@@ -113,6 +131,7 @@ const CoordinatorSidebar: React.FC = () => {
         })}
       </nav>
     </div>
+    </>
   );
 };
 

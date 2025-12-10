@@ -10,6 +10,7 @@ import { FONT_FAMILY } from "@/theme";
 
 const TutorProfilePage: React.FC = () => {
   const router = useRouter();
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
 
   return (
     <div
@@ -18,8 +19,8 @@ const TutorProfilePage: React.FC = () => {
         backgroundColor: "#FFFFFF",
       }}
     >
-      <TutorSidebar />
-      <div className="flex-1 ml-64">
+      <TutorSidebar isMobileMenuOpen={isMobileMenuOpen} setIsMobileMenuOpen={setIsMobileMenuOpen} />
+      <div className="flex-1 md:ml-64 w-full">
         {/* Header */}
         <div
           className="border-b border-gray-200 px-6 py-4 flex items-center justify-between"

@@ -1,9 +1,10 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import ScheduleClassPage from "@/components/tutor-dashboard/ScheduleClassPage";
 
 export default function ScheduleClassRoute() {
-  return <ScheduleClassPage />;
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  return <ScheduleClassPage isMobileMenuOpen={isMobileMenuOpen} setIsMobileMenuOpen={setIsMobileMenuOpen} />;
 }
 

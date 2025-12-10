@@ -78,16 +78,16 @@ const ReferredStudentsTable: React.FC = () => {
   ];
 
   return (
-    <div className="bg-white rounded-lg border border-gray-200 p-6 mb-6">
-      <div className="flex items-center justify-between mb-6">
+    <div className="bg-white rounded-lg border border-gray-200 p-4 md:p-6 mb-4 md:mb-6">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-4 md:mb-6 gap-2">
         <h2
-          className="text-xl font-bold text-gray-900"
+          className="text-lg md:text-xl font-bold text-gray-900"
           style={{ fontFamily: FONT_FAMILY }}
         >
           Referred Students
         </h2>
         <button
-          className="text-sm font-semibold"
+          className="text-xs md:text-sm font-semibold"
           style={{
             color: colors.brand.primarySoft,
             fontFamily: FONT_FAMILY,
@@ -98,18 +98,18 @@ const ReferredStudentsTable: React.FC = () => {
       </div>
 
       {/* Filters */}
-      <div className="flex items-center gap-4 mb-4">
-        <div className="relative">
+      <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 md:gap-4 mb-4">
+        <div className="relative flex-1 sm:flex-initial">
           <button
             onClick={() => {
               setShowStatusDropdown(false);
               setShowClassDropdown(!showClassDropdown);
             }}
-            className="px-4 py-2 border border-gray-300 rounded-lg text-sm flex items-center gap-2 bg-white"
+            className="w-full sm:w-auto px-3 md:px-4 py-2 border border-gray-300 rounded-lg text-xs md:text-sm flex items-center justify-between gap-2 bg-white"
             style={{ fontFamily: FONT_FAMILY }}
           >
-            <span>{selectedClass}</span>
-            <ChevronDown size={16} className="text-gray-400" />
+            <span className="truncate">{selectedClass}</span>
+            <ChevronDown size={14} className="md:w-4 md:h-4 text-gray-400 flex-shrink-0" />
           </button>
           {showClassDropdown && (
             <>
@@ -136,17 +136,17 @@ const ReferredStudentsTable: React.FC = () => {
           )}
         </div>
 
-        <div className="relative">
+        <div className="relative flex-1 sm:flex-initial">
           <button
             onClick={() => {
               setShowClassDropdown(false);
               setShowStatusDropdown(!showStatusDropdown);
             }}
-            className="px-4 py-2 border border-gray-300 rounded-lg text-sm flex items-center gap-2 bg-white"
+            className="w-full sm:w-auto px-3 md:px-4 py-2 border border-gray-300 rounded-lg text-xs md:text-sm flex items-center justify-between gap-2 bg-white"
             style={{ fontFamily: FONT_FAMILY }}
           >
-            <span>{selectedStatus}</span>
-            <ChevronDown size={16} className="text-gray-400" />
+            <span className="truncate">{selectedStatus}</span>
+            <ChevronDown size={14} className="md:w-4 md:h-4 text-gray-400 flex-shrink-0" />
           </button>
           {showStatusDropdown && (
             <>
@@ -173,24 +173,24 @@ const ReferredStudentsTable: React.FC = () => {
           )}
         </div>
 
-        <div className="relative flex-1 max-w-xs">
+        <div className="relative flex-1 sm:flex-initial sm:max-w-xs">
           <Search
-            size={18}
-            className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none"
+            size={16}
+            className="absolute left-2.5 md:left-3 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none"
           />
           <input
             type="text"
             placeholder="Search students..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 text-sm"
+            className="w-full pl-9 md:pl-10 pr-3 md:pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 text-xs md:text-sm"
             style={{ fontFamily: FONT_FAMILY }}
           />
         </div>
       </div>
 
-      {/* Table */}
-      <div className="overflow-x-auto">
+      {/* Desktop Table */}
+      <div className="hidden md:block overflow-x-auto">
         <table className="w-full">
           <thead>
             <tr className="border-b border-gray-200">
@@ -317,6 +317,81 @@ const ReferredStudentsTable: React.FC = () => {
             ))}
           </tbody>
         </table>
+      </div>
+
+      {/* Mobile Card View */}
+      <div className="md:hidden space-y-3">
+        {students.map((student) => (
+          <div key={student.id} className="bg-gray-50 rounded-lg border border-gray-200 p-4">
+            <div className="flex items-start justify-between mb-3">
+              <div className="flex items-center gap-3 flex-1 min-w-0">
+                <ImageWithFallback
+                  src={student.avatar}
+                  alt={student.name}
+                  width={32}
+                  height={32}
+                  className="w-10 h-10 rounded-full object-cover flex-shrink-0"
+                  fallback={
+                    <div className="w-10 h-10 rounded-full bg-gray-300 flex items-center justify-center flex-shrink-0">
+                      <User size={20} className="text-gray-600" />
+                    </div>
+                  }
+                />
+                <div className="flex-1 min-w-0">
+                  <h3
+                    className="text-sm font-semibold text-gray-900 mb-1 truncate"
+                    style={{ fontFamily: FONT_FAMILY }}
+                  >
+                    {student.name}
+                  </h3>
+                  <p
+                    className="text-xs text-gray-600 truncate"
+                    style={{ fontFamily: FONT_FAMILY }}
+                  >
+                    {student.classBatch}
+                  </p>
+                </div>
+              </div>
+              <button className="p-1 text-gray-400 hover:text-red-600 transition-colors flex-shrink-0">
+                <Trash2 size={16} />
+              </button>
+            </div>
+            <div className="grid grid-cols-2 gap-2 text-xs">
+              <div>
+                <span className="text-gray-500" style={{ fontFamily: FONT_FAMILY }}>Status: </span>
+                <span
+                  className="px-2 py-0.5 rounded-full text-xs font-semibold"
+                  style={{
+                    backgroundColor:
+                      student.status === "Active" ? "#D1FAE5" : "#FEF3C7",
+                    color: student.status === "Active" ? "#059669" : "#D97706",
+                    fontFamily: FONT_FAMILY,
+                  }}
+                >
+                  {student.status}
+                </span>
+              </div>
+              <div>
+                <span className="text-gray-500" style={{ fontFamily: FONT_FAMILY }}>Date: </span>
+                <span className="text-gray-900" style={{ fontFamily: FONT_FAMILY }}>
+                  {student.dateReferred}
+                </span>
+              </div>
+              <div>
+                <span className="text-gray-500" style={{ fontFamily: FONT_FAMILY }}>Earning: </span>
+                <span className="text-gray-900 font-semibold" style={{ fontFamily: FONT_FAMILY }}>
+                  {student.earningPerMonth}
+                </span>
+              </div>
+              <div>
+                <span className="text-gray-500" style={{ fontFamily: FONT_FAMILY }}>Commission: </span>
+                <span className="text-gray-900 font-semibold" style={{ fontFamily: FONT_FAMILY }}>
+                  {student.commission}
+                </span>
+              </div>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );

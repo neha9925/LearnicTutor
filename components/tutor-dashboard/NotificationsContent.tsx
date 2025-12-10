@@ -62,19 +62,20 @@ const NotificationsContent: React.FC = () => {
   ];
 
   const getIcon = (type: string) => {
+    const iconProps = { size: 20, className: "md:w-6 md:h-6", style: { color: "#FFFFFF" } };
     switch (type) {
       case "class":
-        return <Calendar size={24} style={{ color: "#FFFFFF" }} />;
+        return <Calendar {...iconProps} />;
       case "payment":
-        return <DollarSign size={24} style={{ color: "#FFFFFF" }} />;
+        return <DollarSign {...iconProps} />;
       case "message":
-        return <MessageCircle size={24} style={{ color: "#FFFFFF" }} />;
+        return <MessageCircle {...iconProps} />;
       case "cancellation":
-        return <AlertTriangle size={24} style={{ color: "#FFFFFF" }} />;
+        return <AlertTriangle {...iconProps} />;
       case "review":
-        return <Star size={24} style={{ color: "#FFFFFF" }} />;
+        return <Star {...iconProps} />;
       default:
-        return null;
+        return <Calendar {...iconProps} />;
     }
   };
 
@@ -96,11 +97,11 @@ const NotificationsContent: React.FC = () => {
   };
 
   return (
-    <div className="space-y-4" style={{ fontFamily: FONT_FAMILY }}>
+    <div className="space-y-3 md:space-y-4" style={{ fontFamily: FONT_FAMILY }}>
       {notifications.map((notification) => (
         <div
           key={notification.id}
-          className="rounded-lg border border-gray-200 p-4 flex items-start gap-4 relative"
+          className="rounded-lg border border-gray-200 p-3 md:p-4 flex items-start gap-3 md:gap-4 relative"
           style={{
             backgroundColor: notification.backgroundColor || "#FFFFFF",
             fontFamily: FONT_FAMILY,
@@ -108,20 +109,22 @@ const NotificationsContent: React.FC = () => {
         >
           {/* Icon */}
           <div
-            className="w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0"
+            className="w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center flex-shrink-0"
             style={{
               backgroundColor: getIconBackground(notification.type),
             }}
           >
-            {getIcon(notification.type)}
+            <div className="w-5 h-5 md:w-6 md:h-6 flex items-center justify-center">
+              {getIcon(notification.type)}
+            </div>
           </div>
 
           {/* Content */}
           <div className="flex-1 min-w-0">
-            <div className="flex items-start justify-between gap-4">
-              <div className="flex-1">
+            <div className="flex items-start justify-between gap-2 md:gap-4">
+              <div className="flex-1 min-w-0">
                 <h3
-                  className="text-base font-bold text-gray-900 mb-1"
+                  className="text-sm md:text-base font-bold text-gray-900 mb-1"
                   style={{
                     fontFamily: FONT_FAMILY,
                     fontSize: "16px",
@@ -131,7 +134,7 @@ const NotificationsContent: React.FC = () => {
                   {notification.title}
                 </h3>
                 <p
-                  className="text-sm text-gray-600 mb-2"
+                  className="text-xs md:text-sm text-gray-600 mb-2 leading-tight md:leading-normal"
                   style={{
                     fontFamily: FONT_FAMILY,
                     fontSize: "14px",
@@ -152,7 +155,7 @@ const NotificationsContent: React.FC = () => {
               </div>
               {notification.isNew && (
                 <span
-                  className="px-3 py-1 rounded-full text-xs font-semibold flex-shrink-0"
+                  className="px-2 md:px-3 py-0.5 md:py-1 rounded-full text-[10px] md:text-xs font-semibold flex-shrink-0"
                   style={{
                     backgroundColor: colors.brand.primarySoft,
                     color: "#FFFFFF",

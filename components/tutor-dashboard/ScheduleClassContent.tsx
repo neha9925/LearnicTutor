@@ -77,12 +77,12 @@ const ScheduleClassContent: React.FC = () => {
           -moz-appearance: textfield;
         }
       `}</style>
-      <div className="flex gap-6 mb-6">
+      <div className="flex flex-col lg:flex-row gap-4 md:gap-6 mb-4 md:mb-6">
         {/* Left Panel - Schedule Class */}
-        <div className="flex-1 bg-white rounded-lg border border-gray-200 p-8">
-        <div className="mb-8">
+        <div className="flex-1 bg-white rounded-lg border border-gray-200 p-4 md:p-6 lg:p-8">
+        <div className="mb-6 md:mb-8">
           <h2
-            className="text-2xl font-bold text-gray-900 mb-2"
+            className="text-xl md:text-2xl font-bold text-gray-900 mb-2"
             style={{
               fontFamily: FONT_FAMILY,
               fontSize: "24px",
@@ -94,7 +94,7 @@ const ScheduleClassContent: React.FC = () => {
             Schedule Class
           </h2>
           <p
-            className="text-sm text-gray-500"
+            className="text-xs md:text-sm text-gray-500"
             style={{
               fontFamily: FONT_FAMILY,
               fontSize: "14px",
@@ -107,25 +107,25 @@ const ScheduleClassContent: React.FC = () => {
         </div>
 
         {/* Class Selection */}
-        <div className="mb-8">
+        <div className="mb-6 md:mb-8">
           <div
-            className="flex items-center gap-3 px-4 py-3 rounded-lg"
+            className="flex flex-col sm:flex-row items-start sm:items-center gap-3 px-3 md:px-4 py-3 rounded-lg"
             style={{
               backgroundColor: "#F3E8FF",
               border: "1px solid #E9D5FF",
             }}
           >
-            <div className="flex items-center gap-3 flex-1">
+            <div className="flex items-center gap-2 md:gap-3 flex-1 w-full sm:w-auto">
               <div
-                className="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0"
+                className="w-8 h-8 md:w-10 md:h-10 rounded-lg flex items-center justify-center flex-shrink-0"
                 style={{
                   backgroundColor: "#E9D5FF",
                 }}
               >
-                <FileText size={20} style={{ color: colors.brand.primarySoft }} />
+                <FileText size={16} className="md:w-5 md:h-5" style={{ color: colors.brand.primarySoft }} />
               </div>
               <span
-                className="text-base font-bold"
+                className="text-sm md:text-base font-bold truncate"
                 style={{
                   color: "#1F2937",
                   fontFamily: FONT_FAMILY,
@@ -138,7 +138,7 @@ const ScheduleClassContent: React.FC = () => {
               </span>
             </div>
             <button
-              className="px-4 py-2 rounded-lg text-sm font-semibold border transition-colors whitespace-nowrap"
+              className="px-3 md:px-4 py-1.5 md:py-2 rounded-lg text-xs md:text-sm font-semibold border transition-colors whitespace-nowrap w-full sm:w-auto"
               style={{
                 backgroundColor: "#FFFFFF",
                 borderColor: colors.brand.primarySoft,
@@ -154,9 +154,9 @@ const ScheduleClassContent: React.FC = () => {
         </div>
 
         {/* Select Day */}
-        <div className="mb-8">
+        <div className="mb-6 md:mb-8">
           <label
-            className="block text-sm font-semibold text-gray-700 mb-3"
+            className="block text-xs md:text-sm font-semibold text-gray-700 mb-2 md:mb-3"
             style={{
               fontFamily: FONT_FAMILY,
               fontSize: "14px",
@@ -172,7 +172,7 @@ const ScheduleClassContent: React.FC = () => {
               <button
                 key={day}
                 onClick={() => setSelectedDay(day)}
-                className="px-4 py-2 rounded-full text-sm font-semibold transition-colors"
+                className="px-3 md:px-4 py-1.5 md:py-2 rounded-full text-xs md:text-sm font-semibold transition-colors"
                 style={{
                   backgroundColor: selectedDay === day ? colors.brand.primarySoft : "#F3F4F6",
                   color: selectedDay === day ? "#FFFFFF" : "#6B7280",
@@ -189,9 +189,9 @@ const ScheduleClassContent: React.FC = () => {
         </div>
 
         {/* Select Timing */}
-        <div className="mb-8">
+        <div className="mb-6 md:mb-8">
           <h3
-            className="text-sm font-semibold text-gray-900 mb-3"
+            className="text-xs md:text-sm font-semibold text-gray-900 mb-2 md:mb-3"
             style={{
               fontFamily: FONT_FAMILY,
               fontSize: "14px",
@@ -202,7 +202,7 @@ const ScheduleClassContent: React.FC = () => {
           >
             Select Timing
           </h3>
-          <div className="flex gap-4">
+          <div className="flex flex-col sm:flex-row gap-3 md:gap-4">
             <div className="flex-1">
               <label
                 className="block text-xs text-gray-500 mb-1.5"
@@ -231,7 +231,7 @@ const ScheduleClassContent: React.FC = () => {
                       }
                     }
                   }}
-                  className="w-full px-4 py-2.5 pr-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 text-sm text-gray-900 cursor-pointer"
+                  className="w-full px-3 md:px-4 py-2 md:py-2.5 pr-8 md:pr-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 text-xs md:text-sm text-gray-900 cursor-pointer"
                   style={{
                     fontFamily: FONT_FAMILY,
                     fontSize: "14px",
@@ -255,9 +255,9 @@ const ScheduleClassContent: React.FC = () => {
                       input?.click();
                     }
                   }}
-                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 cursor-pointer"
+                  className="absolute right-2 md:right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 cursor-pointer"
                 >
-                  <Clock size={18} />
+                  <Clock size={16} className="md:w-[18px] md:h-[18px]" />
                 </button>
               </div>
             </div>
@@ -289,7 +289,7 @@ const ScheduleClassContent: React.FC = () => {
                       }
                     }
                   }}
-                  className="w-full px-4 py-2.5 pr-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 text-sm text-gray-900 cursor-pointer"
+                  className="w-full px-3 md:px-4 py-2 md:py-2.5 pr-8 md:pr-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 text-xs md:text-sm text-gray-900 cursor-pointer"
                   style={{
                     fontFamily: FONT_FAMILY,
                     fontSize: "14px",
@@ -313,9 +313,9 @@ const ScheduleClassContent: React.FC = () => {
                       input?.click();
                     }
                   }}
-                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 cursor-pointer"
+                  className="absolute right-2 md:right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 cursor-pointer"
                 >
-                  <Clock size={18} />
+                  <Clock size={16} className="md:w-[18px] md:h-[18px]" />
                 </button>
               </div>
             </div>
@@ -323,9 +323,9 @@ const ScheduleClassContent: React.FC = () => {
         </div>
 
         {/* Select Subject */}
-        <div className="mb-8">
+        <div className="mb-6 md:mb-8">
           <h3
-            className="text-sm font-semibold text-gray-900 mb-3"
+            className="text-xs md:text-sm font-semibold text-gray-900 mb-2 md:mb-3"
             style={{
               fontFamily: FONT_FAMILY,
               fontSize: "14px",
@@ -339,13 +339,13 @@ const ScheduleClassContent: React.FC = () => {
           <div className="relative">
             <button
               onClick={() => setShowSubjectDropdown(!showSubjectDropdown)}
-              className="w-full px-4 py-3 rounded-lg border border-gray-300 bg-white text-left flex items-center justify-between text-sm"
+              className="w-full px-3 md:px-4 py-2.5 md:py-3 rounded-lg border border-gray-300 bg-white text-left flex items-center justify-between text-xs md:text-sm"
               style={{ fontFamily: FONT_FAMILY }}
             >
               <span className={selectedSubject ? "text-gray-900" : "text-gray-400"}>
                 {selectedSubject || "Select Subject"}
               </span>
-              <ChevronDown size={18} className="text-gray-400" />
+              <ChevronDown size={16} className="md:w-[18px] md:h-[18px] text-gray-400" />
             </button>
             {showSubjectDropdown && (
               <>
@@ -377,10 +377,11 @@ const ScheduleClassContent: React.FC = () => {
         <div>
           <button
             onClick={handleScheduleNow}
-            className="text-sm font-semibold text-white transition-colors hover:opacity-90"
+            className="text-xs md:text-sm font-semibold text-white transition-colors hover:opacity-90 w-full md:w-auto"
             style={{
-              width: "162px",
-              height: "56px",
+              width: "100%",
+              maxWidth: "162px",
+              height: "48px",
               borderRadius: "12px",
               background: "linear-gradient(135deg, #6B47ED 0%, #5A32FF 100%)",
               fontFamily: FONT_FAMILY,
@@ -395,9 +396,9 @@ const ScheduleClassContent: React.FC = () => {
         </div>
 
         {/* Right Panel - Class Preview */}
-        <div className="w-96 bg-white rounded-lg border border-gray-200 p-6 shadow-sm">
+        <div className="w-full lg:w-96 bg-white rounded-lg border border-gray-200 p-4 md:p-6 shadow-sm">
         <h2
-          className="text-2xl font-bold text-gray-900 mb-6"
+          className="text-xl md:text-2xl font-bold text-gray-900 mb-4 md:mb-6"
           style={{
             fontFamily: FONT_FAMILY,
             fontSize: "24px",
@@ -469,10 +470,11 @@ const ScheduleClassContent: React.FC = () => {
       {/* Publish Class Button - Outside Card */}
       <div>
         <button
-          className="text-sm font-semibold text-white transition-colors hover:opacity-90"
+          className="text-xs md:text-sm font-semibold text-white transition-colors hover:opacity-90 w-full md:w-auto"
           style={{
-            width: "206px",
-            height: "56px",
+            width: "100%",
+            maxWidth: "206px",
+            height: "48px",
             borderRadius: "12px",
             background: "linear-gradient(135deg, #6B47ED 0%, #5A32FF 100%)",
             fontFamily: FONT_FAMILY,

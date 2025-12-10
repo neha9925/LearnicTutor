@@ -3,13 +3,14 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import CoordinatorSidebar from "@/components/coordinator-dashboard/CoordinatorSidebar";
-import { Search, Bell, User, Camera, Upload, Calendar, Zap, ChevronDown, CloudUpload } from "lucide-react";
+import { Search, Bell, User, Camera, Upload, Calendar, Zap, ChevronDown, CloudUpload, Menu, X } from "lucide-react";
 import ImageWithFallback from "@/components/ui/ImageWithFallback";
 import Input from "@/components/ui/Input";
 import { FONT_FAMILY, colors } from "@/theme";
 
 const ReferStudentsFormPage: React.FC = () => {
   const router = useRouter();
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
@@ -49,20 +50,35 @@ const ReferStudentsFormPage: React.FC = () => {
         backgroundColor: "#FFFFFF",
       }}
     >
-      <CoordinatorSidebar />
-      <div className="flex-1 ml-64 flex flex-col h-screen overflow-hidden">
+      <CoordinatorSidebar isMobileMenuOpen={isMobileMenuOpen} setIsMobileMenuOpen={setIsMobileMenuOpen} />
+      <div className="flex-1 md:ml-64 flex flex-col h-screen overflow-hidden w-full">
         {/* Header */}
         <div
-          className="border-b border-gray-200 px-6 py-4 flex items-center justify-between flex-shrink-0"
+          className="border-b border-gray-200 pl-20 md:pl-6 pr-4 md:pr-6 py-3 md:py-4 flex flex-col md:flex-row items-start md:items-center justify-between gap-3 md:gap-4 flex-shrink-0 relative"
           style={{
             fontFamily: FONT_FAMILY,
             backgroundColor: "#FFFFFF",
           }}
         >
+          {/* Mobile Menu Button */}
+          {setIsMobileMenuOpen && (
+            <button
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="md:hidden absolute top-3 left-3 z-10 p-2 bg-white rounded-lg shadow-md border border-gray-200 hover:bg-gray-50 transition-colors"
+              style={{ fontFamily: FONT_FAMILY }}
+              aria-label="Toggle menu"
+            >
+              {isMobileMenuOpen ? (
+                <X size={20} className="text-gray-700" />
+              ) : (
+                <Menu size={20} className="text-gray-700" />
+              )}
+            </button>
+          )}
           {/* Left Side - Title */}
-          <div>
+          <div className="w-full md:w-auto flex-shrink-0">
             <h1
-              className="text-2xl font-bold text-gray-900"
+              className="text-lg md:text-2xl font-bold text-gray-900"
               style={{
                 fontFamily: FONT_FAMILY,
               }}
@@ -72,17 +88,17 @@ const ReferStudentsFormPage: React.FC = () => {
           </div>
 
           {/* Right Side - Search, Notifications, Profile */}
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2 md:gap-4 w-full md:w-auto">
             {/* Search Bar */}
-            <div className="relative">
+            <div className="relative flex-1 md:flex-initial min-w-0">
               <Search
-                size={18}
-                className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none"
+                size={16}
+                className="absolute left-2.5 md:left-3 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none"
               />
               <input
                 type="text"
                 placeholder="Search students, classes..."
-                className="pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 w-64 text-sm"
+                className="pl-9 md:pl-10 pr-3 md:pr-4 py-2 md:py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 w-full md:w-64 text-xs md:text-sm"
                 style={{
                   fontFamily: FONT_FAMILY,
                 }}
@@ -90,15 +106,15 @@ const ReferStudentsFormPage: React.FC = () => {
             </div>
 
             {/* Notifications */}
-            <button className="relative p-2 hover:bg-gray-100 rounded-lg transition-colors">
-              <Bell size={20} className="text-gray-600" />
-              <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full"></span>
+            <button className="relative p-1.5 md:p-2 hover:bg-gray-100 rounded-lg transition-colors flex-shrink-0">
+              <Bell size={18} className="md:w-5 md:h-5 text-gray-600" />
+              <span className="absolute top-1 right-1 md:top-1.5 md:right-1.5 w-1.5 h-1.5 md:w-2 md:h-2 bg-red-500 rounded-full"></span>
             </button>
 
             {/* Profile Picture */}
             <button
               onClick={() => router.push("/coordinator-dashboard/profile")}
-              className="w-10 h-10 rounded-full overflow-hidden hover:ring-2 hover:ring-purple-500 transition-all cursor-pointer"
+              className="w-9 h-9 md:w-10 md:h-10 rounded-full overflow-hidden hover:ring-2 hover:ring-purple-500 transition-all cursor-pointer flex-shrink-0"
             >
               <ImageWithFallback
                 src="/images/avatars/tutor-profile.jpg"
@@ -108,7 +124,7 @@ const ReferStudentsFormPage: React.FC = () => {
                 className="w-full h-full object-cover"
                 fallback={
                   <div className="w-full h-full bg-gray-300 flex items-center justify-center">
-                    <User size={20} className="text-gray-600" />
+                    <User size={18} className="md:w-5 md:h-5 text-gray-600" />
                   </div>
                 }
               />
@@ -117,33 +133,33 @@ const ReferStudentsFormPage: React.FC = () => {
         </div>
 
         {/* Main Content */}
-        <div className="p-6 overflow-y-auto flex-1">
-          <div className="w-full space-y-6">
+        <div className="p-4 md:p-6 overflow-y-auto flex-1">
+          <div className="w-full space-y-4 md:space-y-6">
             {/* Referral Incentive Banner */}
             <div
-              className="rounded-lg p-6 flex items-center gap-4"
+              className="rounded-lg p-4 md:p-6 flex flex-col sm:flex-row items-start sm:items-center gap-3 md:gap-4"
               style={{
                 backgroundColor: "#F3E8FF",
                 fontFamily: FONT_FAMILY,
               }}
             >
               <div
-                className="w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0"
+                className="w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center flex-shrink-0"
                 style={{
                   backgroundColor: colors.brand.primarySoft,
                 }}
               >
-                <Zap size={24} style={{ color: "#FFFFFF" }} />
+                <Zap size={20} className="md:w-6 md:h-6" style={{ color: "#FFFFFF" }} />
               </div>
               <div>
                 <p
-                  className="text-base font-bold text-gray-900 mb-1"
+                  className="text-sm md:text-base font-bold text-gray-900 mb-1"
                   style={{ fontFamily: FONT_FAMILY }}
                 >
                   Earn ₹500 per referral
                 </p>
                 <p
-                  className="text-sm text-gray-600"
+                  className="text-xs md:text-sm text-gray-600"
                   style={{ fontFamily: FONT_FAMILY }}
                 >
                   After 10 students, unlock 10% monthly commission.
@@ -152,19 +168,19 @@ const ReferStudentsFormPage: React.FC = () => {
             </div>
 
             {/* Photo Upload Section */}
-            <div className="bg-white rounded-lg border border-gray-200 p-6">
+            <div className="bg-white rounded-lg border border-gray-200 p-4 md:p-6">
               <div className="flex flex-col items-center">
                 <div
-                  className="w-40 h-40 rounded-full border-2 border-dashed flex items-center justify-center mb-6"
+                  className="w-32 h-32 md:w-40 md:h-40 rounded-full border-2 border-dashed flex items-center justify-center mb-4 md:mb-6"
                   style={{
                     borderColor: colors.brand.primarySoft,
                     borderStyle: "dashed",
                   }}
                 >
-                  <Camera size={48} style={{ color: colors.brand.primarySoft }} />
+                  <Camera size={36} className="md:w-12 md:h-12" style={{ color: colors.brand.primarySoft }} />
                 </div>
                 <button
-                  className="px-6 py-3 rounded-lg text-sm font-semibold text-white mb-3"
+                  className="px-4 md:px-6 py-2 md:py-3 rounded-lg text-xs md:text-sm font-semibold text-white mb-2 md:mb-3"
                   style={{
                     backgroundColor: colors.brand.primarySoft,
                     fontFamily: FONT_FAMILY,
@@ -179,7 +195,7 @@ const ReferStudentsFormPage: React.FC = () => {
                   JPG/PNG, max 5MB
                 </p>
                 <p
-                  className="text-sm text-gray-500 text-center"
+                  className="text-xs md:text-sm text-gray-500 text-center"
                   style={{ fontFamily: FONT_FAMILY }}
                 >
                   Clear, front-facing photo helps tutors identify students.
@@ -188,14 +204,14 @@ const ReferStudentsFormPage: React.FC = () => {
             </div>
 
             {/* Personal Details Section */}
-            <div className="bg-white rounded-lg border border-gray-200 p-6">
+            <div className="bg-white rounded-lg border border-gray-200 p-4 md:p-6">
               <h2
-                className="text-xl font-bold text-gray-900 mb-6"
+                className="text-lg md:text-xl font-bold text-gray-900 mb-4 md:mb-6"
                 style={{ fontFamily: FONT_FAMILY }}
               >
                 Personal Details
               </h2>
-              <div className="grid grid-cols-2 gap-4 mb-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4 md:mb-6">
                 <Input
                   label="Full Name"
                   placeholder="Full Name"
@@ -265,7 +281,7 @@ const ReferStudentsFormPage: React.FC = () => {
                 >
                   Gender <span style={{ color: "#EF4444" }}>*</span>
                 </label>
-                <div className="flex items-center gap-6">
+                <div className="flex items-center gap-4 md:gap-6">
                   <label className="flex items-center gap-2 cursor-pointer">
                     <input
                       type="radio"
@@ -309,14 +325,14 @@ const ReferStudentsFormPage: React.FC = () => {
             </div>
 
             {/* Academic Information Section */}
-            <div className="bg-white rounded-lg border border-gray-200 p-6">
+            <div className="bg-white rounded-lg border border-gray-200 p-4 md:p-6">
               <h2
-                className="text-xl font-bold text-gray-900 mb-6"
+                className="text-lg md:text-xl font-bold text-gray-900 mb-4 md:mb-6"
                 style={{ fontFamily: FONT_FAMILY }}
               >
                 Academic Information
               </h2>
-              <div className="grid grid-cols-3 gap-4 mb-6">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4 md:mb-6">
                 <div className="relative">
                   <label
                     className="block text-sm font-medium text-gray-700 mb-2"
@@ -509,12 +525,12 @@ const ReferStudentsFormPage: React.FC = () => {
                 >
                   Preferred Subjects
                 </label>
-                <div className="flex flex-wrap gap-3">
+                <div className="flex flex-wrap gap-2 md:gap-3">
                   {subjects.map((subject) => (
                     <button
                       key={subject}
                       onClick={() => toggleSubject(subject)}
-                      className="px-4 py-2 rounded-full text-sm font-medium transition-colors"
+                      className="px-3 md:px-4 py-1.5 md:py-2 rounded-full text-xs md:text-sm font-medium transition-colors"
                       style={{
                         backgroundColor: formData.preferredSubjects.includes(subject)
                           ? "#F3E8FF"
@@ -536,18 +552,17 @@ const ReferStudentsFormPage: React.FC = () => {
             </div>
 
             {/* ID Proof Section */}
-            <div className="bg-white rounded-lg border border-gray-200 p-6">
+            <div className="bg-white rounded-lg border border-gray-200 p-4 md:p-6">
               <h2
-                className="text-xl font-bold text-gray-900 mb-6"
+                className="text-lg md:text-xl font-bold text-gray-900 mb-4 md:mb-6"
                 style={{ fontFamily: FONT_FAMILY }}
               >
                 ID Proof
               </h2>
-              <div className="flex gap-4">
+              <div className="flex flex-col md:flex-row gap-4">
                 <label
-                  className="text-center cursor-pointer hover:border-purple-400 transition-colors bg-white flex flex-col items-center justify-center border-2 border-dashed border-gray-300"
+                  className="text-center cursor-pointer hover:border-purple-400 transition-colors bg-white flex flex-col items-center justify-center border-2 border-dashed border-gray-300 w-full md:w-[379px]"
                   style={{
-                    width: "379px",
                     height: "140px",
                     borderRadius: "8px",
                     fontFamily: FONT_FAMILY,
@@ -555,12 +570,12 @@ const ReferStudentsFormPage: React.FC = () => {
                 >
                   <input type="file" className="hidden" accept=".pdf,.jpg,.jpeg,.png" />
                   <CloudUpload
-                    size={40}
-                    className="mb-3"
+                    size={32}
+                    className="md:w-10 md:h-10 mb-2 md:mb-3"
                     style={{ color: colors.brand.primarySoft }}
                   />
                   <p
-                    className="text-sm font-bold text-gray-900 mb-2"
+                    className="text-xs md:text-sm font-bold text-gray-900 mb-1 md:mb-2"
                     style={{ fontFamily: FONT_FAMILY }}
                   >
                     Aadhar Card <span style={{ color: "#EF4444" }}>*</span>
@@ -573,9 +588,8 @@ const ReferStudentsFormPage: React.FC = () => {
                   </p>
                 </label>
                 <label
-                  className="text-center cursor-pointer hover:border-purple-400 transition-colors bg-white flex flex-col items-center justify-center border-2 border-dashed border-gray-300"
+                  className="text-center cursor-pointer hover:border-purple-400 transition-colors bg-white flex flex-col items-center justify-center border-2 border-dashed border-gray-300 w-full md:w-[379px]"
                   style={{
-                    width: "379px",
                     height: "140px",
                     borderRadius: "8px",
                     fontFamily: FONT_FAMILY,
@@ -583,12 +597,12 @@ const ReferStudentsFormPage: React.FC = () => {
                 >
                   <input type="file" className="hidden" accept=".pdf,.jpg,.jpeg,.png" />
                   <CloudUpload
-                    size={40}
-                    className="mb-3"
+                    size={32}
+                    className="md:w-10 md:h-10 mb-2 md:mb-3"
                     style={{ color: colors.brand.primarySoft }}
                   />
                   <p
-                    className="text-sm font-bold text-gray-900 mb-2"
+                    className="text-xs md:text-sm font-bold text-gray-900 mb-1 md:mb-2"
                     style={{ fontFamily: FONT_FAMILY }}
                   >
                     School ID Card <span style={{ color: "#EF4444" }}>*</span>
@@ -605,9 +619,8 @@ const ReferStudentsFormPage: React.FC = () => {
 
             {/* Submit Button */}
             <button
-              className="text-base font-semibold text-white"
+              className="w-full md:w-[246px] text-sm md:text-base font-semibold text-white py-3 md:py-0"
               style={{
-                width: "246px",
                 height: "56px",
                 borderRadius: "8px",
                 backgroundColor: colors.brand.primarySoft,

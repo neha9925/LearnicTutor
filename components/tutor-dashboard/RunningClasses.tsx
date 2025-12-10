@@ -45,9 +45,9 @@ const RunningClasses: React.FC = () => {
   return (
     <div>
       {/* Section Header */}
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-4 md:mb-6 gap-2">
         <h2
-          className="text-2xl font-bold text-gray-900"
+          className="text-xl md:text-2xl font-bold text-gray-900"
           style={{
             fontFamily: FONT_FAMILY,
           }}
@@ -67,7 +67,7 @@ const RunningClasses: React.FC = () => {
       </div>
 
       {/* Class Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
         {classes.map((classItem) => (
           <div
             key={classItem.id}
@@ -106,7 +106,7 @@ const RunningClasses: React.FC = () => {
 
             {/* Class Info */}
             <h3
-              className="text-xl font-bold mb-2"
+              className="text-lg md:text-xl font-bold mb-2"
               style={{
                 color: "#1F2937",
                 fontFamily: FONT_FAMILY,

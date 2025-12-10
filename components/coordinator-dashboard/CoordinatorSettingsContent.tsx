@@ -63,32 +63,32 @@ const CoordinatorSettingsContent: React.FC = () => {
   };
 
   return (
-    <div className="space-y-6" style={{ fontFamily: FONT_FAMILY }}>
+    <div className="space-y-4 md:space-y-6" style={{ fontFamily: FONT_FAMILY }}>
       {/* Notification Preferences */}
-      <div className="bg-white rounded-lg border border-gray-200 p-6">
+      <div className="bg-white rounded-lg border border-gray-200 p-4 md:p-6">
         <h2
-          className="text-xl font-bold text-gray-900 mb-6"
+          className="text-lg md:text-xl font-bold text-gray-900 mb-4 md:mb-6"
           style={{
             fontFamily: FONT_FAMILY,
           }}
         >
           Notification Preferences
         </h2>
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
           {notifications.map((notif) => {
             const Icon = notif.icon;
             return (
               <div
                 key={notif.id}
-                className="flex items-center justify-between p-4 rounded-lg"
+                className="flex items-center justify-between p-3 md:p-4 rounded-lg"
                 style={{
                   backgroundColor: "#F9FAFB",
                   border: "1px solid #E5E7EB",
                 }}
               >
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-2 md:gap-3">
                   <div
-                    className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0"
+                    className="w-8 h-8 md:w-10 md:h-10 rounded-full flex items-center justify-center flex-shrink-0"
                     style={{
                       backgroundColor: notif.enabled
                         ? colors.brand.primarySoft + "20"
@@ -96,7 +96,8 @@ const CoordinatorSettingsContent: React.FC = () => {
                     }}
                   >
                     <Icon
-                      size={20}
+                      size={18}
+                      className="md:w-5 md:h-5"
                       style={{
                         color: notif.enabled
                           ? colors.brand.primarySoft
@@ -105,7 +106,7 @@ const CoordinatorSettingsContent: React.FC = () => {
                     />
                   </div>
                   <span
-                    className="text-sm font-medium text-gray-900"
+                    className="text-xs md:text-sm font-medium text-gray-900"
                     style={{ fontFamily: FONT_FAMILY }}
                   >
                     {notif.label}
@@ -113,7 +114,7 @@ const CoordinatorSettingsContent: React.FC = () => {
                 </div>
                 <button
                   onClick={() => toggleNotification(notif.id)}
-                  className="relative w-12 h-6 rounded-full transition-colors flex-shrink-0"
+                  className="relative w-11 h-6 md:w-12 md:h-6 rounded-full transition-colors flex-shrink-0"
                   style={{
                     backgroundColor: notif.enabled
                       ? colors.brand.primarySoft
@@ -121,9 +122,9 @@ const CoordinatorSettingsContent: React.FC = () => {
                   }}
                 >
                   <span
-                    className="absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full transition-transform shadow-sm"
+                    className="absolute top-0.5 left-0.5 w-5 h-5 md:w-5 md:h-5 bg-white rounded-full transition-transform shadow-sm"
                     style={{
-                      transform: notif.enabled ? "translateX(24px)" : "translateX(0)",
+                      transform: notif.enabled ? "translateX(20px)" : "translateX(0)",
                     }}
                   />
                 </button>
@@ -134,9 +135,9 @@ const CoordinatorSettingsContent: React.FC = () => {
       </div>
 
       {/* Security & Login */}
-      <div className="bg-white rounded-lg border border-gray-200 p-6">
+      <div className="bg-white rounded-lg border border-gray-200 p-4 md:p-6">
         <h2
-          className="text-xl font-bold text-gray-900 mb-2"
+          className="text-lg md:text-xl font-bold text-gray-900 mb-2"
           style={{
             fontFamily: FONT_FAMILY,
           }}
@@ -144,15 +145,15 @@ const CoordinatorSettingsContent: React.FC = () => {
           Security & Login
         </h2>
         <h3
-          className="text-base font-medium text-gray-900 mb-6"
+          className="text-sm md:text-base font-medium text-gray-900 mb-4 md:mb-6"
           style={{
             fontFamily: FONT_FAMILY,
           }}
         >
           Change Password
         </h3>
-        <div className="flex gap-4 items-start">
-          <div className="flex-1">
+        <div className="flex flex-col md:flex-row gap-4 items-start">
+          <div className="flex-1 w-full md:w-auto">
             <Input
               label="Current Password"
               type="password"
@@ -160,8 +161,9 @@ const CoordinatorSettingsContent: React.FC = () => {
               value={currentPassword}
               onChange={(e) => setCurrentPassword(e.target.value)}
             />
+            {/* Submit button for desktop */}
             <button
-              className="px-6 py-3 rounded-lg text-sm font-semibold text-white mt-4"
+              className="px-5 md:px-6 py-2.5 md:py-3 rounded-lg text-xs md:text-sm font-semibold text-white mt-4 w-full md:w-auto hidden md:block"
               style={{
                 backgroundColor: colors.brand.primarySoft,
                 fontFamily: FONT_FAMILY,
@@ -170,7 +172,7 @@ const CoordinatorSettingsContent: React.FC = () => {
               Submit
             </button>
           </div>
-          <div className="flex-1">
+          <div className="flex-1 w-full md:w-auto">
             <Input
               label="New Password"
               type="password"
@@ -216,7 +218,7 @@ const CoordinatorSettingsContent: React.FC = () => {
               </div>
             )}
           </div>
-          <div className="flex-1">
+          <div className="flex-1 w-full md:w-auto">
             <Input
               label="Confirm Password"
               type="password"
@@ -224,6 +226,16 @@ const CoordinatorSettingsContent: React.FC = () => {
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
             />
+            {/* Submit button for mobile */}
+            <button
+              className="px-5 md:px-6 py-2.5 md:py-3 rounded-lg text-xs md:text-sm font-semibold text-white mt-4 w-full md:w-auto block md:hidden"
+              style={{
+                backgroundColor: colors.brand.primarySoft,
+                fontFamily: FONT_FAMILY,
+              }}
+            >
+              Submit
+            </button>
           </div>
         </div>
       </div>

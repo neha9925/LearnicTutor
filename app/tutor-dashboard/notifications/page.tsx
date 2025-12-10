@@ -1,9 +1,10 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import NotificationsPage from "@/components/tutor-dashboard/NotificationsPage";
 
 export default function TutorNotificationsRoute() {
-  return <NotificationsPage />;
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  return <NotificationsPage isMobileMenuOpen={isMobileMenuOpen} setIsMobileMenuOpen={setIsMobileMenuOpen} />;
 }
 

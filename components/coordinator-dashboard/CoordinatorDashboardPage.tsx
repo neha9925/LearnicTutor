@@ -9,7 +9,12 @@ import ReferredStudentsTable from "@/components/coordinator-dashboard/ReferredSt
 import NewBatchesSection from "@/components/coordinator-dashboard/NewBatchesSection";
 import { FONT_FAMILY } from "@/theme";
 
-const CoordinatorDashboardPage: React.FC = () => {
+interface CoordinatorDashboardPageProps {
+  isMobileMenuOpen?: boolean;
+  setIsMobileMenuOpen?: (open: boolean) => void;
+}
+
+const CoordinatorDashboardPage: React.FC<CoordinatorDashboardPageProps> = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
   return (
     <div
       className="flex min-h-screen"
@@ -17,10 +22,10 @@ const CoordinatorDashboardPage: React.FC = () => {
         backgroundColor: "#F9FAFB",
       }}
     >
-      <CoordinatorSidebar />
-      <div className="flex-1 ml-64 flex flex-col h-screen overflow-hidden">
-        <CoordinatorHeader />
-        <div className="p-6 overflow-y-auto flex-1">
+      <CoordinatorSidebar isMobileMenuOpen={isMobileMenuOpen || false} setIsMobileMenuOpen={setIsMobileMenuOpen || (() => {})} />
+      <div className="flex-1 md:ml-64 flex flex-col h-screen overflow-hidden w-full">
+        <CoordinatorHeader isMobileMenuOpen={isMobileMenuOpen} setIsMobileMenuOpen={setIsMobileMenuOpen} />
+        <div className="p-4 md:p-6 overflow-y-auto flex-1">
           <CoordinatorSummaryCards />
           <EarningsOverview />
           <ReferredStudentsTable />

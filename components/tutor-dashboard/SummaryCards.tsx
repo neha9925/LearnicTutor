@@ -88,7 +88,7 @@ const SummaryCards: React.FC = () => {
   };
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6" style={{ width: '100%' }}>
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6" style={{ width: '100%' }}>
       {cards.map((card, index) => (
         <div
           key={index}

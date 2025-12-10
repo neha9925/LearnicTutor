@@ -48,16 +48,16 @@ const EarningsOverview: React.FC = () => {
 
   return (
     <div
-      className="bg-white rounded-lg border border-gray-200 p-6 shadow-sm mb-6"
+      className="bg-white rounded-lg border border-gray-200 p-4 md:p-6 shadow-sm mb-4 md:mb-6 overflow-x-auto"
       style={{
         fontFamily: FONT_FAMILY,
       }}
     >
       {/* Header */}
-      <div className="flex items-start justify-between mb-6">
+      <div className="flex flex-col md:flex-row items-start md:items-start justify-between mb-4 md:mb-6 gap-4">
         <div>
           <h2
-            className="text-2xl font-bold text-gray-900 mb-2"
+            className="text-xl md:text-2xl font-bold text-gray-900 mb-2"
             style={{
               fontFamily: FONT_FAMILY,
             }}
@@ -65,7 +65,7 @@ const EarningsOverview: React.FC = () => {
             Earnings Overview
           </h2>
           <p
-            className="text-sm text-gray-600"
+            className="text-xs md:text-sm text-gray-600"
             style={{
               fontFamily: FONT_FAMILY,
             }}
@@ -75,10 +75,10 @@ const EarningsOverview: React.FC = () => {
         </div>
 
         {/* Dropdowns */}
-        <div className="flex items-center gap-4">
-          <div className="relative">
+        <div className="flex items-center gap-2 md:gap-4 w-full md:w-auto">
+          <div className="relative flex-1 md:flex-initial">
             <select
-              className="px-4 py-2 pr-8 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 text-sm bg-white appearance-none cursor-pointer text-gray-900"
+              className="px-3 md:px-4 py-2 pr-7 md:pr-8 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 text-xs md:text-sm bg-white appearance-none cursor-pointer text-gray-900 w-full md:w-auto"
               style={{
                 fontFamily: FONT_FAMILY,
               }}
@@ -86,13 +86,13 @@ const EarningsOverview: React.FC = () => {
               <option>2025</option>
             </select>
             <ChevronDown
-              size={16}
-              className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-900 pointer-events-none"
+              size={14}
+              className="md:w-4 md:h-4 absolute right-2 md:right-3 top-1/2 transform -translate-y-1/2 text-gray-900 pointer-events-none"
             />
           </div>
-          <div className="relative">
+          <div className="relative flex-1 md:flex-initial">
             <select
-              className="px-4 py-2 pr-8 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 text-sm bg-white appearance-none cursor-pointer text-gray-900"
+              className="px-3 md:px-4 py-2 pr-7 md:pr-8 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 text-xs md:text-sm bg-white appearance-none cursor-pointer text-gray-900 w-full md:w-auto"
               style={{
                 fontFamily: FONT_FAMILY,
               }}
@@ -100,17 +100,17 @@ const EarningsOverview: React.FC = () => {
               <option>Monthly</option>
             </select>
             <ChevronDown
-              size={16}
-              className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-900 pointer-events-none"
+              size={14}
+              className="md:w-4 md:h-4 absolute right-2 md:right-3 top-1/2 transform -translate-y-1/2 text-gray-900 pointer-events-none"
             />
           </div>
         </div>
       </div>
 
       {/* Graph */}
-      <div className="relative" style={{ height: `${graphHeight + 60}px`, minHeight: '350px' }}>
+      <div className="relative overflow-x-auto" style={{ height: `${graphHeight + 60}px`, minHeight: '350px' }}>
         {/* Y-axis labels */}
-        <div className="absolute left-0 top-0 bottom-12 flex flex-col justify-between text-xs pr-3" style={{ color: "#9CA3AF", fontFamily: FONT_FAMILY }}>
+        <div className="absolute left-0 top-0 bottom-12 flex flex-col justify-between text-[10px] md:text-xs pr-2 md:pr-3" style={{ color: "#9CA3AF", fontFamily: FONT_FAMILY }}>
           {yAxisLabels.map((label) => (
             <span key={label}>{label.toLocaleString()}</span>
           ))}
@@ -118,8 +118,8 @@ const EarningsOverview: React.FC = () => {
 
         {/* Graph area */}
         <div
-          className="absolute left-16 right-0 top-0 bottom-12"
-          style={{ height: `${graphHeight}px` }}
+          className="absolute left-12 md:left-16 right-0 top-0 bottom-12"
+          style={{ height: `${graphHeight}px`, minWidth: '600px' }}
         >
           <svg
             width="100%"
@@ -185,7 +185,7 @@ const EarningsOverview: React.FC = () => {
           </svg>
 
           {/* X-axis labels */}
-          <div className="absolute bottom-0 left-0 right-0 flex justify-between text-xs mt-3" style={{ color: "#9CA3AF", fontFamily: FONT_FAMILY }}>
+          <div className="absolute bottom-0 left-0 right-0 flex justify-between text-[10px] md:text-xs mt-3" style={{ color: "#9CA3AF", fontFamily: FONT_FAMILY }}>
             {earningsData.map((data, index) => (
               <span key={index}>{data.month}</span>
             ))}
