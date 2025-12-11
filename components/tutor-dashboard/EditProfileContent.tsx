@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 import {
   X,
   Check,
@@ -29,6 +30,7 @@ interface Certification {
 }
 
 const EditProfileContent: React.FC = () => {
+  const router = useRouter();
   const [fullName, setFullName] = useState("Dr. Emily Watson");
   const [shortTitle, setShortTitle] = useState("Advanced Mathematics & Statistics Expert");
   const [subjectTags, setSubjectTags] = useState<string[]>(["Mathematics", "Physics"]);
@@ -152,6 +154,39 @@ const EditProfileContent: React.FC = () => {
   const closeAllYearDropdowns = () => {
     setShowQualificationYearDropdowns({});
     setShowCertificationYearDropdowns({});
+  };
+
+  const handleSaveAllChanges = () => {
+    // Collect all form data
+    const profileData = {
+      fullName,
+      shortTitle,
+      subjectTags,
+      teachingExperience,
+      languages,
+      aboutMe,
+      qualifications,
+      certifications,
+    };
+
+    // Log the data (in production, this would be sent to an API)
+    console.log("Saving profile data:", profileData);
+
+    // Here you would typically make an API call to save the data
+    // Example:
+    // try {
+    //   await fetch('/api/tutor/profile', {
+    //     method: 'PUT',
+    //     headers: { 'Content-Type': 'application/json' },
+    //     body: JSON.stringify(profileData),
+    //   });
+    //   router.push('/tutor-dashboard');
+    // } catch (error) {
+    //   alert('Failed to update profile. Please try again.');
+    // }
+
+    // Navigate to dashboard after saving
+    router.push("/tutor-dashboard");
   };
 
   return (
@@ -587,13 +622,18 @@ const EditProfileContent: React.FC = () => {
       {/* Action Buttons */}
       <div className="flex flex-col sm:flex-row justify-end gap-3 md:gap-4 pt-3 md:pt-4">
         <button
+          onClick={() => {
+            // Reset form or navigate back
+            window.history.back();
+          }}
           className="px-5 md:px-6 py-2.5 md:py-3 rounded-lg text-xs md:text-sm font-semibold border border-gray-300 bg-white text-gray-700 hover:bg-gray-50 transition-colors w-full sm:w-auto"
           style={{ fontFamily: FONT_FAMILY }}
         >
           Cancel
         </button>
         <button
-          className="px-5 md:px-6 py-2.5 md:py-3 rounded-lg text-xs md:text-sm font-semibold text-white w-full sm:w-auto"
+          onClick={handleSaveAllChanges}
+          className="px-5 md:px-6 py-2.5 md:py-3 rounded-lg text-xs md:text-sm font-semibold text-white hover:opacity-90 transition-opacity w-full sm:w-auto"
           style={{
             backgroundColor: colors.brand.primarySoft,
             fontFamily: FONT_FAMILY,

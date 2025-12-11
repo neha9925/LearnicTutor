@@ -21,6 +21,8 @@ interface Notification {
 }
 
 const NotificationsContent: React.FC = () => {
+  const [activeNotificationId, setActiveNotificationId] = React.useState<string>("1");
+
   const notifications: Notification[] = [
     {
       id: "1",
@@ -96,17 +98,25 @@ const NotificationsContent: React.FC = () => {
     }
   };
 
+  const handleNotificationClick = (notification: Notification) => {
+    // Set the clicked notification as active
+    setActiveNotificationId(notification.id);
+  };
+
   return (
     <div className="space-y-3 md:space-y-4" style={{ fontFamily: FONT_FAMILY }}>
-      {notifications.map((notification) => (
-        <div
-          key={notification.id}
-          className="rounded-lg border border-gray-200 p-3 md:p-4 flex items-start gap-3 md:gap-4 relative"
-          style={{
-            backgroundColor: notification.backgroundColor || "#FFFFFF",
-            fontFamily: FONT_FAMILY,
-          }}
-        >
+      {notifications.map((notification) => {
+        const isActive = activeNotificationId === notification.id;
+        return (
+          <div
+            key={notification.id}
+            onClick={() => handleNotificationClick(notification)}
+            className="rounded-lg border border-gray-200 p-3 md:p-4 flex items-start gap-3 md:gap-4 relative cursor-pointer hover:shadow-md transition-all hover:border-purple-300 active:scale-[0.98]"
+            style={{
+              backgroundColor: isActive ? "#F3E8FF" : "#FFFFFF",
+              fontFamily: FONT_FAMILY,
+            }}
+          >
           {/* Icon */}
           <div
             className="w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center flex-shrink-0"
@@ -170,7 +180,8 @@ const NotificationsContent: React.FC = () => {
             </div>
           </div>
         </div>
-      ))}
+        );
+      })}
     </div>
   );
 };
