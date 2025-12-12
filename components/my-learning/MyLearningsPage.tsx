@@ -18,16 +18,16 @@ const MyLearningsPage: React.FC = () => {
     <div className="min-h-screen bg-white">
       {/* Hero Banner */}
       <div
-        className="w-full py-16 px-4 sm:px-6 lg:px-8"
+        className="w-full py-8 md:py-16 px-4 sm:px-6 lg:px-8"
         style={{
           background: "linear-gradient(135deg, #572EEE 0%, #C084FC 70.71%)",
         }}
       >
         <div className="container mx-auto text-center">
           <h1
+            className="text-2xl md:text-4xl lg:text-[48px]"
             style={{
               ...typography.section.headingXl,
-              fontSize: "48px",
               color: colors.neutral.white,
               fontWeight: 700,
               marginBottom: "12px",
@@ -37,9 +37,9 @@ const MyLearningsPage: React.FC = () => {
             My Learnings
           </h1>
           <p
+            className="text-sm md:text-base lg:text-lg"
             style={{
               ...typography.section.descriptionLg,
-              fontSize: "18px",
               color: "rgba(255, 255, 255, 0.9)",
               fontFamily: "var(--font-poppins), sans-serif",
             }}
@@ -49,37 +49,37 @@ const MyLearningsPage: React.FC = () => {
         </div>
       </div>
 
-      <div className="container mx-auto px-4 sm:px-6 py-12">
+      <div className="container mx-auto px-4 sm:px-6 py-6 md:py-12">
         {/* Last Test Section */}
-        <div className="mb-12">
-          <div className="flex gap-10">
+        <div className="mb-8 md:mb-12">
+          <div className="flex flex-col md:flex-row gap-4 md:gap-10">
             {/* Test Result Card */}
             <Card
+              className="w-full md:w-[569px] md:flex-shrink-0"
               style={{
-                width: "569px",
-                height: "368px",
+                height: "auto",
+                minHeight: "368px",
                 borderRadius: "12px",
                 borderWidth: "1px",
                 borderStyle: "solid",
                 borderColor: colors.background.cardBorder,
                 boxShadow: shadows.cardSoft,
                 overflow: "hidden",
-                flexShrink: 0,
                 backgroundColor: "#F3F0FF",
               }}
             >
               <CardContent className="p-0 h-full flex flex-col">
                 {/* Header Section with Purple Gradient */}
                 <div
-                  className="px-6 py-4"
+                  className="px-4 md:px-6 py-3 md:py-4"
                   style={{
                     background: gradients.buttonPrimary,
                   }}
                 >
                   <div
+                    className="text-sm md:text-base"
                     style={{
                       ...typography.card.titleMd,
-                      fontSize: "16px",
                       color: colors.neutral.white,
                       fontWeight: 700,
                       fontFamily: "var(--font-poppins), sans-serif",
@@ -91,17 +91,17 @@ const MyLearningsPage: React.FC = () => {
                 
                 {/* Rank Section with Light Purple Background */}
                 <div
-                  className="px-6 py-6 text-center"
+                  className="px-4 md:px-6 py-4 md:py-6 text-center"
                   style={{
                     backgroundColor: "#F3F0FF",
                   }}
                 >
-                  <div className="flex items-center justify-center gap-2 mb-4">
-                    <Trophy className="w-6 h-6" style={{ color: "#FBBF24" }} fill="#FBBF24" />
+                  <div className="flex items-center justify-center gap-2 mb-3 md:mb-4">
+                    <Trophy className="w-5 h-5 md:w-6 md:h-6" style={{ color: "#FBBF24" }} fill="#FBBF24" />
                     <div
+                      className="text-sm md:text-base"
                       style={{
                         ...typography.card.bodyMd,
-                        fontSize: "16px",
                         color: colors.text.primary,
                         fontWeight: 600,
                         fontFamily: "var(--font-poppins), sans-serif",
@@ -111,9 +111,9 @@ const MyLearningsPage: React.FC = () => {
                     </div>
                   </div>
                   <div
+                    className="text-3xl md:text-4xl lg:text-[48px]"
                     style={{
                       ...typography.section.headingXl,
-                      fontSize: "48px",
                       color: "#6B47ED",
                       fontWeight: 700,
                       marginBottom: "8px",
@@ -123,9 +123,9 @@ const MyLearningsPage: React.FC = () => {
                     #{lastTest.rank}
                   </div>
                   <div
+                    className="text-xs md:text-sm"
                     style={{
                       ...typography.card.bodySm,
-                      fontSize: "14px",
                       color: colors.text.tertiary,
                       fontFamily: "var(--font-poppins), sans-serif",
                     }}
@@ -135,15 +135,15 @@ const MyLearningsPage: React.FC = () => {
                 </div>
 
                 {/* Performance Metrics */}
-                <div className="px-6 py-6" style={{ backgroundColor: "#F3F0FF" }}>
-                  <div className="grid grid-cols-3 gap-6">
+                <div className="px-4 md:px-6 py-4 md:py-6" style={{ backgroundColor: "#F3F0FF" }}>
+                  <div className="grid grid-cols-3 gap-3 md:gap-6">
                     <div className="text-center">
-                      <div className="flex items-center justify-center gap-2 mb-2">
-                        <Target className="w-4 h-4" style={{ color: "#EF4444" }} />
+                      <div className="flex items-center justify-center gap-1 md:gap-2 mb-1 md:mb-2">
+                        <Target className="w-3 h-3 md:w-4 md:h-4" style={{ color: "#EF4444" }} />
                         <span
+                          className="text-[10px] md:text-xs"
                           style={{
                             ...typography.card.bodySm,
-                            fontSize: "12px",
                             color: colors.text.tertiary,
                             fontFamily: "var(--font-poppins), sans-serif",
                           }}
@@ -152,9 +152,9 @@ const MyLearningsPage: React.FC = () => {
                         </span>
                       </div>
                       <div
+                        className="text-sm md:text-base lg:text-lg"
                         style={{
                           ...typography.card.titleMd,
-                          fontSize: "18px",
                           color: colors.text.primary,
                           fontWeight: 700,
                           fontFamily: "var(--font-poppins), sans-serif",
@@ -164,12 +164,12 @@ const MyLearningsPage: React.FC = () => {
                       </div>
                     </div>
                     <div className="text-center">
-                      <div className="flex items-center justify-center gap-2 mb-2">
-                        <Clock className="w-4 h-4" style={{ color: colors.text.tertiary }} />
+                      <div className="flex items-center justify-center gap-1 md:gap-2 mb-1 md:mb-2">
+                        <Clock className="w-3 h-3 md:w-4 md:h-4" style={{ color: colors.text.tertiary }} />
                         <span
+                          className="text-[10px] md:text-xs"
                           style={{
                             ...typography.card.bodySm,
-                            fontSize: "12px",
                             color: colors.text.tertiary,
                             fontFamily: "var(--font-poppins), sans-serif",
                           }}
@@ -178,9 +178,9 @@ const MyLearningsPage: React.FC = () => {
                         </span>
                       </div>
                       <div
+                        className="text-sm md:text-base lg:text-lg"
                         style={{
                           ...typography.card.titleMd,
-                          fontSize: "18px",
                           color: colors.text.primary,
                           fontWeight: 700,
                           fontFamily: "var(--font-poppins), sans-serif",
@@ -190,12 +190,12 @@ const MyLearningsPage: React.FC = () => {
                       </div>
                     </div>
                     <div className="text-center">
-                      <div className="flex items-center justify-center gap-2 mb-2">
-                        <TrendingUp className="w-4 h-4" style={{ color: "#EF4444" }} />
+                      <div className="flex items-center justify-center gap-1 md:gap-2 mb-1 md:mb-2">
+                        <TrendingUp className="w-3 h-3 md:w-4 md:h-4" style={{ color: "#EF4444" }} />
                         <span
+                          className="text-[10px] md:text-xs"
                           style={{
                             ...typography.card.bodySm,
-                            fontSize: "12px",
                             color: colors.text.tertiary,
                             fontFamily: "var(--font-poppins), sans-serif",
                           }}
@@ -204,9 +204,9 @@ const MyLearningsPage: React.FC = () => {
                         </span>
                       </div>
                       <div
+                        className="text-sm md:text-base lg:text-lg"
                         style={{
                           ...typography.card.titleMd,
-                          fontSize: "18px",
                           color: colors.text.primary,
                           fontWeight: 700,
                           fontFamily: "var(--font-poppins), sans-serif",
@@ -221,12 +221,13 @@ const MyLearningsPage: React.FC = () => {
             </Card>
 
             {/* Stats Cards - 2x2 Grid */}
-            <div className="w-full grid grid-cols-2 gap-3">
+            <div className="w-full grid grid-cols-1 sm:grid-cols-2 gap-3">
               {/* Top-left: My Classes */}
               <Card
+                className="w-full"
                 style={{
-                  width: "100%",
-                  height: "171px",
+                  height: "auto",
+                  minHeight: "171px",
                   borderRadius: "12px",
                   borderWidth: "1.05px",
                   borderStyle: "solid",
@@ -234,21 +235,21 @@ const MyLearningsPage: React.FC = () => {
                   boxShadow: shadows.cardSoft,
                 }}
               >
-                <CardContent className="p-6 h-full flex items-center justify-between">
-                  <div className="flex items-center gap-4">
+                <CardContent className="p-4 md:p-6 h-full flex items-center justify-between">
+                  <div className="flex items-center gap-3 md:gap-4">
                     <div
-                      className="w-12 h-12 rounded-lg flex items-center justify-center"
+                      className="w-10 h-10 md:w-12 md:h-12 rounded-lg flex items-center justify-center flex-shrink-0"
                       style={{
                         backgroundColor: "#F3F0FF",
                       }}
                     >
-                      <BookOpen className="w-6 h-6" style={{ color: "#6B47ED" }} />
+                      <BookOpen className="w-5 h-5 md:w-6 md:h-6" style={{ color: "#6B47ED" }} />
                     </div>
                     <div>
                       <div
+                        className="text-sm md:text-base"
                         style={{
                           ...typography.card.titleMd,
-                          fontSize: "16px",
                           color: colors.text.primary,
                           fontWeight: 700,
                           marginBottom: "4px",
@@ -258,9 +259,9 @@ const MyLearningsPage: React.FC = () => {
                         {stats[0].title}
                       </div>
                       <div
+                        className="text-xs md:text-sm"
                         style={{
                           ...typography.card.bodySm,
-                          fontSize: "14px",
                           color: colors.text.tertiary,
                           fontFamily: "var(--font-poppins), sans-serif",
                         }}
@@ -270,9 +271,9 @@ const MyLearningsPage: React.FC = () => {
                     </div>
                   </div>
                   <div
+                    className="text-2xl md:text-3xl lg:text-[32px]"
                     style={{
                       ...typography.section.headingLg,
-                      fontSize: "32px",
                       color: "#6B47ED",
                       fontWeight: 700,
                       fontFamily: "var(--font-poppins), sans-serif",
@@ -285,9 +286,10 @@ const MyLearningsPage: React.FC = () => {
 
               {/* Top-right: My Videos */}
               <Card
+                className="w-full"
                 style={{
-                  width: "100%",
-                  height: "171px",
+                  height: "auto",
+                  minHeight: "171px",
                   borderRadius: "12px",
                   borderWidth: "1.05px",
                   borderStyle: "solid",
@@ -295,21 +297,21 @@ const MyLearningsPage: React.FC = () => {
                   boxShadow: shadows.cardSoft,
                 }}
               >
-                <CardContent className="p-6 h-full flex items-center justify-between">
-                  <div className="flex items-center gap-4">
+                <CardContent className="p-4 md:p-6 h-full flex items-center justify-between">
+                  <div className="flex items-center gap-3 md:gap-4">
                     <div
-                      className="w-12 h-12 rounded-lg flex items-center justify-center"
+                      className="w-10 h-10 md:w-12 md:h-12 rounded-lg flex items-center justify-center flex-shrink-0"
                       style={{
                         backgroundColor: "#F3F0FF",
                       }}
                     >
-                      <Video className="w-6 h-6" style={{ color: "#6B47ED" }} />
+                      <Video className="w-5 h-5 md:w-6 md:h-6" style={{ color: "#6B47ED" }} />
                     </div>
                     <div>
                       <div
+                        className="text-sm md:text-base"
                         style={{
                           ...typography.card.titleMd,
-                          fontSize: "16px",
                           color: colors.text.primary,
                           fontWeight: 700,
                           marginBottom: "4px",
@@ -319,9 +321,9 @@ const MyLearningsPage: React.FC = () => {
                         {stats[1].title}
                       </div>
                       <div
+                        className="text-xs md:text-sm"
                         style={{
                           ...typography.card.bodySm,
-                          fontSize: "14px",
                           color: colors.text.tertiary,
                           fontFamily: "var(--font-poppins), sans-serif",
                         }}
@@ -331,9 +333,9 @@ const MyLearningsPage: React.FC = () => {
                     </div>
                   </div>
                   <div
+                    className="text-2xl md:text-3xl lg:text-[32px]"
                     style={{
                       ...typography.section.headingLg,
-                      fontSize: "32px",
                       color: "#6B47ED",
                       fontWeight: 700,
                       fontFamily: "var(--font-poppins), sans-serif",
@@ -347,9 +349,10 @@ const MyLearningsPage: React.FC = () => {
               {/* Bottom-left: My Test Series */}
               {stats[2] && (
                 <Card
+                  className="w-full"
                   style={{
-                    width: "100%",
-                    height: "171px",
+                    height: "auto",
+                    minHeight: "171px",
                     borderRadius: "12px",
                     borderWidth: "1.05px",
                     borderStyle: "solid",
@@ -357,21 +360,21 @@ const MyLearningsPage: React.FC = () => {
                     boxShadow: shadows.cardSoft,
                   }}
                 >
-                  <CardContent className="p-6 h-full flex items-center justify-between">
-                    <div className="flex items-center gap-4">
+                  <CardContent className="p-4 md:p-6 h-full flex items-center justify-between">
+                    <div className="flex items-center gap-3 md:gap-4">
                       <div
-                        className="w-12 h-12 rounded-lg flex items-center justify-center"
+                        className="w-10 h-10 md:w-12 md:h-12 rounded-lg flex items-center justify-center flex-shrink-0"
                         style={{
                           backgroundColor: "#F3F0FF",
                         }}
                       >
-                        <ClipboardList className="w-6 h-6" style={{ color: "#6B47ED" }} />
+                        <ClipboardList className="w-5 h-5 md:w-6 md:h-6" style={{ color: "#6B47ED" }} />
                       </div>
                       <div>
                         <div
+                          className="text-sm md:text-base"
                           style={{
                             ...typography.card.titleMd,
-                            fontSize: "16px",
                             color: colors.text.primary,
                             fontWeight: 700,
                             marginBottom: "4px",
@@ -381,9 +384,9 @@ const MyLearningsPage: React.FC = () => {
                           {stats[2].title}
                         </div>
                         <div
+                          className="text-xs md:text-sm"
                           style={{
                             ...typography.card.bodySm,
-                            fontSize: "14px",
                             color: colors.text.tertiary,
                             fontFamily: "var(--font-poppins), sans-serif",
                           }}
@@ -393,9 +396,9 @@ const MyLearningsPage: React.FC = () => {
                       </div>
                     </div>
                     <div
+                      className="text-2xl md:text-3xl lg:text-[32px]"
                       style={{
                         ...typography.section.headingLg,
-                        fontSize: "32px",
                         color: "#6B47ED",
                         fontWeight: 700,
                         fontFamily: "var(--font-poppins), sans-serif",
@@ -411,12 +414,12 @@ const MyLearningsPage: React.FC = () => {
         </div>
 
         {/* My Classes Section */}
-        <div className="mb-12">
-          <div className="flex items-center justify-between mb-6">
+        <div className="mb-8 md:mb-12">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-0 mb-4 md:mb-6">
             <h2
+              className="text-lg md:text-xl lg:text-2xl"
               style={{
                 ...typography.section.headingLg,
-                fontSize: "24px",
                 color: colors.text.primary,
                 fontWeight: 700,
                 fontFamily: "var(--font-poppins), sans-serif",
@@ -426,6 +429,7 @@ const MyLearningsPage: React.FC = () => {
             </h2>
             <Link
               href="/live-classes"
+              className="text-sm md:text-base"
               style={{
                 ...typography.button.secondary,
                 color: colors.brand.primarySoft,
@@ -435,7 +439,7 @@ const MyLearningsPage: React.FC = () => {
               View All
             </Link>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
             {classes.map((classItem) => (
               <Card key={classItem.id} style={{ boxShadow: shadows.cardSoft }}>
                 <CardContent className="p-0">
@@ -445,12 +449,12 @@ const MyLearningsPage: React.FC = () => {
                       alt={classItem.title}
                       width={400}
                       height={200}
-                      className="w-full h-48 object-cover rounded-t-xl"
+                      className="w-full h-40 md:h-48 object-cover rounded-t-xl"
                       objectFit="cover"
                       style={{ width: "100%" }}
                       fallback={
-                        <div className="w-full h-48 bg-gradient-to-br from-purple-400 to-purple-600 flex items-center justify-center rounded-t-xl">
-                          <BookOpen className="w-16 h-16 text-white" />
+                        <div className="w-full h-40 md:h-48 bg-gradient-to-br from-purple-400 to-purple-600 flex items-center justify-center rounded-t-xl">
+                          <BookOpen className="w-12 h-12 md:w-16 md:h-16 text-white" />
                         </div>
                       }
                     />
@@ -463,22 +467,23 @@ const MyLearningsPage: React.FC = () => {
                         style={{
                           backgroundColor: "#10B981",
                           color: colors.neutral.white,
-                          fontSize: "12px",
+                          fontSize: "10px",
                           fontWeight: 600,
-                          padding: "3px 12px",
+                          padding: "3px 8px",
                           borderRadius: "6px",
                           gap: "4px",
                         }}
+                        className="md:text-xs md:px-3"
                       >
                         Completed
                       </Badge>
                     )}
                   </div>
-                  <div className="p-6">
+                  <div className="p-4 md:p-6">
                     <h3
+                      className="text-base md:text-lg"
                       style={{
                         ...typography.card.titleMd,
-                        fontSize: "18px",
                         color: colors.text.primary,
                         fontWeight: 700,
                         marginBottom: "12px",
@@ -493,19 +498,19 @@ const MyLearningsPage: React.FC = () => {
                         alt={classItem.instructor}
                         width={32}
                         height={32}
-                        className="w-8 h-8 rounded-full object-cover"
+                        className="w-7 h-7 md:w-8 md:h-8 rounded-full object-cover"
                         fallback={
-                          <div className="w-8 h-8 rounded-full bg-gradient-to-br from-purple-400 to-purple-600 flex items-center justify-center">
-                            <span className="text-white text-xs font-bold">
+                          <div className="w-7 h-7 md:w-8 md:h-8 rounded-full bg-gradient-to-br from-purple-400 to-purple-600 flex items-center justify-center">
+                            <span className="text-white text-[10px] md:text-xs font-bold">
                               {classItem.instructor.charAt(0)}
                             </span>
                           </div>
                         }
                       />
                       <p
+                        className="text-xs md:text-sm"
                         style={{
                           ...typography.card.bodySm,
-                          fontSize: "14px",
                           color: colors.text.secondary,
                           fontFamily: "var(--font-poppins), sans-serif",
                         }}
@@ -515,11 +520,11 @@ const MyLearningsPage: React.FC = () => {
                     </div>
                     {classItem.nextClass && (
                       <p
+                        className="text-sm md:text-base"
                         style={{
                           fontFamily: "Poppins, sans-serif",
                           fontWeight: 500,
                           fontStyle: "normal",
-                          fontSize: "16.62px",
                           color: "#000000",
                           marginBottom: "16px",
                         }}
@@ -529,7 +534,7 @@ const MyLearningsPage: React.FC = () => {
                     )}
                     <Button
                       variant="primary"
-                      className="w-full"
+                      className="w-full text-sm md:text-base py-2 md:py-2.5"
                       style={{
                         background: gradients.buttonPrimary,
                         border: "none",
@@ -546,12 +551,12 @@ const MyLearningsPage: React.FC = () => {
         </div>
 
         {/* My Videos Section */}
-        <div className="mb-12">
-          <div className="flex items-center justify-between mb-6">
+        <div className="mb-8 md:mb-12">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-0 mb-4 md:mb-6">
             <h2
+              className="text-lg md:text-xl lg:text-2xl"
               style={{
                 ...typography.section.headingLg,
-                fontSize: "24px",
                 color: colors.text.primary,
                 fontWeight: 700,
                 fontFamily: "var(--font-poppins), sans-serif",
@@ -561,6 +566,7 @@ const MyLearningsPage: React.FC = () => {
             </h2>
             <Link
               href="/videos"
+              className="text-sm md:text-base"
               style={{
                 ...typography.button.secondary,
                 color: colors.brand.primarySoft,
@@ -570,7 +576,7 @@ const MyLearningsPage: React.FC = () => {
               View All
             </Link>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
             {videos.map((video) => (
               <Link key={video.id} href={`/videos/${video.id}`} className="block">
                 <Card style={{ boxShadow: shadows.cardSoft, cursor: "pointer" }}>
@@ -580,18 +586,18 @@ const MyLearningsPage: React.FC = () => {
                       alt={video.title}
                       width={400}
                       height={200}
-                      className="w-full h-48 object-cover rounded-t-xl"
+                      className="w-full h-40 md:h-48 object-cover rounded-t-xl"
                       fallback={
-                        <div className="w-full h-48 bg-gradient-to-br from-purple-400 to-purple-600 flex items-center justify-center rounded-t-xl">
-                          <Play className="w-16 h-16 text-white" />
+                        <div className="w-full h-40 md:h-48 bg-gradient-to-br from-purple-400 to-purple-600 flex items-center justify-center rounded-t-xl">
+                          <Play className="w-12 h-12 md:w-16 md:h-16 text-white" />
                         </div>
                       }
                     />
-                    <div className="p-6">
+                    <div className="p-4 md:p-6">
                       <h3
+                        className="text-base md:text-lg"
                         style={{
                           ...typography.card.titleMd,
-                          fontSize: "18px",
                           color: colors.text.primary,
                           fontWeight: 700,
                           marginBottom: "12px",
@@ -601,16 +607,16 @@ const MyLearningsPage: React.FC = () => {
                         {video.title}
                       </h3>
                       <div className="flex items-center justify-between mb-3">
-                        <div className="flex items-center gap-3">
+                        <div className="flex items-center gap-2 md:gap-3">
                           <ImageWithFallback
                             src={video.instructorAvatar || ""}
                             alt={video.instructor}
                             width={40}
                             height={40}
-                            className="w-10 h-10 rounded-full object-cover flex-shrink-0"
+                            className="w-8 h-8 md:w-10 md:h-10 rounded-full object-cover flex-shrink-0"
                             fallback={
-                              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-400 to-purple-600 flex items-center justify-center">
-                                <span className="text-white text-sm font-bold">
+                              <div className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-gradient-to-br from-purple-400 to-purple-600 flex items-center justify-center">
+                                <span className="text-white text-xs md:text-sm font-bold">
                                   {video.instructor.charAt(0)}
                                 </span>
                               </div>
@@ -618,9 +624,9 @@ const MyLearningsPage: React.FC = () => {
                           />
                           <div>
                             <p
+                              className="text-xs md:text-sm"
                               style={{
                                 ...typography.card.bodySm,
-                                fontSize: "14px",
                                 color: colors.text.primary,
                                 fontWeight: 600,
                                 marginBottom: "2px",
@@ -631,9 +637,9 @@ const MyLearningsPage: React.FC = () => {
                             </p>
                             {video.instructorRole && (
                               <p
+                                className="text-[10px] md:text-xs"
                                 style={{
                                   ...typography.card.bodySm,
-                                  fontSize: "12px",
                                   color: colors.text.tertiary,
                                   fontFamily: "var(--font-poppins), sans-serif",
                                 }}
@@ -644,11 +650,11 @@ const MyLearningsPage: React.FC = () => {
                           </div>
                         </div>
                         <div className="flex items-center gap-1">
-                          <Star className="w-4 h-4" style={{ color: "#FBBF24" }} fill="#FBBF24" />
+                          <Star className="w-3 h-3 md:w-4 md:h-4" style={{ color: "#FBBF24" }} fill="#FBBF24" />
                           <span
+                            className="text-xs md:text-sm"
                             style={{
                               ...typography.card.bodySm,
-                              fontSize: "14px",
                               color: colors.text.primary,
                               fontWeight: 600,
                               fontFamily: "var(--font-poppins), sans-serif",
@@ -667,12 +673,12 @@ const MyLearningsPage: React.FC = () => {
         </div>
 
         {/* My Test Series Section */}
-        <div className="mb-12">
-          <div className="flex items-center justify-between mb-6">
+        <div className="mb-8 md:mb-12">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-0 mb-4 md:mb-6">
             <h2
+              className="text-lg md:text-xl lg:text-2xl"
               style={{
                 ...typography.section.headingLg,
-                fontSize: "24px",
                 color: colors.text.primary,
                 fontWeight: 700,
                 fontFamily: "var(--font-poppins), sans-serif",
@@ -682,6 +688,7 @@ const MyLearningsPage: React.FC = () => {
             </h2>
             <Link
               href="/test-series"
+              className="text-sm md:text-base"
               style={{
                 ...typography.button.secondary,
                 color: colors.brand.primarySoft,
@@ -691,7 +698,7 @@ const MyLearningsPage: React.FC = () => {
               View All
             </Link>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 gap-6 w-full">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 gap-4 md:gap-6 w-full">
             {testSeries.map((test) => (
               <Link key={test.id} href={`/test-series/${test.id}`}>
                 <Card style={{ boxShadow: shadows.cardSoft }}>
@@ -702,12 +709,12 @@ const MyLearningsPage: React.FC = () => {
                       alt={test.title}
                       width={300}
                       height={150}
-                      className="w-full h-40 object-cover rounded-t-xl"
+                      className="w-full h-32 md:h-40 object-cover rounded-t-xl"
                       objectFit="cover"
                       style={{ width: "100%" }}
                       fallback={
-                        <div className="w-full h-40 bg-gradient-to-br from-purple-400 to-purple-600 flex items-center justify-center rounded-t-xl">
-                          <BookOpen className="w-12 h-12 text-white" />
+                        <div className="w-full h-32 md:h-40 bg-gradient-to-br from-purple-400 to-purple-600 flex items-center justify-center rounded-t-xl">
+                          <BookOpen className="w-10 h-10 md:w-12 md:h-12 text-white" />
                         </div>
                       }
                     />
@@ -716,12 +723,11 @@ const MyLearningsPage: React.FC = () => {
                         <Badge
                           variant="completed"
                           position="top-right"
+                          className="text-[10px] md:text-xs px-2 md:px-3 py-0.5 md:py-1"
                           style={{
                             backgroundColor: "#10B981",
                             color: colors.neutral.white,
-                            fontSize: "12px",
                             fontWeight: 600,
-                            padding: "4px 8px",
                             borderRadius: "6px",
                           }}
                         >
@@ -731,12 +737,11 @@ const MyLearningsPage: React.FC = () => {
                           <Badge
                             variant="primary"
                             position="bottom-left"
+                            className="text-[10px] md:text-xs px-2 md:px-3 py-0.5 md:py-1"
                             style={{
                               backgroundColor: "#6B47ED",
                               color: colors.neutral.white,
-                              fontSize: "12px",
                               fontWeight: 600,
-                              padding: "4px 8px",
                               borderRadius: "6px",
                             }}
                           >
@@ -746,11 +751,11 @@ const MyLearningsPage: React.FC = () => {
                       </>
                     )}
                   </div>
-                  <div className="p-6">
+                  <div className="p-4 md:p-6">
                     <h3
+                      className="text-sm md:text-base"
                       style={{
                         ...typography.card.titleMd,
-                        fontSize: "16px",
                         color: colors.text.primary,
                         fontWeight: 700,
                         marginBottom: "12px",
@@ -759,13 +764,13 @@ const MyLearningsPage: React.FC = () => {
                     >
                       {test.title}
                     </h3>
-                    <div className="grid grid-cols-2 gap-2 mb-4">
-                      <div className="flex items-center gap-2">
-                        <List className="w-4 h-4" style={{ color: colors.text.tertiary }} />
+                    <div className="grid grid-cols-2 gap-2 mb-3 md:mb-4">
+                      <div className="flex items-center gap-1 md:gap-2">
+                        <List className="w-3 h-3 md:w-4 md:h-4" style={{ color: colors.text.tertiary }} />
                         <span
+                          className="text-xs md:text-sm"
                           style={{
                             ...typography.card.bodySm,
-                            fontSize: "14px",
                             color: colors.text.tertiary,
                             fontFamily: "var(--font-poppins), sans-serif",
                           }}
@@ -773,12 +778,12 @@ const MyLearningsPage: React.FC = () => {
                           {test.questions} Questions
                         </span>
                       </div>
-                      <div className="flex items-center gap-2">
-                        <Clock className="w-4 h-4" style={{ color: colors.text.tertiary }} />
+                      <div className="flex items-center gap-1 md:gap-2">
+                        <Clock className="w-3 h-3 md:w-4 md:h-4" style={{ color: colors.text.tertiary }} />
                         <span
+                          className="text-xs md:text-sm"
                           style={{
                             ...typography.card.bodySm,
-                            fontSize: "14px",
                             color: colors.text.tertiary,
                             fontFamily: "var(--font-poppins), sans-serif",
                           }}
@@ -786,12 +791,12 @@ const MyLearningsPage: React.FC = () => {
                           {test.duration}
                         </span>
                       </div>
-                      <div className="flex items-center gap-2">
-                        <Star className="w-4 h-4" style={{ color: "#FBBF24" }} fill="#FBBF24" />
+                      <div className="flex items-center gap-1 md:gap-2">
+                        <Star className="w-3 h-3 md:w-4 md:h-4" style={{ color: "#FBBF24" }} fill="#FBBF24" />
                         <span
+                          className="text-xs md:text-sm"
                           style={{
                             ...typography.card.bodySm,
-                            fontSize: "14px",
                             color: colors.text.tertiary,
                             fontFamily: "var(--font-poppins), sans-serif",
                           }}
@@ -799,12 +804,12 @@ const MyLearningsPage: React.FC = () => {
                           {test.rating} ({test.reviews?.toLocaleString()})
                         </span>
                       </div>
-                      <div className="flex items-center gap-2">
-                        <Users className="w-4 h-4" style={{ color: colors.text.tertiary }} />
+                      <div className="flex items-center gap-1 md:gap-2">
+                        <Users className="w-3 h-3 md:w-4 md:h-4" style={{ color: colors.text.tertiary }} />
                         <span
+                          className="text-xs md:text-sm"
                           style={{
                             ...typography.card.bodySm,
-                            fontSize: "14px",
                             color: colors.text.tertiary,
                             fontFamily: "var(--font-poppins), sans-serif",
                           }}
@@ -813,13 +818,13 @@ const MyLearningsPage: React.FC = () => {
                         </span>
                       </div>
                     </div>
-                    <div className="mb-4">
+                    <div className="mb-3 md:mb-4">
                       {test.originalPrice ? (
                         <div className="flex items-center gap-2">
                           <span
+                            className="text-xs md:text-sm"
                             style={{
                               ...typography.card.bodySm,
-                              fontSize: "14px",
                               color: colors.text.tertiary,
                               textDecoration: "line-through",
                               fontFamily: "var(--font-poppins), sans-serif",
@@ -828,9 +833,9 @@ const MyLearningsPage: React.FC = () => {
                             ₹{test.originalPrice}
                           </span>
                           <span
+                            className="text-base md:text-lg"
                             style={{
                               ...typography.card.titleMd,
-                              fontSize: "18px",
                               color: "#6B47ED",
                               fontWeight: 700,
                               fontFamily: "var(--font-poppins), sans-serif",
@@ -841,9 +846,9 @@ const MyLearningsPage: React.FC = () => {
                         </div>
                       ) : (
                         <span
+                          className="text-base md:text-lg"
                           style={{
                             ...typography.card.titleMd,
-                            fontSize: "18px",
                             color: "#6B47ED",
                             fontWeight: 700,
                             fontFamily: "var(--font-poppins), sans-serif",
@@ -854,10 +859,10 @@ const MyLearningsPage: React.FC = () => {
                       )}
                     </div>
                     {test.status === "completed" ? (
-                      <div className="flex gap-2">
+                      <div className="flex flex-col sm:flex-row gap-2">
                         <Button
                           variant="primary"
-                          className="flex-1"
+                          className="flex-1 text-xs md:text-sm py-2"
                           style={{
                             background: gradients.buttonPrimary,
                             border: "none",
@@ -868,7 +873,7 @@ const MyLearningsPage: React.FC = () => {
                         </Button>
                         <Button
                           variant="outline"
-                          className="flex-1"
+                          className="flex-1 text-xs md:text-sm py-2"
                           style={{
                             backgroundColor: colors.neutral.white,
                             border: `1px solid #6B47ED`,
@@ -882,7 +887,7 @@ const MyLearningsPage: React.FC = () => {
                     ) : (
                       <Button
                         variant="primary"
-                        className="w-full"
+                        className="w-full text-xs md:text-sm py-2"
                         style={{
                           background: gradients.buttonPrimary,
                           border: "none",
