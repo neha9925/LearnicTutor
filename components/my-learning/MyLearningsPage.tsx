@@ -15,47 +15,49 @@ const MyLearningsPage: React.FC = () => {
   const { lastTest, stats, classes, videos, testSeries } = myLearningData;
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen" style={{
+      background: "linear-gradient(180deg, #F3F0FF 0%, #FFFFFF 50%)",
+    }}>
       {/* Hero Banner */}
       <div
-        className="w-full py-8 md:py-16 px-4 sm:px-6 lg:px-8"
+        className="w-full py-8 md:py-12 lg:py-16 px-4 sm:px-6 lg:px-8"
         style={{
           background: "linear-gradient(135deg, #572EEE 0%, #C084FC 70.71%)",
         }}
       >
         <div className="container mx-auto text-center">
           <h1
-            className="text-2xl md:text-4xl lg:text-[48px]"
+            className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl mb-3 md:mb-4"
             style={{
               ...typography.section.headingXl,
               color: colors.neutral.white,
               fontWeight: 700,
-              marginBottom: "12px",
               fontFamily: "var(--font-poppins), sans-serif",
             }}
           >
             My Learnings
           </h1>
           <p
-            className="text-sm md:text-base lg:text-lg"
+            className="text-base md:text-lg lg:text-xl"
             style={{
               ...typography.section.descriptionLg,
               color: "rgba(255, 255, 255, 0.9)",
               fontFamily: "var(--font-poppins), sans-serif",
+              fontWeight: 400,
             }}
           >
-            Track your learning journey and discover what&apos;s waiting for you.
+            Track your learning journey and access all your enrolled content.
           </p>
         </div>
       </div>
 
-      <div className="container mx-auto px-4 sm:px-6 py-6 md:py-12">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-12">
         {/* Last Test Section */}
         <div className="mb-8 md:mb-12">
-          <div className="flex flex-col md:flex-row gap-4 md:gap-10">
+          <div className="flex flex-col lg:flex-row gap-4 md:gap-6 lg:gap-6 xl:gap-8 items-start">
             {/* Test Result Card */}
             <Card
-              className="w-full md:w-[569px] md:flex-shrink-0"
+              className="w-full lg:w-[569px] lg:flex-shrink-0"
               style={{
                 height: "auto",
                 minHeight: "368px",
@@ -77,7 +79,7 @@ const MyLearningsPage: React.FC = () => {
                   }}
                 >
                   <div
-                    className="text-sm md:text-base"
+                    className="text-sm md:text-base lg:text-base"
                     style={{
                       ...typography.card.titleMd,
                       color: colors.neutral.white,
@@ -220,8 +222,8 @@ const MyLearningsPage: React.FC = () => {
               </CardContent>
             </Card>
 
-            {/* Stats Cards - 2x2 Grid */}
-            <div className="w-full grid grid-cols-1 sm:grid-cols-2 gap-3">
+            {/* Stats Cards - 2 Columns on Desktop: Top row 2 cards, Bottom row 1 card spanning full width */}
+            <div className="w-full flex-1 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-3 md:gap-4 lg:gap-3">
               {/* Top-left: My Classes */}
               <Card
                 className="w-full"
@@ -233,6 +235,7 @@ const MyLearningsPage: React.FC = () => {
                   borderStyle: "solid",
                   borderColor: colors.background.cardBorder,
                   boxShadow: shadows.cardSoft,
+                  backgroundColor: colors.neutral.white,
                 }}
               >
                 <CardContent className="p-4 md:p-6 h-full flex items-center justify-between">
@@ -295,6 +298,7 @@ const MyLearningsPage: React.FC = () => {
                   borderStyle: "solid",
                   borderColor: colors.background.cardBorder,
                   boxShadow: shadows.cardSoft,
+                  backgroundColor: colors.neutral.white,
                 }}
               >
                 <CardContent className="p-4 md:p-6 h-full flex items-center justify-between">
@@ -346,10 +350,10 @@ const MyLearningsPage: React.FC = () => {
                 </CardContent>
               </Card>
 
-              {/* Bottom-left: My Test Series */}
+              {/* Bottom: My Test Series - Spans full width */}
               {stats[2] && (
                 <Card
-                  className="w-full"
+                  className="w-full col-span-1 sm:col-span-2 lg:col-span-2"
                   style={{
                     height: "auto",
                     minHeight: "171px",
@@ -358,6 +362,7 @@ const MyLearningsPage: React.FC = () => {
                     borderStyle: "solid",
                     borderColor: colors.background.cardBorder,
                     boxShadow: shadows.cardSoft,
+                    backgroundColor: colors.neutral.white,
                   }}
                 >
                   <CardContent className="p-4 md:p-6 h-full flex items-center justify-between">
